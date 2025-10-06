@@ -1,0 +1,16 @@
+{
+  "id": "Source_0",
+  "operator": {
+    "type": "SourceOp",
+    "config": {
+      "path": "student.csv",
+      "source_type": "File",
+      "root_iterator": {
+        "reference": null,
+        "reference_formulation": "CSVRows",
+        "fields": [],
+        "alias": null
+      }
+    }
+  }
+}

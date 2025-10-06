@@ -1,0 +1,504 @@
+{
+  "nodes": [
+    {
+      "id": "Source_0",
+      "operator": {
+        "type": "SourceOp",
+        "config": {
+          "path": "student.json",
+          "source_type": "File",
+          "root_iterator": {
+            "reference": "$.students[*]",
+            "reference_formulation": "JSONPath",
+            "fields": [
+              {
+                "alias": "Name",
+                "reference": "Name",
+                "reference_formulation": "JSONPath",
+                "inner_fields": []
+              },
+              {
+                "alias": "ID",
+                "reference": "ID",
+                "reference_formulation": "JSONPath",
+                "inner_fields": []
+              },
+              {
+                "alias": "Sport",
+                "reference": "Sport",
+                "reference_formulation": "JSONPath",
+                "inner_fields": []
+              }
+            ],
+            "alias": null
+          }
+        }
+      }
+    },
+    {
+      "id": "Source_1",
+      "operator": {
+        "type": "SourceOp",
+        "config": {
+          "path": "sport.json",
+          "source_type": "File",
+          "root_iterator": {
+            "reference": "$.sports[*]",
+            "reference_formulation": "JSONPath",
+            "fields": [
+              {
+                "alias": "Name",
+                "reference": "Name",
+                "reference_formulation": "JSONPath",
+                "inner_fields": []
+              },
+              {
+                "alias": "ID",
+                "reference": "ID",
+                "reference_formulation": "JSONPath",
+                "inner_fields": []
+              }
+            ],
+            "alias": null
+          }
+        }
+      }
+    },
+    {
+      "id": "Fragmenter_2",
+      "operator": {
+        "type": "FragmentOp",
+        "config": {
+          "from": "default",
+          "to": [
+            "default",
+            "join_1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Fragmenter_3",
+      "operator": {
+        "type": "FragmentOp",
+        "config": {
+          "from": "default",
+          "to": [
+            "default",
+            "join_1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "LeftProjection_4",
+      "operator": {
+        "type": "ProjectOp",
+        "config": {
+          "projection_attributes": [
+            "Sport",
+            "ID"
+          ]
+        }
+      }
+    },
+    {
+      "id": "RightProjection_5",
+      "operator": {
+        "type": "ProjectOp",
+        "config": {
+          "projection_attributes": [
+            "ID"
+          ]
+        }
+      }
+    },
+    {
+      "id": "Join_6",
+      "operator": {
+        "type": "JoinOp",
+        "config": {
+          "left_right_attr_pairs": [
+            [
+              "Sport",
+              "ID"
+            ]
+          ],
+          "join_type": "InnerJoin",
+          "predicate_type": "Equal",
+          "join_alias": "join_1"
+        }
+      }
+    },
+    {
+      "id": "Extend_7",
+      "operator": {
+        "type": "ExtendOp",
+        "config": {
+          "?tm0_p1_0": {
+            "type": "Iri",
+            "base_iri": "http://example.com/base/",
+            "inner_function": {
+              "type": "Constant",
+              "value": "http://example.com/ontology/practises"
+            }
+          },
+          "?tm0_sm": {
+            "type": "Iri",
+            "base_iri": "http://example.com/base/",
+            "inner_function": {
+              "type": "TemplateFunctionValue",
+              "template": "http://example.com/resource/student_{ID}",
+              "variable_function_pairs": [
+                [
+                  "ID",
+                  {
+                    "type": "UriEncode",
+                    "inner_function": {
+                      "type": "Reference",
+                      "value": "ID"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "?tm0_o1_0": {
+            "type": "Iri",
+            "base_iri": "http://example.com/base/",
+            "inner_function": {
+              "type": "TemplateFunctionValue",
+              "template": "http://example.com/resource/sport_{join_1_ID}",
+              "variable_function_pairs": [
+                [
+                  "join_1_ID",
+                  {
+                    "type": "UriEncode",
+                    "inner_function": {
+                      "type": "Reference",
+                      "value": "join_1_ID"
+                    }
+                  }
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "Serialize_8",
+      "operator": {
+        "type": "SerializerOp",
+        "config": {
+          "template": "?tm0_sm ?tm0_p1_0 ?tm0_o1_0 .",
+          "format": "NQuads"
+        }
+      }
+    },
+    {
+      "id": "Sink_9",
+      "operator": {
+        "type": "TargetOp",
+        "config": {
+          "target_type": "StdOut",
+          "data_format": "NQuads"
+        }
+      }
+    },
+    {
+      "id": "ProjectionOp_10",
+      "operator": {
+        "type": "ProjectOp",
+        "config": {
+          "projection_attributes": [
+            "ID",
+            "Name"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ExtendOp_11",
+      "operator": {
+        "type": "ExtendOp",
+        "config": {
+          "?tm0_sm": {
+            "type": "Iri",
+            "base_iri": "http://example.com/base/",
+            "inner_function": {
+              "type": "TemplateFunctionValue",
+              "template": "http://example.com/resource/student_{ID}",
+              "variable_function_pairs": [
+                [
+                  "ID",
+                  {
+                    "type": "UriEncode",
+                    "inner_function": {
+                      "type": "Reference",
+                      "value": "ID"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "?tm0_p0_0": {
+            "type": "Iri",
+            "base_iri": "http://example.com/base/",
+            "inner_function": {
+              "type": "Constant",
+              "value": "http://xmlns.com/foaf/0.1/name"
+            }
+          },
+          "?tm0_o0_0": {
+            "type": "Literal",
+            "inner_function": {
+              "type": "Reference",
+              "value": "Name"
+            },
+            "dtype_function": null,
+            "langtype_function": null
+          }
+        }
+      }
+    },
+    {
+      "id": "Serialize_12",
+      "operator": {
+        "type": "SerializerOp",
+        "config": {
+          "template": "?tm0_sm ?tm0_p0_0 ?tm0_o0_0 .",
+          "format": "NQuads"
+        }
+      }
+    },
+    {
+      "id": "Sink_13",
+      "operator": {
+        "type": "TargetOp",
+        "config": {
+          "target_type": "StdOut",
+          "data_format": "NQuads"
+        }
+      }
+    },
+    {
+      "id": "ProjectionOp_14",
+      "operator": {
+        "type": "ProjectOp",
+        "config": {
+          "projection_attributes": [
+            "ID",
+            "Name"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ExtendOp_15",
+      "operator": {
+        "type": "ExtendOp",
+        "config": {
+          "?tm1_sm": {
+            "type": "Iri",
+            "base_iri": "http://example.com/base/",
+            "inner_function": {
+              "type": "TemplateFunctionValue",
+              "template": "http://example.com/resource/sport_{ID}",
+              "variable_function_pairs": [
+                [
+                  "ID",
+                  {
+                    "type": "UriEncode",
+                    "inner_function": {
+                      "type": "Reference",
+                      "value": "ID"
+                    }
+                  }
+                ]
+              ]
+            }
+          },
+          "?tm1_o0_0": {
+            "type": "Literal",
+            "inner_function": {
+              "type": "Reference",
+              "value": "Name"
+            },
+            "dtype_function": null,
+            "langtype_function": null
+          },
+          "?tm1_p0_0": {
+            "type": "Iri",
+            "base_iri": "http://example.com/base/",
+            "inner_function": {
+              "type": "Constant",
+              "value": "http://www.w3.org/2000/01/rdf-schema#label"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "Serialize_16",
+      "operator": {
+        "type": "SerializerOp",
+        "config": {
+          "template": "?tm1_sm ?tm1_p0_0 ?tm1_o0_0 .",
+          "format": "NQuads"
+        }
+      }
+    },
+    {
+      "id": "Sink_17",
+      "operator": {
+        "type": "TargetOp",
+        "config": {
+          "target_type": "StdOut",
+          "data_format": "NQuads"
+        }
+      }
+    }
+  ],
+  "node_holes": [],
+  "edge_property": "directed",
+  "edges": [
+    [
+      1,
+      2,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      0,
+      3,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      3,
+      4,
+      {
+        "fragment": "join_1",
+        "direction": "Center"
+      }
+    ],
+    [
+      2,
+      5,
+      {
+        "fragment": "join_1",
+        "direction": "Center"
+      }
+    ],
+    [
+      4,
+      6,
+      {
+        "fragment": "join_1",
+        "direction": "Left"
+      }
+    ],
+    [
+      5,
+      6,
+      {
+        "fragment": "join_1",
+        "direction": "Right"
+      }
+    ],
+    [
+      6,
+      7,
+      {
+        "fragment": "join_1",
+        "direction": "Center"
+      }
+    ],
+    [
+      7,
+      8,
+      {
+        "fragment": "join_1",
+        "direction": "Center"
+      }
+    ],
+    [
+      8,
+      9,
+      {
+        "fragment": "join_1",
+        "direction": "Center"
+      }
+    ],
+    [
+      3,
+      10,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      10,
+      11,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      11,
+      12,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      12,
+      13,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      2,
+      14,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      14,
+      15,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      15,
+      16,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ],
+    [
+      16,
+      17,
+      {
+        "fragment": "default",
+        "direction": "Center"
+      }
+    ]
+  ]
+}

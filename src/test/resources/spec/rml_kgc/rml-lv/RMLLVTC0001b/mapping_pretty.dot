@@ -1,0 +1,9 @@
+digraph {
+    0 [ label = "id:Source_0 \lSource Operator\ltype: File \lreference iterator: Iterator {\l    reference: Some(\l        \"$.people[*]\",\l    ),\l    reference_formulation: JSONPath,\l    fields: [\l        Field {\l            alias: \"name\",\l            reference: Some(\l                \"$.name\",\l            ),\l            constant: None,\l            iterator: None,\l            reference_formulation: JSONPath,\l            inner_fields: [],\l        },\l        Field {\l            alias: \"race\",\l            reference: None,\l            constant: Some(\l                \"\\\"human\\\"\",\l            ),\l            iterator: None,\l            reference_formulation: JSONPath,\l            inner_fields: [],\l        },\l    ],\l    alias: None,\l} \lconfig: {\l  \"root\": \"http://w3id.org/rml/MappingDirectory\",\l  \"path\": \"people.json\"\l}\l             " ]
+    1 [ label = "id:ExtendOperator_1 \lExtension Operator\lExtended pairs: \l sm_0 -> Iri { base_iri: Some(\"\"), inner_function: Concatenate { left_value: Concatenate { left_value: Nop, separator: \"\", right_value: Constant { value: \"http://example.org/person/\" } }, separator: \"\", right_value: UriEncode { inner_function: Reference { value: \"name\" } } } }\lpom_0_0_om_0 -> Literal { inner_function: Reference { value: \"race\" }, dtype_function: None, langtype_function: None }" ]
+    2 [ label = "id:Serialize_2 \lSerializer Operator\lFormat type: NQuads\lTemplate: ?sm_0 <http://example.org/hasRace> ?pom_0_0_om_0 ." ]
+    3 [ label = "id:Sink_3 \lTarget Operator\ltype: StdOut \ldata format: NQuads \lconfig: {}\l             " ]
+    0 -> 1 [ label = "Fragment:default" ]
+    1 -> 2 [ label = "Fragment:default" ]
+    2 -> 3 [ label = "Fragment:default" ]
+}

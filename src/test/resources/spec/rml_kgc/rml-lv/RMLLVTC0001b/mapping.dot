@@ -1,0 +1,9 @@
+digraph {
+    0 [ label = "{\"id\":\"Source_0\",\"operator\":{\"config\":{\"path\":\"people.json\",\"root\":\"http://w3id.org/rml/MappingDirectory\",\"root_iterator\":{\"alias\":null,\"fields\":[{\"alias\":\"name\",\"constant\":null,\"inner_fields\":[],\"iterator\":null,\"reference\":\"$.name\",\"reference_formulation\":\"JSONPath\"},{\"alias\":\"race\",\"constant\":\"\\\"human\\\"\",\"inner_fields\":[],\"iterator\":null,\"reference\":null,\"reference_formulation\":\"JSONPath\"}],\"reference\":\"$.people[*]\",\"reference_formulation\":\"JSONPath\"},\"source_type\":\"File\"},\"type\":\"SourceOp\"}}" ]
+    1 [ label = "{\"id\":\"ExtendOperator_1\",\"operator\":{\"config\":{\"pom_0_0_om_0\":{\"dtype_function\":null,\"inner_function\":{\"type\":\"Reference\",\"value\":\"race\"},\"langtype_function\":null,\"type\":\"Literal\"},\"sm_0\":{\"base_iri\":\"\",\"inner_function\":{\"left_value\":{\"left_value\":{\"type\":\"Nop\"},\"right_value\":{\"type\":\"Constant\",\"value\":\"http://example.org/person/\"},\"separator\":\"\",\"type\":\"Concatenate\"},\"right_value\":{\"inner_function\":{\"type\":\"Reference\",\"value\":\"name\"},\"type\":\"UriEncode\"},\"separator\":\"\",\"type\":\"Concatenate\"},\"type\":\"Iri\"}},\"type\":\"ExtendOp\"}}" ]
+    2 [ label = "{\"id\":\"Serialize_2\",\"operator\":{\"config\":{\"format\":\"NQuads\",\"template\":\"?sm_0 <http://example.org/hasRace> ?pom_0_0_om_0 .\"},\"type\":\"SerializerOp\"}}" ]
+    3 [ label = "{\"id\":\"Sink_3\",\"operator\":{\"config\":{\"data_format\":\"NQuads\",\"target_type\":\"StdOut\"},\"type\":\"TargetOp\"}}" ]
+    0 -> 1 [ label = "{\"fragment\": default}" ]
+    1 -> 2 [ label = "{\"fragment\": default}" ]
+    2 -> 3 [ label = "{\"fragment\": default}" ]
+}

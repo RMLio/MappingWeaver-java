@@ -1,0 +1,18 @@
+{
+  "peoples": [
+    {
+      "name": "John Doe",
+      "age": 23,
+      "email": "john.doe@example.com",
+      "pet": {
+        "type": "dog",
+        "name": "Bax"
+      }
+    },
+    {
+      "name": "Susan Sue",
+      "age": 23,
+      "email": "susan.sue@example.com"
+    }
+  ]
+}
