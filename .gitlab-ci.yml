@@ -1,5 +1,7 @@
 stages:
+  - lint
   - unittests
+  - deploy
 
 include:
   # Make sure the CHANGELOG is always updated
