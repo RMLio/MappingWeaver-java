@@ -1,10 +1,25 @@
 stages:
   - unittests
 
+include:
+  # Make sure the CHANGELOG is always updated
+  - project: 'rml/util/ci-templates'
+    ref: main
+    file: 'CHANGELOG.gitlab-ci.yml'
+  - project: 'rml/util/ci-templates'
+    ref: main
+    file: 'Maven-Central.gitlab-ci.yml'
+
+
 variables:
   POSTGRES_DB: postgres
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: "YourSTRONG!Passw0rd"
+  # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
+  # `showDateTime` will show the passed time in milliseconds.
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "-s $CI_PROJECT_DIR/.m2/settings.xml --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+
 
 cache:
   key: ${CI_JOB_NAME}
@@ -95,5 +110,4 @@ Utility Tests:
                 ExtendParserTest, MappingPlanTest, OperatorTests,
       ]
   except:
-    - master
-    - development
+    - main
