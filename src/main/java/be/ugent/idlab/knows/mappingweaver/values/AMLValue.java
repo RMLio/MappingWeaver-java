@@ -1,7 +1,5 @@
 package be.ugent.idlab.knows.mappingweaver.values;
 
-import be.ugent.idlab.knows.amo.blocks.MappingTuple;
-import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import org.apache.flink.core.memory.DataInputView;
 import org.apache.flink.core.memory.DataOutputView;
 import org.apache.flink.types.Value;
@@ -11,10 +9,8 @@ import java.io.*;
 
 /**
  * A wrapper to enable serializability of objects from AMO
- *
- * @param <T>
  */
-public abstract class AMLValue<@Nullable T> implements Value {
+public abstract class AMLValue<T> implements Value {
 
     protected T value;
 

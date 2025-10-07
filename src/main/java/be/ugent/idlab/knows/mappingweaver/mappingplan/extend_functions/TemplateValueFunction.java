@@ -14,7 +14,7 @@ import org.jspecify.annotations.Nullable;
  * solution mapping
  *
  * @param template a String with template to be applied
- * @param type     type of node to be returned
+ * @param varFunctionPairs     mapping of variable name -> function to execute
  */
 public record TemplateValueFunction(String template, Map<String, ExtendFunction> varFunctionPairs)
         implements ExtendFunction {
