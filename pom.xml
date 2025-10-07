@@ -190,7 +190,7 @@ under the License.
         <dependency>
             <groupId>com.github.FnOio</groupId>
             <artifactId>grel-functions-java</artifactId>
-            <version>v0.9.1</version>
+            <version>v0.10.0</version>
         </dependency>
 
 

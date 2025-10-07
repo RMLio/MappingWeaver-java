@@ -1,81 +1,101 @@
-# AlgeMapLoom-java
+# MappingWeaver-java
 
-The new mapping engine based
-on [Algebraic Mapping Operators (AMO)](https://gitlab.ilabt.imec.be/rml/proc/algebraic-mapping-operators), written in
-Java.
+A data-to-RDF mapping engine written in Java.
 
-***
+MappingWeaver converts data to RDF by processing [RML](https://github.com/kg-construct) or
+[ShExML](https://shexml.herminiogarcia.com/spec/) mapping rules.
+It depends on [AlgeMapLoom-rs](https://github.com/RMLio/algemaploom-rs) to translate
+the mapping rules to an algebraic mapping plan.
+It then constructs a pipeline of [Algebraic Mapping Operators](https://github.com/RMLio/Algebraic-Mapping-Operators)
+to execute the plan on an embedded [Flink](https://flink.apache.org/) instance.
 
 ## Features
 
 ### Supported
 
-- Local data sources:
-    - CSV
+#### Specs
+This project aims to implement following specifications, but is work in progress:
+
+| Spec     | Test cases passing (%) |
+|----------|------------------------|
+| RML-Core | 87                     |
+| RML-IO   | 34                     |
+| RML-CC   | 0                      |
+| RML-FNML | 2                      |
+| RML-STAR | 0                      |
+| RML-LV   | 59                     |
+| ShExML   | /                      |
+
+#### Data formats
+- CSV
+- JSON
+- XML
+
+#### Data sources
+- File
+- Relational databases (PostgreSQL is tested, but in theory MySQL, OracleDB and MySQL also work)
+
+#### Output targets
+- File
+- Kafka
+- TCP socket
+- MQTT
 
 ### Future
 
-- Local data sources:
-    - JSON
-    - XML
-- Remote data sources
+- Other data sources, formats
+- Instructions on how to deploy on a Flink cluster
 
-## Usage
-
-## Notice: Alpha version
-
-This library is dependent on its Rust counterpart and AMO, neither of which is released.
+## Building
 
 ### Prerequisites
 
-Users are recommended to install these libraries into their local Maven repository by executing `build_java.sh` in
-AlgeMapLoon-rs and by running `mvn clean install -DskipTests` in their local version of AMO.
+- Java JDK >= 21
+- Maven >=3
 
-To execute `build_java.sh`, you'll need to have
-[Rust toolchain](https://www.rust-lang.org/tools/install) installed.
-For Linux-based users:
+### Command
+To build an executable jar, run
+```
+mvn package
+```
+or
+```
+mvn -DskipTests package
+```
+to skip the tests.
 
-* Rust:
-  <pre> bash curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs </pre>
+This builds an executable jar `MappingWeaver-<version>.jar`.
 
-For cross-compiling Windows binaries from Linux you need to install the MinGW cross-compiler and have the correct build targets installed:
+## Running
 
-* x86_64-unknown-linux-gnu
-* x86_64-pc-windows-gnu
+To simply execute mappings and write output to standard out, run
 
-In case of issues during the execution of `build_java.sh`, make sure to check the log.txt file, located in the correct build target directory.
+```
+java -jar MappingWeaver-<version>.jar -m <path-to-mapping-file>
+```
 
-**IMPORTANT:**  
-After these installations, copy the generated `.jar` file (without dependencies) from the `target` folder in `algemaploom-rs/src/java/algemaploom` to the `libs` folder in `algemaploom-java`.
-
-### CLI
-
-Following options are supported:
-
-- `-m --mapping <arg>`: a path a mapping file to perform mapping with.
-
-## Internals
-
-This mapping engine utilizes the [Apache Flink framework](https://flink.apache.org/) for execution of the mapping file.
-Internally, mapping files get parsed into a mapping plan using the Rust version of this
-library, [AlgeMapLoom-rs](https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs).
-
-This mapping plan consists of one or more operators from AMO, which are subsequently executed on a Flink cluster.
+A full list of options is displayed when running
+```
+java -jar MappingWeaver-<version>.jar --help
+```
 
 ## Dependencies
 
-|                    Dependency                    | License                     |
-|:------------------------------------------------:|-----------------------------|
-|      org.apache.flink flink-streaming-java       | Apache License 2.0          |
-|          org.apache.flink flink-clients          | Apache License 2.0          |
-|      org.apache.flink flink-connector-base       | Apache License 2.0          |
-|             org.apache.jena jena-arq             | Apache License 2.0          |
-| be.ugent.idlab.knows algebraic-mapping-operators | unreleased                  |
-|         be.ugent.algemaploom algemaploom         | unreleased                  |
-|           be.ugent.idlab.knows dataio            | MIT                         |
-|              org.slf4j slf4j-simple              | MIT                         |
-|               org.slf4j slf4j-api                | MIT                         |
-|              org.jspecify jspecify               |                             |
-|         org.junit.jupiter junit-jupiter          | Eclipse Public License v2.0 |
-|      org.junit.jupiter junit-jupiter-params      | Eclipse Public License v2.0 | 
+|                             Dependency                             | License                     |
+|:------------------------------------------------------------------:|-----------------------------|
+|               org.apache.flink flink-streaming-java                | Apache License 2.0          |
+|                   org.apache.flink flink-clients                   | Apache License 2.0          |
+|               org.apache.flink flink-connector-base                | Apache License 2.0          |
+|                      org.apache.jena jena-arq                      | Apache License 2.0          |
+|          be.ugent.idlab.knows algebraic-mapping-operators          | unreleased                  |
+|                  be.ugent.idlab.knows MappingLoom                  | unreleased                  |
+|              be.ugent.idlab.knows function-agent-java              |                             |
+|             be.ugent.idlab.knows idlab-functions-java              | MIT                         |
+|                com.github.FnOio grel-functions-java                | MIT                         |
+|                       org.slf4j slf4j-simple                       | MIT                         |
+|                        org.slf4j slf4j-api                         | MIT                         |
+|                       org.jspecify jspecify                        |                             |
+|                   org.eclipse.paho mqttv5.client                   | Eclipse Public License v2.0 |
+|                  org.junit.jupiter junit-jupiter                   | Eclipse Public License v2.0 |
+|               org.junit.jupiter junit-jupiter-params               | Eclipse Public License v2.0 | 
 
