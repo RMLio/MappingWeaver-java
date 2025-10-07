@@ -20,12 +20,53 @@ under the License.
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>MappingWeaver-Java</name>
     <groupId>be.ugent.idlab.knows</groupId>
     <artifactId>MappingWeaver</artifactId>
     <version>0.1-ALPHA</version>
     <packaging>jar</packaging>
+    <url>https://github.com/RMLio/MappingWeaver-java</url>
+    <description>A data-to-RDF mapping engine written in Java. </description>
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://mit-license.org/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:ssh://git@github.com:RMLio/MappingWeaver-java.git</connection>
+        <url>https://github.com/RMLio/MappingWeaver-java</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>jjankaj</id>
+            <name>Jozef Jankaj</name>
+            <email>jozef.jankaj@ugent.be</email>
+        </developer>
+        <developer>
+            <id>s-minoo</id>
+            <name>Sitt Min Oo</name>
+            <email>X.SittMinOo@UGent.be</email>
+        </developer>
+        <developer>
+            <id>Triver1</id>
+            <name>Tristan Verbeken</name>
+            <email>tristan.verbeken@ugent.be</email>
+        </developer>
+        <developer>
+            <id>stvbiese</id>
+            <name>Stijn Van Biesen</name>
+            <email>stijn.vanbiesen@ugent.be</email>
+        </developer>
 
-    <name>MappingWeaver-Java</name>
+        <developer>
+            <id>ghsnd</id>
+            <name>Gerald Haesendonck</name>
+            <email>gerald.haesendonck@ugent.be</email>
+        </developer>
+    </developers>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -416,4 +457,76 @@ under the License.
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+
+        <!-- Profile used to release to Maven central repo -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- Publish on Maven central repository -->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.8.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Generate Source jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Generate Javadoc jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Sign components with GPG -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>6861488FA42A028D5378AF8833C4D74DDB5F1B28</keyname>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
