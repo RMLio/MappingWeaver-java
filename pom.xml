@@ -23,7 +23,7 @@ under the License.
     <name>MappingWeaver-Java</name>
     <groupId>be.ugent.idlab.knows</groupId>
     <artifactId>MappingWeaver</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>https://github.com/RMLio/MappingWeaver-java</url>
     <description>A data-to-RDF mapping engine written in Java. </description>

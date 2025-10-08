@@ -64,19 +64,19 @@ mvn -DskipTests package
 ```
 to skip the tests.
 
-This builds an executable jar `MappingWeaver-0.1.0.jar`.
+This builds an executable jar `MappingWeaver-0.1.1-SNAPSHOT.jar`.
 
 ## Running
 
 To simply execute mappings and write output to standard out, run
 
 ```
-java -jar MappingWeaver-0.1.0.jar -m <path-to-mapping-file>
+java -jar MappingWeaver-0.1.1-SNAPSHOT.jar -m <path-to-mapping-file>
 ```
 
 A full list of options is displayed when running
 ```
-java -jar MappingWeaver-0.1.0.jar --help
+java -jar MappingWeaver-0.1.1-SNAPSHOT.jar --help
 ```
 
 ## Dependencies
