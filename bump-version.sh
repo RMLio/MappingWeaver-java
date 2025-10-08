@@ -43,7 +43,7 @@ fi
 
 if [ ! "$(yes_or_no Do you also want to commit the changes, create a git tag $tagname and push it?)" ]
 then
-	git add pom.xml README.md
+	git add pom.xml README.md CHANGELOG.md
 	git commit -m "Update version to $VERSION"
 	git push origin
 	git tag $tagname

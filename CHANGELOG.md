@@ -7,5 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.1.0] - 2025-10-08
+
 ### Added
 - Initial source code
+
+[0.1.0]: https://github.com/RMLio/MappingWeaver-java/releases/tag/v0.1.0
