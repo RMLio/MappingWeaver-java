@@ -180,7 +180,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>MappingLoom</artifactId>
-            <version>0.6.0</version>
+            <version>0.6.1</version>
         </dependency>
 
         <dependency>
