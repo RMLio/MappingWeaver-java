@@ -1,18 +1,31 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.parsing;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import be.ugent.idlab.knows.amo.blocks.Pair;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.operators.Operator;
 import be.ugent.idlab.knows.amo.operators.intermediate.unary.ExtendOperator;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.*;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.BlankTypeFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConcatenateFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConstantValueFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.EncodeUriFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.IriTypeFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.LiteralTypeFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.NopFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ReferenceFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.TemplateValueFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOParameter;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.*;
 
 /**
  * Parser for construction of the Extend operator
@@ -119,13 +132,11 @@ public class ExtendOperatorParser {
 
         for (String key : parameters.keySet()) {
             JSONObject jsonParameter = parameters.getJSONObject(key);
-            String type = jsonParameter.getString("type");
 
-            JSONObject extend = jsonParameter.has("inner_function") ? jsonParameter.getJSONObject("inner_function") : jsonParameter;
+            // Parse the complete parameter (including any wrappers like UriEncode)
+            ExtendFunction function = this.parseExtendFunction(jsonParameter);
 
-            ExtendFunction function = this.parseExtendFunction(extend);
-
-            FnOParameter parameter = new FnOParameter(key, type, function);
+            FnOParameter parameter = new FnOParameter(key, function);
             fnOParameters.add(parameter);
         }
 

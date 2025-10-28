@@ -1,0 +1,9 @@
+digraph {
+    0 [ label = "{\"id\":\"Source_0\",\"operator\":{\"config\":{\"path\":\"student.csv\",\"root\":\"http://w3id.org/rml/MappingDirectory\",\"root_iterator\":{\"alias\":null,\"fields\":[{\"alias\":\"url\",\"constant\":null,\"inner_fields\":[],\"iterator\":null,\"reference\":\"url\",\"reference_formulation\":\"CSVRows\"},{\"alias\":\"Name\",\"constant\":null,\"inner_fields\":[],\"iterator\":null,\"reference\":\"Name\",\"reference_formulation\":\"CSVRows\"}],\"reference\":null,\"reference_formulation\":\"CSVRows\"},\"source_type\":\"File\"},\"type\":\"SourceOp\"}}" ]
+    1 [ label = "{\"id\":\"ExtendOperator_1\",\"operator\":{\"config\":{\"pom_0_0_om_0\":{\"base_iri\":\"http://example.com/base/ .\",\"inner_function\":{\"fno_identifier\":\"<https://w3id.org/imec/idlab/function#toUpperCaseURL>\",\"parameters\":{\"<https://w3id.org/imec/idlab/function#str>\":{\"inner_function\":{\"type\":\"Reference\",\"value\":\"url\"},\"type\":\"UriEncode\"}},\"type\":\"FnO\"},\"type\":\"Iri\"},\"sm_0\":{\"base_iri\":\"http://example.com/base/ .\",\"inner_function\":{\"left_value\":{\"left_value\":{\"type\":\"Nop\"},\"right_value\":{\"type\":\"Constant\",\"value\":\"http://example.com/\"},\"separator\":\"\",\"type\":\"Concatenate\"},\"right_value\":{\"inner_function\":{\"type\":\"Reference\",\"value\":\"Name\"},\"type\":\"UriEncode\"},\"separator\":\"\",\"type\":\"Concatenate\"},\"type\":\"Iri\"}},\"type\":\"ExtendOp\"}}" ]
+    2 [ label = "{\"id\":\"Serialize_2\",\"operator\":{\"config\":{\"format\":\"NQuads\",\"template\":\"?sm_0 <http://xmlns.com/foaf/0.1/name> ?pom_0_0_om_0 .\"},\"type\":\"SerializerOp\"}}" ]
+    3 [ label = "{\"id\":\"Sink_3\",\"operator\":{\"config\":{\"data_format\":\"NQuads\",\"target_type\":\"StdOut\"},\"type\":\"TargetOp\"}}" ]
+    0 -> 1 [ label = "{\"fragment\": default}" ]
+    1 -> 2 [ label = "{\"fragment\": default}" ]
+    2 -> 3 [ label = "{\"fragment\": default}" ]
+}

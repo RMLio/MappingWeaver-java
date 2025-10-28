@@ -1,19 +1,17 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
+import java.io.Serializable;
+
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
-
-import java.io.Serializable;
 
 
 public class FnOParameter implements Serializable {
 
-    private String identifier;
-    private String type;
-    private ExtendFunction innerFunction;
-    public FnOParameter(String identifier, String type, ExtendFunction innerFunction) {
+    private final String identifier;
+    private final ExtendFunction innerFunction;
+    public FnOParameter(String identifier, ExtendFunction innerFunction) {
         this.identifier = identifier;
-        this.type = type;
         this.innerFunction = innerFunction;
     }
 

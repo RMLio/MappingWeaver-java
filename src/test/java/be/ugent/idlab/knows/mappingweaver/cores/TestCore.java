@@ -1,12 +1,17 @@
 package be.ugent.idlab.knows.mappingweaver.cores;
 
-import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
-import be.ugent.idlab.knows.dataio.utils.NAMESPACES;
-import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
-import be.ugent.idlab.knows.mappingLoom.ITranslator;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
-import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFParser;
@@ -15,15 +20,15 @@ import org.apache.jena.riot.system.FactoryRDFStd;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Quad;
 import org.junit.jupiter.api.Assertions;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.fail;
+
+import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
+import be.ugent.idlab.knows.dataio.utils.NAMESPACES;
+import be.ugent.idlab.knows.mappingLoom.ITranslator;
+import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
+import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 
 public abstract class TestCore {
 
@@ -82,7 +87,14 @@ public abstract class TestCore {
 
     private void runTest(String basePath, String directory, boolean positive) throws IOException {
         try {
-            String plan = this.getMappingPlan(basePath, directory);
+            String plan;
+            // Try to load from pre-generated JSON first (workaround for FNML)
+            Path jsonPath = Paths.get(basePath, directory, "mapping.json");
+            if (Files.exists(jsonPath)) {
+                plan = getMappingPlanFromJson(basePath, directory);
+            } else {
+                plan = this.getMappingPlan(basePath, directory);
+            }
             runTestWithMappingPlan(basePath, directory, plan, positive);
         } catch (Throwable t) {
             if (positive) {
@@ -92,11 +104,15 @@ public abstract class TestCore {
     }
 
     private String getMappingPlan(String basePath, String directory) throws IOException {
-//        String mappingPath = directory + "/mapping.ttl";
         String mapping = Files.readString(Paths.get(basePath, directory, "mapping.ttl"));
         ITranslator translator = ITranslator.getInstance();
 
         return translator.translate_to_document(mapping);
+    }
+
+    private String getMappingPlanFromJson(String basePath, String directory) throws IOException {
+        Path jsonPath = Paths.get(basePath, directory, "mapping.json");
+        return Files.readString(jsonPath);
     }
 
     private void runTestWithMappingPlan(String basePath, String directory, String mappingPlan, boolean positive) throws FileNotFoundException {

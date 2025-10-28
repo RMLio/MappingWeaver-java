@@ -1,15 +1,16 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
+import java.io.Serializable;
+import java.util.List;
+
+import org.jspecify.annotations.Nullable;
+
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.functions.agent.Agent;
 import be.ugent.idlab.knows.functions.agent.AgentFactory;
 import be.ugent.idlab.knows.functions.agent.Arguments;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
-import org.jspecify.annotations.Nullable;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Function that applies the specified FnO function to the input
@@ -23,25 +24,48 @@ public class FnOFunction implements ExtendFunction, Serializable {
             "functions_idlab_classes_java_mapping.ttl",
     };
 
+    // Lazy initialization of the Agent (not serialized, created per JVM instance)
+    private static volatile Agent cachedAgent = null;
+    private static final Object agentLock = new Object();
+
     private final String identifier;
     private final List<FnOParameter> parameters;
-//    private final Agent agent;
 
     public FnOFunction(String identifier, List<FnOParameter> parameters) throws FnOException {
         this.identifier = identifier;
         this.parameters = parameters;
-//        this.agent = AgentFactory.createFromFnO(FUNCTION_DESCRIPTIONS);
     }
 
+    /**
+     * Gets or creates the cached Agent instance.
+     * This is thread-safe and efficient - the Agent is created once and reused.
+     */
+    private static Agent getAgent() {
+        if (cachedAgent == null) {
+            synchronized (agentLock) {
+                if (cachedAgent == null) {
+                    try {
+                        cachedAgent = AgentFactory.createFromFnO(FUNCTION_DESCRIPTIONS);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to create FnO Agent", e);
+                    }
+                }
+            }
+        }
+        return cachedAgent;
+    }
 
     @Override
     public @Nullable String apply(@Nullable SolutionMapping solutionMapping) {
         Arguments arguments = new Arguments();
-        this.parameters.forEach(arg -> arguments.add(arg.getIdentifier(), arg.getParameter(solutionMapping)));
+        for (int i = 0; i < this.parameters.size(); i++) {
+            FnOParameter arg = this.parameters.get(i);
+            arguments.add(arg.getIdentifier(), arg.getParameter(solutionMapping));
+        }
 
-        try (Agent agent = AgentFactory.createFromFnO(FUNCTION_DESCRIPTIONS)) {
+        try {
             // extract the value from
-            return (String) agent.execute(this.identifier, arguments);
+            return (String) getAgent().execute(this.identifier, arguments);
         } catch (Exception e) { // TODO: replace the generic exception
             throw new RuntimeException(e);
         }
