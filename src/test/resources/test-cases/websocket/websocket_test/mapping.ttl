@@ -1,0 +1,47 @@
+@prefix rml: <http://w3id.org/rml/> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix td: <https://www.w3.org/2019/wot/td#> .
+@prefix hctl: <https://www.w3.org/2019/wot/hypermedia#> .
+@prefix ex: <http://example.com/> .
+
+ex:WebSocketMapping a rml:TriplesMap;
+    rml:logicalSource [
+        rml:source [
+            a td:Thing;
+            td:hasPropertyAffordance [
+                td:hasForm [
+                    hctl:hasTarget "ws://localhost:1234/sensor-data";
+                    hctl:forContentType "application/json";
+                    hctl:forSubProtocol "mqtt"
+                ]
+            ]
+        ];
+        rml:referenceFormulation ql:JSONPath;
+        rml:iterator "$.sensors[*]"
+    ];
+
+    rml:subjectMap [
+        rml:template "http://example.com/sensor/{id}";
+        rml:class ex:Sensor
+    ];
+
+    rml:predicateObjectMap [
+        rml:predicate ex:sensorId;
+        rml:objectMap [
+            rml:reference "id"
+        ]
+    ];
+
+    rml:predicateObjectMap [
+        rml:predicate ex:temperature;
+        rml:objectMap [
+            rml:reference "temp"
+        ]
+    ];
+
+    rml:predicateObjectMap [
+        rml:predicate ex:timestamp;
+        rml:objectMap [
+            rml:reference "timestamp"
+        ]
+    ] .

@@ -1,0 +1,14 @@
+{
+  "sensors": [
+    {
+      "id": "sensor1",
+      "temp": "23.5",
+      "timestamp": "2023-10-01T12:00:00Z"
+    },
+    {
+      "id": "sensor2",
+      "temp": "24.1",
+      "timestamp": "2023-10-01T12:01:00Z"
+    }
+  ]
+}
