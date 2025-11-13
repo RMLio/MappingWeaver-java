@@ -11,5 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial source code
-
 [0.1.0]: https://github.com/RMLio/MappingWeaver-java/releases/tag/v0.1.0
+
+
+## 0.1.1 - 2025-11-13
+
+### Added
+- Added websocket support
+### Refactor
+- Updated pom.xml to directly pull dataio instead of pulling this through algebraic mapping operators
+
