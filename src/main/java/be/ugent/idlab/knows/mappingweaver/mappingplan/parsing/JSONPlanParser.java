@@ -25,6 +25,7 @@ import be.ugent.idlab.knows.dataio.access.Access;
 import be.ugent.idlab.knows.dataio.access.DatabaseType;
 import be.ugent.idlab.knows.dataio.access.LocalFileAccess;
 import be.ugent.idlab.knows.dataio.access.RDBAccess;
+import be.ugent.idlab.knows.dataio.access.WebSocketAccess;
 import be.ugent.idlab.knows.dataio.compression.Compression;
 import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import be.ugent.idlab.knows.mappingweaver.flink.sinks.AggregateFileSink;
@@ -373,12 +374,34 @@ public class JSONPlanParser implements Serializable {
         return new RDBAccess(dsn, databaseType, username, password, query, "application/csv");
     }
 
+    private Access parseWebSocketAccess(JSONObject operatorConfig) {
+        JSONObject access = operatorConfig.getJSONObject("access");
+        String url = access.getString("url");
+        
+        Map<String, String> headers = new HashMap<>();
+        if (access.has("headers")) {
+            JSONObject headersObj = access.getJSONObject("headers");
+            for (String key : headersObj.keySet()) {
+                headers.put(key, headersObj.getString(key));
+            }
+        }
+        
+        // Default timeout of 30 seconds
+        Duration timeout = Duration.ofSeconds(30);
+        if (access.has("timeout")) {
+            timeout = Duration.ofSeconds(access.getLong("timeout"));
+        }
+        
+        return new WebSocketAccess(url, headers, timeout);
+    }
+
     private Access parseAccess(JSONObject operatorConfig) {
         String sourceType = operatorConfig.getString("source_type");
 
         return switch (sourceType) {
             case "File" -> parseFileAccess(operatorConfig);
             case "RDB" -> parseRDBAccess(operatorConfig);
+            case "Websocket" -> parseWebSocketAccess(operatorConfig);
             default -> throw new IllegalStateException("Unexpected source type: " + sourceType);
         };
     }
