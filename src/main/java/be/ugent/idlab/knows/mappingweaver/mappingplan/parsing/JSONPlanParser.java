@@ -1,5 +1,34 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.parsing;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import be.ugent.idlab.knows.amo.blocks.nodes.IRINode;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
@@ -38,25 +67,6 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.fragment_functions.CopyFragmentFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.join_conditions.EqualityJoinCondition;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.Adjacency.Fragment;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
-import java.time.Duration;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Class for parsing the JSON descriptions of the operators
@@ -324,8 +334,8 @@ public class JSONPlanParser implements Serializable {
     }
 
     private Access parseFileAccess(JSONObject operatorConfig) {
-        JSONObject access = operatorConfig.has("access") ? operatorConfig.getJSONObject("access") : operatorConfig;
-        String path = access.has("path") ? access.getString("path") : operatorConfig.getString("path");
+        JSONObject access = operatorConfig.getJSONObject("access");
+        String path = access.getString("path");
         // check if the file is available
         if (!new File(Paths.get(basePath, path).toString()).exists()) {
             throw new MappingException("File on path '" + path + "' does not exist!");
@@ -348,7 +358,7 @@ public class JSONPlanParser implements Serializable {
     }
 
     private Access parseRDBAccess(JSONObject operatorConfig) {
-        JSONObject access = operatorConfig.has("access") ? operatorConfig.getJSONObject("access") : operatorConfig;
+        JSONObject access = operatorConfig.getJSONObject("access");
         String query;
         if (access.has("query")) {
             if (access.has("table")) {
