@@ -169,11 +169,24 @@ under the License.
 
         <!-- == CRITICAL == -->
         <!-- Ensure that these two libraries are installed in local Maven repository-->
+        <!-- DataIO for access classes -->
+        <dependency>
+            <groupId>be.ugent.idlab.knows</groupId>
+            <artifactId>dataio</artifactId>
+            <version>2.1.6-SNAPSHOT</version>
+        </dependency>
+
         <!-- AMO for operators -->
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>algebraic-mapping-operators</artifactId>
             <version>2.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>be.ugent.idlab.knows</groupId>
+                    <artifactId>dataio</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- AlgeMapLoom-rs -->
@@ -298,6 +311,14 @@ under the License.
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- WebSocket server for testing -->
+        <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.5.7</version>
             <scope>test</scope>
         </dependency>
 
