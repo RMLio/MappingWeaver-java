@@ -324,21 +324,22 @@ public class JSONPlanParser implements Serializable {
     }
 
     private Access parseFileAccess(JSONObject operatorConfig) {
-        String path = operatorConfig.getString("path");
+        JSONObject access = operatorConfig.has("access") ? operatorConfig.getJSONObject("access") : operatorConfig;
+        String path = access.has("path") ? access.getString("path") : operatorConfig.getString("path");
         // check if the file is available
         if (!new File(Paths.get(basePath, path).toString()).exists()) {
             throw new MappingException("File on path '" + path + "' does not exist!");
         }
 
         Compression compression;
-        if (operatorConfig.has("compression")) {
-            compression = switch (operatorConfig.getString("compression")) {
+        if (access.has("compression")) {
+            compression = switch (access.getString("compression")) {
                 case "http://w3id.org/rml/gzip" -> Compression.GZip;
                 case "http://w3id.org/rml/zip" -> Compression.Zip;
                 case "http://w3id.org/rml/tarxz" -> Compression.TarXZ;
                 case "http://w3id.org/rml/targz" -> Compression.TarGZ;
                 default ->
-                        throw new IllegalArgumentException("Unknown value for field compression: %s".formatted(operatorConfig.getString("compression")));
+                        throw new IllegalArgumentException("Unknown value for field compression: %s".formatted(access.getString("compression")));
             };
         } else {
             compression = Compression.None;
@@ -347,30 +348,31 @@ public class JSONPlanParser implements Serializable {
     }
 
     private Access parseRDBAccess(JSONObject operatorConfig) {
+        JSONObject access = operatorConfig.has("access") ? operatorConfig.getJSONObject("access") : operatorConfig;
         String query;
-        if (operatorConfig.has("query")) {
-            if (operatorConfig.has("table")) {
+        if (access.has("query")) {
+            if (access.has("table")) {
                 throw new IllegalStateException("Both query and table are defined in the RDB source operator");
             }
-            query = operatorConfig.getString("query");
+            query = access.getString("query");
         } else {
             String columns = "*";
-            if (operatorConfig.has("column")) {
-                columns = operatorConfig.getString("column");
+            if (access.has("column")) {
+                columns = access.getString("column");
             }
-            query = "SELECT " + columns + " FROM " + operatorConfig.getString("tableName");
+            query = "SELECT " + columns + " FROM " + access.getString("tableName");
         }
 
-        String dsn = operatorConfig.getString("jdbcDSN");
-        DatabaseType databaseType = DatabaseType.getDBtype(operatorConfig.getString("jdbcDriver"));
+        String dsn = access.getString("jdbcDSN");
+        DatabaseType databaseType = DatabaseType.getDBtype(access.getString("jdbcDriver"));
 
         if (dsn.equals("CONNECTIONDSN")) {
             // use default dsn
             dsn = "jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true&autoReconnect=true&connectTimeout=5000";
         }
 
-        String username = operatorConfig.getString("username");
-        String password = operatorConfig.getString("password");
+        String username = access.getString("username");
+        String password = access.getString("password");
 
         return new RDBAccess(dsn, databaseType, username, password, query, "application/csv");
     }
