@@ -1,12 +1,25 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
-import be.ugent.idlab.knows.amo.functions.TargetSink;
-import be.ugent.idlab.knows.amo.operators.Operator;
-import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
-import be.ugent.idlab.knows.mappingweaver.flink.sinks.STDSink;
-import be.ugent.idlab.knows.mappingLoom.ITranslator;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.WebSocket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
+
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -17,27 +30,24 @@ import org.eclipse.paho.mqttv5.client.MqttClient;
 import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.jspecify.annotations.Nullable;
+
+import be.ugent.idlab.knows.amo.functions.TargetSink;
+import be.ugent.idlab.knows.amo.operators.Operator;
+import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
+import be.ugent.idlab.knows.mappingLoom.ITranslator;
+import be.ugent.idlab.knows.mappingweaver.flink.sinks.STDSink;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
 import picocli.CommandLine;
+import picocli.CommandLine.MissingParameterException;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Model.OptionSpec;
 import picocli.CommandLine.Model.UsageMessageSpec;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-
-import static picocli.CommandLine.MissingParameterException;
-import static picocli.CommandLine.ParseResult;
+import picocli.CommandLine.ParseResult;
 
 
 public class Main {
-    private final List<String> subcommands = List.of("toFile", "toKafka", "toMQTT", "toTCPSocket", "noOutput");
+    private final List<String> subcommands = List.of("toFile", "toKafka", "toMQTT", "toTCPSocket", "toWebSocket", "noOutput");
     private boolean doOutputBulk = false;
 
     public static void main(String[] args) {
@@ -104,6 +114,16 @@ public class Main {
                         .build())
                 .usageMessage(new UsageMessageSpec().description("Write output to an MQTT topic"));
 
+    CommandSpec toWebSocket = CommandSpec.create()
+        .name("toWebSocket")
+        .addOption(OptionSpec.builder("-u", "--url")
+            .type(String.class)
+            .required(true)
+            .paramLabel("<ws://host:port/path>")
+            .description("The WebSocket URL to send output to (ws:// or wss://)")
+            .build())
+        .usageMessage(new UsageMessageSpec().description("Write output to a WebSocket endpoint"));
+
         CommandSpec noOutput = CommandSpec.create()
                 .name("noOutput")
                 .usageMessage(new UsageMessageSpec().description("Do everything, but discard output"));
@@ -118,6 +138,7 @@ public class Main {
                 .addSubcommand("toKafka", toKafka)
                 .addSubcommand("toTCPSocket", toTCPSocket)
                 .addSubcommand("toMQTT", toMQTT)
+                .addSubcommand("toWebSocket", toWebSocket)
                 .addSubcommand("noOutput", noOutput)
                 .addOption(OptionSpec.builder("-j", "--job-name")
                         .paramLabel("<job name>")
@@ -257,6 +278,7 @@ public class Main {
                     case "toKafka" -> handleToKafka(subcommand);
                     case "toTCPSocket" -> handleTCPSocket(subcommand);
                     case "toMQTT" -> handleToMQTT(subcommand);
+                    case "toWebSocket" -> handleToWebSocket(subcommand);
                     case "noOutput" -> null; // no-op
                     default ->
                             throw new IllegalArgumentException("Invalid subcommand: " + subcommand.commandSpec().name());
@@ -388,6 +410,46 @@ public class Main {
                 client.disconnect();
                 client.close();
             } catch (MqttException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
+    private Runnable handleToWebSocket(ParseResult subcommand) throws IOException {
+        String url = subcommand.matchedOptionValue("-u", null);
+        if (url == null) throw new IllegalArgumentException("Missing option -u for subcommand toWebSocket");
+
+        return () -> {
+            try {
+                HttpClient client = HttpClient.newHttpClient();
+                var builder = client.newWebSocketBuilder();
+                WebSocket webSocket = builder.buildAsync(URI.create(url), new WebSocket.Listener() {
+                    @Override
+                    public void onOpen(WebSocket ws) {
+                        WebSocket.Listener.super.onOpen(ws);
+                    }
+
+                    @Override
+                    public CompletionStage<?> onText(WebSocket ws, CharSequence data, boolean last) {
+                        return CompletableFuture.completedFuture(null);
+                    }
+
+                    @Override
+                    public void onError(WebSocket ws, Throwable error) {
+                        System.err.println("WebSocket error: " + error.getMessage());
+                    }
+                }).join();
+
+                if (this.doOutputBulk) {
+                    webSocket.sendText(CommonSink.getBulkOutput(), true).join();
+                } else {
+                    for (String serializedOutput : CommonSink.output) {
+                        webSocket.sendText(serializedOutput, true).join();
+                    }
+                }
+
+                webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "done").join();
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         };

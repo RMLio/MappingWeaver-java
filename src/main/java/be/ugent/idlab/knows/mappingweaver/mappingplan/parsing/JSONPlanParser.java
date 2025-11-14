@@ -334,8 +334,11 @@ public class JSONPlanParser implements Serializable {
     }
 
     private Access parseFileAccess(JSONObject operatorConfig) {
-        JSONObject access = operatorConfig.getJSONObject("access");
-        String path = access.getString("path");
+        JSONObject access = operatorConfig.has("access") ? operatorConfig.getJSONObject("access") : operatorConfig;
+        String path = access.has("path") ? access.getString("path") : operatorConfig.has("path") ? operatorConfig.getString("path") : null;
+        if (path == null) {
+            throw new MappingException("File source missing 'path' in operator configuration");
+        }
         // check if the file is available
         if (!new File(Paths.get(basePath, path).toString()).exists()) {
             throw new MappingException("File on path '" + path + "' does not exist!");
@@ -358,7 +361,7 @@ public class JSONPlanParser implements Serializable {
     }
 
     private Access parseRDBAccess(JSONObject operatorConfig) {
-        JSONObject access = operatorConfig.getJSONObject("access");
+        JSONObject access = operatorConfig.has("access") ? operatorConfig.getJSONObject("access") : operatorConfig;
         String query;
         if (access.has("query")) {
             if (access.has("table")) {
