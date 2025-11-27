@@ -87,14 +87,7 @@ public abstract class TestCore {
 
     private void runTest(String basePath, String directory, boolean positive) throws IOException {
         try {
-            String plan;
-            // Try to load from pre-generated JSON first (workaround for FNML)
-            Path jsonPath = Paths.get(basePath, directory, "mapping.json");
-            if (Files.exists(jsonPath)) {
-                plan = getMappingPlanFromJson(basePath, directory);
-            } else {
-                plan = this.getMappingPlan(basePath, directory);
-            }
+            String plan = this.getMappingPlan(basePath, directory);
             runTestWithMappingPlan(basePath, directory, plan, positive);
         } catch (Throwable t) {
             if (positive) {
@@ -107,13 +100,11 @@ public abstract class TestCore {
         String mapping = Files.readString(Paths.get(basePath, directory, "mapping.ttl"));
         ITranslator translator = ITranslator.getInstance();
 
-        return translator.translate_to_document(mapping);
+        String mappingPlan = translator.translate_to_document(mapping);
+        //System.out.println(mappingPlan);
+        return mappingPlan;
     }
 
-    private String getMappingPlanFromJson(String basePath, String directory) throws IOException {
-        Path jsonPath = Paths.get(basePath, directory, "mapping.json");
-        return Files.readString(jsonPath);
-    }
 
     private void runTestWithMappingPlan(String basePath, String directory, String mappingPlan, boolean positive) throws FileNotFoundException {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
