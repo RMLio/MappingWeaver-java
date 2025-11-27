@@ -24,13 +24,15 @@ public class FnOFunction implements ExtendFunction, Serializable {
             "functions_idlab_classes_java_mapping.ttl",
     };
 
+    private static final FnOParameterTranslator PARAMETER_TRANSLATOR =
+            new FnOParameterTranslator(FUNCTION_DESCRIPTIONS);
+
     // Lazy initialization of the Agent (not serialized, created per JVM instance)
     private static volatile Agent cachedAgent = null;
     private static final Object agentLock = new Object();
 
     private final String identifier;
     private final List<FnOParameter> parameters;
-
     public FnOFunction(String identifier, List<FnOParameter> parameters) throws FnOException {
         this.identifier = identifier;
         this.parameters = parameters;
@@ -60,11 +62,20 @@ public class FnOFunction implements ExtendFunction, Serializable {
         Arguments arguments = new Arguments();
         for (int i = 0; i < this.parameters.size(); i++) {
             FnOParameter arg = this.parameters.get(i);
-            arguments.add(arg.getIdentifier(), arg.getParameter(solutionMapping));
+            String predicate = PARAMETER_TRANSLATOR.translate(arg.getIdentifier());
+            arguments.add(predicate, arg.getParameter(solutionMapping));
         }
 
         try {
-            // extract the value from
+            // DEBUG: print identifier and resolved parameters so we can see what is passed to the Agent
+            System.out.println("[FnOFunction] executing FnO identifier=" + this.identifier);
+            for (FnOParameter p : this.parameters) {
+                String id = PARAMETER_TRANSLATOR.translate(p.getIdentifier());
+                String val = p.getParameter(solutionMapping);
+                System.out.println("[FnOFunction]   param " + id + " => " + val);
+            }
+
+            // extract the value from the Agent
             return (String) getAgent().execute(this.identifier, arguments);
         } catch (Exception e) { // TODO: replace the generic exception
             throw new RuntimeException(e);
