@@ -67,18 +67,11 @@ public class FnOFunction implements ExtendFunction, Serializable {
         }
 
         try {
-            // DEBUG: print identifier and resolved parameters so we can see what is passed to the Agent
-            System.out.println("[FnOFunction] executing FnO identifier=" + this.identifier);
-            for (FnOParameter p : this.parameters) {
-                String id = PARAMETER_TRANSLATOR.translate(p.getIdentifier());
-                String val = p.getParameter(solutionMapping);
-                System.out.println("[FnOFunction]   param " + id + " => " + val);
-            }
-
             // extract the value from the Agent
             return (String) getAgent().execute(this.identifier, arguments);
         } catch (Exception e) { // TODO: replace the generic exception
-            throw new RuntimeException(e);
+            System.err.println("Error executing FnO function: " + e.getMessage());
+            return null;
         }
     }
 }

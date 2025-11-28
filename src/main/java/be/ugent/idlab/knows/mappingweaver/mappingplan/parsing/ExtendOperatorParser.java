@@ -135,11 +135,13 @@ public class ExtendOperatorParser {
 
             // Parse the complete parameter (including any wrappers like UriEncode)
             ExtendFunction function = this.parseExtendFunction(jsonParameter);
-
+            System.out.println(" Parameter: " + key + " function: " + function);
+        
             FnOParameter parameter = new FnOParameter(key, function);
             fnOParameters.add(parameter);
         }
-
+        
+        
         try {
             return new FnOFunction(identifier, fnOParameters);
         } catch (FnOException e) {

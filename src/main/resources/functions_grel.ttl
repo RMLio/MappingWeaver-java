@@ -581,6 +581,14 @@ grel:string_substring
     fno:expects         ( grel:valueParam grel:p_int_i_from grel:p_int_i_opt_to ) ;
     fno:returns         ( grel:stringOut ) .
 
+grel:string_substring
+    a                   fno:Function ;
+    fno:name            "substring" ;
+    dcterms:description "substring" ;
+    fno:solves          grel:prob_substr ;
+    fno:expects         ( grel:valueParam grel:p_int_i_from ) ;
+    fno:returns         ( grel:stringOut ) .
+
 grel:p_int_i_from
     a             fno:Parameter ;
     fno:name      "from" ;
