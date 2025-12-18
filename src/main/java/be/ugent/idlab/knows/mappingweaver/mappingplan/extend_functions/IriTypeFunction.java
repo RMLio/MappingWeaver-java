@@ -1,14 +1,17 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions;
 
-import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
-import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
-import be.ugent.idlab.knows.amo.functions.ExtendFunction;
+import java.util.Optional;
+
 import org.apache.commons.validator.routines.UrlValidator;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
+import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
+import be.ugent.idlab.knows.amo.blocks.nodes.IRINode;
+import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
+import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
+import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 
 public class IriTypeFunction implements ExtendFunction {
     private static final Logger log = LoggerFactory.getLogger(IriTypeFunction.class);
@@ -44,6 +47,16 @@ public class IriTypeFunction implements ExtendFunction {
         }
 
         return result;
+    }
+
+    @Override
+    @Nullable
+    public RDFNode applyToNode(@Nullable SolutionMapping arg0) {
+        String iriValue = apply(arg0);
+        if (iriValue == null) {
+            return null;
+        }
+        return new IRINode(iriValue);
     }
 
     @Override

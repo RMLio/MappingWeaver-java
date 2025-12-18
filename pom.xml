@@ -173,7 +173,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>dataio</artifactId>
-            <version>2.1.6-SNAPSHOT</version>
+            <version>2.2.0</version>
         </dependency>
 
         <!-- AMO for operators -->

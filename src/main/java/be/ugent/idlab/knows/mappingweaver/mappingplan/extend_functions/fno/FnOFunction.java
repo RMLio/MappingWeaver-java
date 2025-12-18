@@ -2,10 +2,14 @@ package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 import org.jspecify.annotations.Nullable;
 
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
+import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
+import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
+import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.functions.agent.Agent;
 import be.ugent.idlab.knows.functions.agent.AgentFactory;
@@ -26,6 +30,9 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     private static final FnOParameterTranslator PARAMETER_TRANSLATOR =
             new FnOParameterTranslator(FUNCTION_DESCRIPTIONS);
+    
+    private static final FnOReturnTypeTranslator RETURN_TYPE_TRANSLATOR =
+            new FnOReturnTypeTranslator(FUNCTION_DESCRIPTIONS);
 
     // Lazy initialization of the Agent (not serialized, created per JVM instance)
     private static volatile Agent cachedAgent = null;
@@ -33,9 +40,18 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     private final String identifier;
     private final List<FnOParameter> parameters;
+    private final String datatypeIRI;
+    private final String returnType;
+    
     public FnOFunction(String identifier, List<FnOParameter> parameters) throws FnOException {
+        this(identifier, parameters, null);
+    }
+    
+    public FnOFunction(String identifier, List<FnOParameter> parameters, String returnType) throws FnOException {
         this.identifier = identifier;
         this.parameters = parameters;
+        this.returnType = returnType;
+        this.datatypeIRI = RETURN_TYPE_TRANSLATOR.getDatatype(identifier);
     }
 
     /**
@@ -68,10 +84,35 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
         try {
             // extract the value from the Agent
-            return (String) getAgent().execute(this.identifier, arguments);
+            Object result = getAgent().execute(this.identifier, arguments);
+            if (result == null) {
+                return null;
+            }
+            // Convert result to String - handles both String and other types (Integer, etc.)
+            return result.toString();
         } catch (Exception e) { // TODO: replace the generic exception
             System.err.println("Error executing FnO function: " + e.getMessage());
             return null;
         }
+    }
+    
+    @Override
+    public @Nullable RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
+        // If return_type is unknownOut or doesn't match expected, return null (no output)
+        if (returnType != null && returnType.contains("unknownOut")) {
+            return null;
+        }
+        
+        String value = apply(solutionMapping);
+        if (value == null) {
+            return null;
+        }
+        // Return a LiteralNode with the appropriate datatype
+        return new LiteralNode(value, datatypeIRI, "");
+    }
+    
+    @Override
+    public Optional<RDFType> getRDFTypeOpt() {
+        return Optional.of(RDFType.Literal);
     }
 }

@@ -127,6 +127,7 @@ public class ExtendOperatorParser {
     private ExtendFunction parseFnOFunction(JSONObject functionDescription) {
         String identifier = functionDescription.getString("fno_identifier");
         JSONObject parameters = functionDescription.getJSONObject("parameters");
+        String returnType = functionDescription.optString("return_type", null);
 
         List<FnOParameter> fnOParameters = new ArrayList<>();
 
@@ -141,7 +142,7 @@ public class ExtendOperatorParser {
         }
         
         try {
-            return new FnOFunction(identifier, fnOParameters);
+            return new FnOFunction(identifier, fnOParameters, returnType);
         } catch (FnOException e) {
             throw new RuntimeException(e);
         }

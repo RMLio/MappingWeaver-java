@@ -17,22 +17,22 @@ public class RMLFNMLTest extends TestCore {
 
     private static Stream<Arguments> positiveTests() {
         List<String> directories = List.of(
-                // "RMLFNMLTC0001-CSV", correct but contains random, which is not supported in testing (non-deterministic)
+                //"RMLFNMLTC0001-CSV", // correct but contains random, which is not supported in testing (non-deterministic)
                 "RMLFNMLTC0002-CSV",
                 "RMLFNMLTC0003-CSV",
-                // "RMLFNMLTC0004-CSV", fails: grel:length function IRI not found
+                "RMLFNMLTC0004-CSV",
                 "RMLFNMLTC0005-CSV",
                 "RMLFNMLTC0007-CSV",
                 "RMLFNMLTC0008-CSV",
+                // "RMLFNMLTC0011-CSV", // disabled: expected output contains invalid IRI (HTTP://VENUS)
                 "RMLFNMLTC0021-CSV",
-                // "RMLFNMLTC0041-CSV", fails: literal value mismatch (expected example.com)
+                // "RMLFNMLTC0041-CSV", RETURNMAP -> rml:constant
                 "RMLFNMLTC0051-CSV",
                 "RMLFNMLTC0071-CSV",
                 "RMLFNMLTC0081-CSV",
-                "RMLFNMLTC0101-CSV",
-                // "RMLFNMLTC0102-CSV", error: unknown GREL function IRI
-                "RMLFNMLTC0103-CSV"
-                // "RMLFNMLTC0104-CSV"  fails: expected no output but got VENUS
+                "RMLFNMLTC0102-CSV", 
+                "RMLFNMLTC0103-CSV",
+                "RMLFNMLTC0104-CSV"
         );
         return directories.stream().map(Arguments::of);
     }
@@ -40,7 +40,8 @@ public class RMLFNMLTest extends TestCore {
     @SuppressWarnings("unused")
     private static Stream<Arguments> negativeTests() {
         return Stream.of(
-                "RMLFNMLTC0051-CSV" 
+                "RMLFNMLTC0051-CSV",
+                "RMLFNMLTC0101-CSV"
         ).map(Arguments::of);
     }
 

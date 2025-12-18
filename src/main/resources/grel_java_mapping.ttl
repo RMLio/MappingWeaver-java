@@ -256,9 +256,34 @@ grelm:javaString
 
 #STRING_LENGTH
 
+# For case test case rnmlfnml 4
+grelm:lengthMapping
+    a                    fno:Mapping ;
+    fno:function         grel:length ;
+    fno:implementation   grelm:javaString ;
+# TODO if not clear
+    fno:parameterMapping [ ] ;
+# TODO if not clear
+    fno:returnMapping    [ ] ;
+    fno:methodMapping    [ a                fnom:StringMethodMapping ;
+                           fnom:method-name "length" ] ;
+.
+
 grelm:lengthMapping
     a                    fno:Mapping ;
     fno:function         grel:string_length ;
+    fno:implementation   grelm:javaString ;
+# TODO if not clear
+    fno:parameterMapping [ ] ;
+# TODO if not clear
+    fno:returnMapping    [ ] ;
+    fno:methodMapping    [ a                fnom:StringMethodMapping ;
+                           fnom:method-name "length" ] ;
+.
+
+grelm:grelLengthMapping
+    a                    fno:Mapping ;
+    fno:function         grel:length ;
     fno:implementation   grelm:javaString ;
 # TODO if not clear
     fno:parameterMapping [ ] ;
