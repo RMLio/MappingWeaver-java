@@ -15,7 +15,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 @Disabled("Old RML is not supported in MappingLoom-rs, there are some issues to be fixed...")
 public class XMLTest extends TestCore {
     private static final List<String> unfixable = List.of(

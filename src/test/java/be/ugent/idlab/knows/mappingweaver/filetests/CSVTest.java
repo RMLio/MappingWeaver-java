@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 @Disabled("Old RML is not supported in MappingLoom-rs, there are some issues to be fixed...")
 public class CSVTest extends TestCore {
     private static final List<String> unfixable = List.of(

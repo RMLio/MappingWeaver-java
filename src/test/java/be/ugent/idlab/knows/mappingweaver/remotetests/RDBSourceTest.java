@@ -30,7 +30,6 @@ import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 @Disabled("Old RML is not supported in MappingLoom-rs, there are some issues to be fixed...")
 public class RDBSourceTest {
 

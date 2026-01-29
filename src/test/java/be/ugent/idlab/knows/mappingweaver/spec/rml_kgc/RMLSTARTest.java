@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @Disabled
-@ExtendWith(FlinkMiniClusterExtension.class)
 public class RMLSTARTest extends TestCore {
 
     private static final List<String> testsFailed = List.of(

@@ -1,16 +1,13 @@
 package be.ugent.idlab.knows.mappingweaver.spec.rml_kgc;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 public class RMLCoreTest extends TestCore {
     private static Stream<Arguments> unfixable() {
         return Stream.of(

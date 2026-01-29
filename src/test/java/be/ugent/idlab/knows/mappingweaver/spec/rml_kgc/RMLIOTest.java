@@ -12,7 +12,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 public class RMLIOTest extends TestCore {
     // all unfixable due to rust panic
     private static Stream<Arguments> unfixableTests() {

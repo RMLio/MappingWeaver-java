@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 public class RMLRegistryTest extends TestCore {
     private static Stream<Arguments> positive() {
         return Stream.of(

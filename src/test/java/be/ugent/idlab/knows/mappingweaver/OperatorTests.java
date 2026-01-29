@@ -4,10 +4,10 @@ import be.ugent.idlab.knows.amo.blocks.MappingTuple;
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
-import org.apache.flink.runtime.testutils.MiniClusterResource;
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
+import org.apache.flink.test.util.MiniClusterWithClientResource;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class OperatorTests {
 
     // Flink Minicluster that will be reused across the tests
     @ClassRule
-    public static MiniClusterResource flinkCluster = new MiniClusterResource(
+    public static MiniClusterWithClientResource flinkCluster = new MiniClusterWithClientResource(
             new MiniClusterResourceConfiguration.Builder()
                     .setNumberSlotsPerTaskManager(2)
                     .setNumberTaskManagers(1)

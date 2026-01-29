@@ -1,6 +1,9 @@
 package be.ugent.idlab.knows.mappingweaver.cores;
 
+import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
+import org.apache.flink.test.util.MiniClusterWithClientResource;
 import org.apache.ibatis.jdbc.ScriptRunner;
+import org.junit.ClassRule;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.BufferedReader;
@@ -17,6 +20,12 @@ public abstract class DBTestCore extends TestCore {
     protected final String USERNAME;
     protected final String PASSWORD;
     protected final String DOCKER_TAG;
+    @ClassRule
+    public static MiniClusterWithClientResource flinkCluster = new MiniClusterWithClientResource(
+            new MiniClusterResourceConfiguration.Builder()
+                    .setNumberSlotsPerTaskManager(2)
+                    .setNumberTaskManagers(1)
+                    .build());
 
     protected DBTestCore(String username, String password, String dockerTag) {
         this.USERNAME = username;

@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 public class RMLFNMLTest extends TestCore {
 
 

@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 public class RMLLVTest extends TestCore {
     public static String getModule() {
         return "rml-kgc/lv";

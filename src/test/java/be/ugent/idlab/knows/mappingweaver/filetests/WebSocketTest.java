@@ -14,7 +14,6 @@ import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import be.ugent.idlab.knows.mappingweaver.utilities.SimpleWebSocketServer;
 
-@ExtendWith(FlinkMiniClusterExtension.class)
 public class WebSocketTest extends TestCore {
 
     private static SimpleWebSocketServer webSocketServer;

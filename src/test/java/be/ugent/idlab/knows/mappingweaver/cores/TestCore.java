@@ -12,13 +12,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.test.util.MiniClusterWithClientResource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFParser;
 import org.apache.jena.riot.lang.LabelToNode;
 import org.apache.jena.riot.system.FactoryRDFStd;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Quad;
+import org.junit.ClassRule;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -31,6 +34,13 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
 import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 
 public abstract class TestCore {
+    
+    @ClassRule
+    public static MiniClusterWithClientResource flinkCluster = new MiniClusterWithClientResource(
+            new MiniClusterResourceConfiguration.Builder()
+                    .setNumberSlotsPerTaskManager(2)
+                    .setNumberTaskManagers(1)
+                    .build());
 
     /**
      * Provides a DatasetGraph from an RDF String

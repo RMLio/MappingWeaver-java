@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ExtendWith(FlinkMiniClusterExtension.class)
 @Testcontainers
 @Disabled("Old RML is not supported in MappingLoom-rs, there are some issues to be fixed...")
 public class PostgresTest extends DBTestCore {
