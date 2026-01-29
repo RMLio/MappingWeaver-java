@@ -19,7 +19,6 @@ import org.apache.jena.sparql.core.Quad;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -27,7 +26,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 
 @Disabled("Old RML is not supported in MappingLoom-rs, there are some issues to be fixed...")
