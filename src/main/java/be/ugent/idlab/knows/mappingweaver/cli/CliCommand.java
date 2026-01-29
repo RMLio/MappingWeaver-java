@@ -107,7 +107,7 @@ public final class CliCommand {
                 .addOption(OptionSpec.builder("--disable-local-parallel")
                         .description("By default input records are spread over the available task slots within a task manager to optimise parallel processing, at the cost of losing the order of the records throughout the process. This option disables this behaviour to guarantee that the output order is the same as the input order.")
                         .build())
-                .addOption(OptionSpec.builder("-p", "parallelism")
+                .addOption(OptionSpec.builder("-p", "--parallelism")
                         .paramLabel("<task slots>")
                         .type(Integer.class)
                         .description("Sets the maximum operator parallelism (~nr of task slots used)")
