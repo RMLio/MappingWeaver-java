@@ -193,7 +193,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>MappingLoom</artifactId>
-            <version>0.6.4</version>
+            <version>0.6.5</version>
         </dependency>
 
         <dependency>

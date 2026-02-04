@@ -1,16 +1,45 @@
 package be.ugent.idlab.knows.mappingweaver.flink.sinks;
 
-import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
-import be.ugent.idlab.knows.amo.functions.TargetSink;
-import org.jspecify.annotations.Nullable;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import org.apache.flink.api.connector.sink2.Sink;
+import org.apache.flink.api.connector.sink2.SinkWriter;
+import org.apache.flink.api.connector.sink2.WriterInitContext;
 
 /**
  * A TargetSink that prints out the output to the standard output.
  */
-public class STDSink implements TargetSink<String> {
+public class STDSink implements Sink<String> {
+
+
     @Override
-    public void sink(@Nullable String data) {
-        System.out.println(data);
+    public SinkWriter<String> createWriter(WriterInitContext arg0) throws IOException {
+        return new STDSinkWriter(System.out);
+    }
+
+    class STDSinkWriter implements SinkWriter<String> {
+        private PrintStream stream;
+
+        public STDSinkWriter(PrintStream stream) {
+            this.stream = stream;
+        }
+
+        @Override
+        public void close() throws Exception {
+        }
+
+        @Override
+        public void flush(boolean arg0) throws IOException, InterruptedException {
+            this.stream.flush();
+        }
+
+        @Override
+        public void write(String input, Context arg1) throws IOException, InterruptedException {
+            if (!input.isEmpty()){
+                this.stream.println(input);
+            }
+        }
+
     }
 }
-

@@ -33,7 +33,6 @@ import be.ugent.idlab.knows.amo.blocks.nodes.IRINode;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.functions.JoinCondition;
-import be.ugent.idlab.knows.amo.functions.TargetSink;
 import be.ugent.idlab.knows.amo.operators.Operator;
 import be.ugent.idlab.knows.amo.operators.intermediate.binary.NaturalJoinOperator;
 import be.ugent.idlab.knows.amo.operators.intermediate.binary.ThetaJoinOperator;
@@ -57,9 +56,7 @@ import be.ugent.idlab.knows.dataio.access.RDBAccess;
 import be.ugent.idlab.knows.dataio.access.WebSocketAccess;
 import be.ugent.idlab.knows.dataio.compression.Compression;
 import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
-import be.ugent.idlab.knows.mappingweaver.flink.sinks.AggregateFileSink;
-import be.ugent.idlab.knows.mappingweaver.flink.sinks.KafkaSink;
-import be.ugent.idlab.knows.mappingweaver.flink.sinks.STDSink;
+import be.ugent.idlab.knows.mappingweaver.flink.operators.FlinkTargetOperator;
 import be.ugent.idlab.knows.mappingweaver.flink.source.KafkaSourceOperator;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
@@ -256,29 +253,7 @@ public class JSONPlanParser implements Serializable {
      * @return an instance of TargetOperator
      */
     private Operator parseTargetOperator(String id, JSONObject config, Set<String> inputFragments) {
-        String target = config.getString("target_type");
-        String format = config.getString("data_format");
-
-        // TODO: add more sink options
-        TargetSink<String> sink = switch (target) {
-            case "StdOut" -> new STDSink();
-            case "File" -> {
-                String path = "";
-                try {
-                    yield new AggregateFileSink(path, 1000);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            case "Kafka" -> {
-                String broker = "";
-                String topic = "";
-                yield new KafkaSink(broker, topic);
-            }
-            default -> throw new IllegalArgumentException("Unexpected target type: " + target);
-        };
-
-        return new TargetOperator(id, inputFragments, "?serialized_output", sink);
+        return new FlinkTargetOperator(id, inputFragments, "?serialized_output", config);
     }
 
     /**

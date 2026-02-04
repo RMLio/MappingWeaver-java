@@ -12,6 +12,8 @@ import be.ugent.idlab.knows.amo.operators.source.dataio.DataIOSourceOperator;
 import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
 import be.ugent.idlab.knows.dataio.access.VirtualAccess;
 import be.ugent.idlab.knows.mappingweaver.flink.operators.FlinkJoinOperator;
+import be.ugent.idlab.knows.mappingweaver.flink.operators.FlinkTargetOperator;
+import be.ugent.idlab.knows.mappingweaver.flink.sinks.WeaverSinkFactory;
 import be.ugent.idlab.knows.mappingweaver.flink.source.KafkaSourceOperator;
 import be.ugent.idlab.knows.mappingweaver.flink.source.dataio.FlinkDataIOBoundedSource;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph.FragmentOperatorPair;
@@ -26,6 +28,7 @@ import org.apache.flink.streaming.api.datastream.ConnectedStreams;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.sink.legacy.SinkFunction;
 import org.apache.flink.util.Collector;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
@@ -91,7 +94,8 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
 
             // create a stream from Kafka
             DataStream<MapTupValue> stream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "KafkaSource")
-                    // consume all records using the underlying reference formulation and send them into the pipeline
+                    // consume all records using the underlying reference formulation and send them
+                    // into the pipeline
                     .flatMap(new StringToMapTupValueFlatMap(kafkaOperator.getUnderlyingOperator()));
 
             if (this.isLocalParallel != null) {
@@ -99,7 +103,8 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
             }
 
             if (this.watermarkInterval != null) {
-                stream = stream.assignTimestampsAndWatermarks(WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofMillis(this.watermarkInterval)));
+                stream = stream.assignTimestampsAndWatermarks(
+                        WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofMillis(this.watermarkInterval)));
             }
 
             this.streamCache.put(sourceOperator, stream);
@@ -111,7 +116,6 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
             this.streamCache.put(sourceOperator, stream);
         }
 
-
         return null;
     }
 
@@ -120,7 +124,8 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
         List<FragmentOperatorPair> parents = this.operatorGraph.getParents(unaryOperator);
         Operator parent = parents.getFirst().operator();
         DataStream<MapTupValue> parentStream = this.streamCache.get(parent);
-        DataStream<MapTupValue> childStream = parentStream.map(new UnaryMappingFunction(unaryOperator)).name(unaryOperator.getOperatorName());
+        DataStream<MapTupValue> childStream = parentStream.map(new UnaryMappingFunction(unaryOperator))
+                .name(unaryOperator.getOperatorName());
         this.streamCache.put(unaryOperator, childStream);
 
         return null;
@@ -163,10 +168,18 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
 
     @Override
     public Void visitTarget(@NonNull TargetOperator targetOperator) {
-        List<FragmentOperatorPair> parents = this.operatorGraph.getParents(targetOperator);
-        Operator parent = parents.getFirst().operator();
-        DataStream<MapTupValue> parentStream = this.streamCache.get(parent);
-        parentStream.addSink(new TargetSinkFunction(targetOperator)).name(targetOperator.getOperatorName());
+        if (targetOperator instanceof FlinkTargetOperator) {
+            FlinkTargetOperator flinkTargetOperator = (FlinkTargetOperator) targetOperator;
+            List<FragmentOperatorPair> parents = this.operatorGraph.getParents(flinkTargetOperator);
+            Operator parent = parents.getFirst().operator();
+            DataStream<MapTupValue> parentStream = this.streamCache.get(parent);
+            WeaverSinkFactory factory = flinkTargetOperator.getSinkFactory();
+            factory.attachSink(parentStream);
+           // parentStream.sinkTo(factory.attachSink()).name(flinkTargetOperator.getOperatorName());
+        }else{
+            throw new IllegalArgumentException("Given TargetOperator MUST be an instance of FlinkTargetOperator!" + targetOperator.getClass());
+        }
+
 
         return null;
     }
@@ -198,12 +211,14 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
         }
 
         /**
-         * The core method of the FlatMapFunction. Takes an element from the input data set and
+         * The core method of the FlatMapFunction. Takes an element from the input data
+         * set and
          * transforms it into zero, one, or more elements.
          *
          * @param value     The input value.
          * @param collector The collector for returning result values.
-         * @throws Exception This method may throw exceptions. Throwing an exception will cause the
+         * @throws Exception This method may throw exceptions. Throwing an exception
+         *                   will cause the
          *                   operation to fail and may trigger recovery.
          */
         @Override
@@ -220,4 +235,5 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
             }
         }
     }
+
 }

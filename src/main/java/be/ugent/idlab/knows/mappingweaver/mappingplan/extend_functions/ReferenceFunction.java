@@ -30,7 +30,8 @@ public record ReferenceFunction(String referenceAttribute) implements ExtendFunc
                 return value.getValue().toString();
             }
         }
-        throw new MappingException("Specified reference attribute '" + this.referenceAttribute + "' not present in the input data");
+        throw new MappingException("Specified reference attribute '" + this.referenceAttribute + "' not present in the input data. \n" +
+                "Only these attributes are present in the in solution mapping: \n" + solutionMapping.keySet() );
     }
 
     public RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
