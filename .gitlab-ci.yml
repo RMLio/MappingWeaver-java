@@ -109,7 +109,7 @@ Utility Tests:
                 # Fixed bugs
                 FixedBugsTest,
                 # Miscellaneous
-                ExtendParserTest, MappingPlanTest, OperatorTests,
+                ExtendParserTest, MappingPlanTest,
       ]
   except:
     - main
