@@ -125,23 +125,6 @@ public class GraphVisitorCustomTarget extends GraphOpVisitor {
             }
 
         }
-        // @Override
-        // public void invoke(MapTupValue value, Context context) {
-        // MappingTuple mappingTuple = value.getValue();
-        // if (mappingTuple != null) {
-        // for (String targetFragment : targetFragments) {
-        // mappingTuple.getSolutionMappings(targetFragment).forEach(sm -> {
-        // if (sm != null) {
-        // RDFNode solution = sm.get(targetVariable);
-        // if (solution != null && !solution.isNull() && solution instanceof
-        // LiteralNode) {
-        // values.add(solution.getValue().toString());
-        // }
-        // }
-        // });
-        // }
-        // }
-        // }
 
     }
 
