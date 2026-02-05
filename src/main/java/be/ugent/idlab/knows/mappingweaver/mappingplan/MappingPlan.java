@@ -70,7 +70,7 @@ public class MappingPlan {
             this.visitor.setLocalParallel((Boolean) extraOptions.get(CONFIG_LOCAL_PARALLEL));
         }
 
-        initializeFlinkTopology(false);
+        initializeFlinkTopology(true);
 
         return this.env.execute(jobname);
     }
@@ -90,7 +90,7 @@ public class MappingPlan {
     public List<DataStream<MapTupValue>> getSerializedDataStreams() {
         Map<Operator, DataStream<MapTupValue>> cache = this.visitor.getStreamCache();
         return cache.keySet().stream()
-            .filter((op) -> op instanceof SerializeOperator && op != null)
+            .filter((op) -> op != null && op.getOperatorName().toLowerCase().contains("serialize"))
             .map((op) -> cache.get(op))
             .filter((op) -> op != null)
             .collect(Collectors.toList());
