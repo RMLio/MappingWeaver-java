@@ -130,6 +130,7 @@ public abstract class TestCore {
                     TargetOperator.TARGET_VARIABLE);
             plan.setVisitor(visitor);
 
+            plan.initializeFlinkTopology(true);
             plan.execute();
         } catch (Throwable e) {
             if (positive) { // if positive, rethrow the exception to cause the test to fail

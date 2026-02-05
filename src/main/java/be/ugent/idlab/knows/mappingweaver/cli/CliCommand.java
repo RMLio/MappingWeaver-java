@@ -1,6 +1,5 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Model.OptionSpec;
 import picocli.CommandLine.Model.UsageMessageSpec;

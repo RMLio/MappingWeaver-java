@@ -1,14 +1,20 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan;
 
-import be.ugent.idlab.knows.amo.operators.Operator;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
-import org.apache.flink.api.common.JobExecutionResult;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
+
+import org.apache.flink.api.common.JobExecutionResult;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+
+import be.ugent.idlab.knows.amo.operators.Operator;
+import be.ugent.idlab.knows.amo.operators.intermediate.unary.SerializeOperator;
+import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
+import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
 
 /**
  * Mapping plan for execution on the input files
@@ -21,6 +27,7 @@ public class MappingPlan {
     private final OperatorGraph operatorGraph;
     private final StreamExecutionEnvironment env;
     private GraphOpVisitor visitor;
+    private boolean isInitialized;
 
     /**
      * @param env     environment to execute the operators on
@@ -31,11 +38,13 @@ public class MappingPlan {
         this.env = env;
         this.operatorGraph = root;
         this.visitor = visitor;
+        this.isInitialized = false;
     }
 
     /**
      * Constructs a mapping plan based on the JSON description found in the file
-     * The JSON description should be as specified by the AlgeMapLoom-rs. See test/resources directory for examples
+     * The JSON description should be as specified by the AlgeMapLoom-rs. See
+     * test/resources directory for examples
      *
      * @param path path to the JSON file
      * @return a MappingPlan representing the instance
@@ -61,14 +70,30 @@ public class MappingPlan {
             this.visitor.setLocalParallel((Boolean) extraOptions.get(CONFIG_LOCAL_PARALLEL));
         }
 
-        List<Operator> order = this.operatorGraph.topologicalOrder();
-
-        for (Operator operator : order) {
-            operator.accept(this.visitor);
-        }
-
+        initializeFlinkTopology(false);
 
         return this.env.execute(jobname);
+    }
+
+    public void initializeFlinkTopology(boolean includeTarget) {
+        if (!this.isInitialized) {
+            List<Operator> order = this.operatorGraph.topologicalOrder();
+            for (Operator operator : order) {
+                if (includeTarget || !(operator instanceof TargetOperator)) {
+                    operator.accept(this.visitor);
+                }
+            }
+        }
+        this.isInitialized = true;
+    }
+
+    public List<DataStream<MapTupValue>> getSerializedDataStreams() {
+        Map<Operator, DataStream<MapTupValue>> cache = this.visitor.getStreamCache();
+        return cache.keySet().stream()
+            .filter((op) -> op instanceof SerializeOperator && op != null)
+            .map((op) -> cache.get(op))
+            .filter((op) -> op != null)
+            .collect(Collectors.toList());
     }
 
     public JobExecutionResult execute() throws Exception {
@@ -84,4 +109,5 @@ public class MappingPlan {
     public OperatorGraph getOperatorGraph() {
         return operatorGraph;
     }
+
 }

@@ -71,14 +71,6 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
         this.isLocalParallel = isLocalParallel;
     }
 
-    @Deprecated
-    private Void oldVisitSource(SourceOperator sourceOperator) {
-        MappingTuple tuple = sourceOperator.consumeSource();
-        DataStream<MapTupValue> stream = this.env.fromData(new MapTupValue(tuple));
-        this.streamCache.put(sourceOperator, stream);
-        return null;
-    }
-
     @Override
     public Void visitSource(@NonNull SourceOperator sourceOperator) {
 

@@ -1,6 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.flink.sinks;
 
 import org.apache.flink.api.common.serialization.SimpleStringEncoder;
+import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.configuration.MemorySize;
 import org.apache.flink.connector.file.sink.FileSink;
 import org.apache.flink.core.fs.Path;
@@ -36,14 +37,10 @@ public class WeaverSinkFactory {
         new WeaverSinkFactory(WeaverSinkFactory.TargetType.valueOf(targetType), operatorName, targetVariable, config);
     }
 
-    public void attachSink(DataStream<MapTupValue> dataStream) {
-        DataStream<String> stringStream = dataStream.map(new SolMapValueToStringExtractor(this.targetVariable));
-        DataStreamSink<String> sunkStream = switch (this.targetType) {
+    public Sink<String> createSink() {
+        return switch (this.targetType) {
             case StdOut -> {
-                yield stringStream.sinkTo(new STDSink());
-            }
-            case Kafka -> {
-                throw new UnsupportedOperationException("Kafka target is not supported yet!");
+                yield new STDSink();
             }
             case File -> {
                 String outputPath = this.config.getString("path");
@@ -54,14 +51,25 @@ public class WeaverSinkFactory {
                                 .build())
                         .build();
 
-                yield stringStream.sinkTo(sink).setParallelism(1);
+                yield sink;
+            }
+            case Kafka -> {
+                throw new UnsupportedOperationException("Kafka target is not supported yet!");
             }
             case WebSocket -> {
                 throw new UnsupportedOperationException("Websocket target is not supported yet!");
             }
+
         };
 
-        sunkStream.name(this.operatorName);
+    }
+    public DataStreamSink<String> attachSink(Sink<String> sink, DataStream<MapTupValue> dataStream) {
+        DataStream<String> stringStream = dataStream.map(new SolMapValueToStringExtractor(this.targetVariable));
+        return stringStream.sinkTo(sink).name(this.operatorName);
+    }
+
+    public DataStreamSink<String> attachSink(DataStream<MapTupValue> dataStream) {
+        return this.attachSink(this.createSink(), dataStream);
     }
 
 }
