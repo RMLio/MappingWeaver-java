@@ -20,11 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved all CLI related parameters parsing and specification to a separate module
 
 ### Deprecated
-- All existing implementations of a generic DataIO-based sink operators using legacy Flink's Source API 
 
 ### Removed
 - Old TargetSinkFunction which implements the deprecated legacy Flink's SinkFunction<T> API
 - OperatorTests.java which doesn't test anything meaningful is removed
+- All existing implementations of a generic DataIO-based sink operators using legacy Flink's Source API 
 
 
 ## [0.1.0] - 2025-10-08
