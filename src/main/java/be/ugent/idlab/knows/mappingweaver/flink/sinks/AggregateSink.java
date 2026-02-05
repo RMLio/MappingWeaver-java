@@ -4,6 +4,7 @@ import be.ugent.idlab.knows.amo.functions.TargetSink;
 
 import java.io.IOException;
 
+@Deprecated
 public interface AggregateSink<T> extends TargetSink<T> {
     /**
      * Method responsible for writing all remaining data to the sink and closing the resource

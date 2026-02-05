@@ -9,6 +9,7 @@ import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class AggregateFileSink implements AggregateSink<String> {
 
     private final List<String> writeList;

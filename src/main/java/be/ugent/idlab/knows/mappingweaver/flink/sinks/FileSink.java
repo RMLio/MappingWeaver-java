@@ -12,6 +12,7 @@ import java.io.IOException;
  *
  * Warning: this class is IO-heavy, as it opens and closes a file at every writeback. For efficiency, use AggregateFileSink
  */
+@Deprecated
 public class FileSink implements TargetSink<String> {
 
     private final String filePath;
