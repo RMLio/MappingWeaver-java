@@ -33,8 +33,9 @@ public class WeaverSinkFactory {
     }
 
     public WeaverSinkFactory(JSONObject config, String operatorName, String targetVariable) {
-        String targetType = config.getString("target_type");
-        new WeaverSinkFactory(WeaverSinkFactory.TargetType.valueOf(targetType), operatorName, targetVariable, config);
+        this(WeaverSinkFactory.TargetType.valueOf(config.getString("target_type")), operatorName, targetVariable,
+                config);
+
     }
 
     public Sink<String> createSink() {
@@ -63,6 +64,7 @@ public class WeaverSinkFactory {
         };
 
     }
+
     public DataStreamSink<String> attachSink(Sink<String> sink, DataStream<MapTupValue> dataStream) {
         DataStream<String> stringStream = dataStream.map(new SolMapValueToStringExtractor(this.targetVariable));
         return stringStream.sinkTo(sink).name(this.operatorName);
