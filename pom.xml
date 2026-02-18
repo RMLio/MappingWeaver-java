@@ -249,7 +249,7 @@ under the License.
             <version>1.3.3</version>
         </dependency>
         <dependency>
-            <groupId>com.github.FnOio</groupId>
+            <groupId>com.github.fnoio</groupId>
             <artifactId>grel-functions-java</artifactId>
             <version>v0.10.0</version>
         </dependency>

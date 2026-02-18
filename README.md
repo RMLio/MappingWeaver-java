@@ -91,7 +91,7 @@ java -jar MappingWeaver-0.1.1-SNAPSHOT.jar --help
 |                  be.ugent.idlab.knows MappingLoom                  | unreleased                  |
 |              be.ugent.idlab.knows function-agent-java              |                             |
 |             be.ugent.idlab.knows idlab-functions-java              | MIT                         |
-|                com.github.FnOio grel-functions-java                | MIT                         |
+|                com.github.fnoio grel-functions-java                | MIT                         |
 |                       org.slf4j slf4j-simple                       | MIT                         |
 |                        org.slf4j slf4j-api                         | MIT                         |
 |                       org.jspecify jspecify                        |                             |
