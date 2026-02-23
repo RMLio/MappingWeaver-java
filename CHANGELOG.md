@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Upgraded Flink to v2.2.0 
-- Implemented stdout sink using Flink 2.2's Sink API  
+- Implemented stdout sink using Flink 2.2's Sink API
 - Added a FlinkTargetOperator to handle the creation of sinks using a Factory pattern
 - Added an extra Flink operator step to extract the serialized RDF output from solution mappings before written the records into the sinks
 
@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Refactored 
 - Moved all CLI related parameters parsing and specification to a separate module
+
+### Fixed
+- Put dependency to FnOio in small case. See https://github.com/RMLio/MappingWeaver-java/pull/1
 
 ### Deprecated
 
