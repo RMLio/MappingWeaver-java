@@ -89,7 +89,7 @@ public class RMLCoreTest extends TestCore {
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
-                "RMLTC0009b-JSON",
+                "RMLTC0009b-JSON",  // Awaits fixing https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/47
                 "RMLTC0019a-JSON",
                 "RMLTC0020a-JSON",
                 "RMLTC0022c-JSON",
