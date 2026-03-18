@@ -3,6 +3,7 @@ package be.ugent.idlab.knows.mappingweaver.mappingplan;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -91,8 +92,8 @@ public class MappingPlan {
         Map<Operator, DataStream<MapTupValue>> cache = this.visitor.getStreamCache();
         return cache.keySet().stream()
             .filter((op) -> op != null && op.getOperatorName().toLowerCase().contains("serialize"))
-            .map((op) -> cache.get(op))
-            .filter((op) -> op != null)
+            .map(cache::get)
+            .filter(Objects::nonNull)
             .collect(Collectors.toList());
     }
 
