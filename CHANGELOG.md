@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a FlinkTargetOperator to handle the creation of sinks using a Factory pattern
 - Added an extra Flink operator step to extract the serialized RDF output from solution mappings before written the records into the sinks
 
+### Fixed
+- Updated RML test cases
+
 ### Changed
 - Updated Algemaploom-rs version to 0.6.5
 - (Re-)use Flink 2.2's mini-cluster for testing and reduce test start-up time

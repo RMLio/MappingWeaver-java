@@ -4,6 +4,8 @@
 
 **Description**: "Tests a template with blank space in column value"
 
+**Default Base IRI**: http://example.com/
+
 **Error expected?** No
 
 **Input**
@@ -47,7 +49,7 @@
       rml:predicate ex:name
     ];
   rml:subjectMap [
-      rml:template "http://example.com/{$.['Country Code']}"
+      rml:template "http://example.com/{$['Country Code']}"
     ] .
 
 ```

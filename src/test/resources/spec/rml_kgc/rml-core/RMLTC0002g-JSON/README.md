@@ -4,6 +4,8 @@
 
 **Description**: "Test the presence of an invalid JSONPath"
 
+**Default Base IRI**: http://example.com/
+
 **Error expected?** Yes
 
 **Input**
@@ -28,12 +30,12 @@
       rml:referenceFormulation rml:JSONPath;
       rml:source [ a rml:RelativePathSource;
           rml:root rml:MappingDirectory;
-          rml:path "student2.json"
+          rml:path "student.json"
         ]
     ];
   rml:predicateObjectMap [
       rml:objectMap [
-          rml:reference "$.IDs"
+          rml:reference "$.ID"
         ];
       rml:predicate ex:id
     ];

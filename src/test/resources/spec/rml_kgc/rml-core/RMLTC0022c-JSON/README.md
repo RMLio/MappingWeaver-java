@@ -1,8 +1,10 @@
 ## RMLTC0022c-JSON
 
-**Title**: "Generating of triples with datatypeMap with custom datatype"
+**Title**: "Generating of triples with a template-valued datatypeMap"
 
-**Description**: "Test triples with a custom datype from the data"
+**Description**: "Test triples with a template-valued datatypeMap"
+
+**Default Base IRI**: http://example.com/
 
 **Error expected?** No
 
@@ -46,8 +48,8 @@
 
 **Output**
 ```
-<http://example.com/1> <http://example.com/x> "1"^^<http://example.com/base/datatype#string> .
-<http://example.com/2> <http://example.com/x> "2"^^<http://example.com/base/datatype#int> .
+<http://example.com/1> <http://example.com/x> "1"^^<http://example.com/datatype#string> .
+<http://example.com/2> <http://example.com/x> "2"^^<http://example.com/datatype#int> .
 
 ```
 

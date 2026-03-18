@@ -1,1 +1,4 @@
-[ { "id": "0", "foo": "bar"  } ] 
+[
+	{ "FOO": "one", "BAR": "string"},
+	{ "FOO": "two", "BAR": "int"}
+]

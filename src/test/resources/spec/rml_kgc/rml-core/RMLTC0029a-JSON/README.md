@@ -1,44 +1,48 @@
 ## RMLTC0029a-JSON
 
-**Title**: "Generation of the right datatype for a constant in the mapping"
+**Title**: "Generating of triples with constant shortcut subject"
 
-**Description**: "Test the honoring of the datatype specified by the constant term in the mapping"
+**Description**: "Test triples with a constant shortcut subject from the data"
+
+**Default Base IRI**: http://example.com/
 
 **Error expected?** No
 
 **Input**
 ```
-[ { "id": "0", "foo": "bar"  } ] 
+[
+	{ "FOO": "one", "BAR": "string"},
+	{ "FOO": "two", "BAR": "int"}
+]
 
 ```
 
 **Mapping**
 ```
-@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
-@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix ex: <http://example.com/> .
+@prefix rml: <http://w3id.org/rml/> .
 
- [
-    a rr:TriplesMap;
-    rml:logicalSource [
-      rml:source "data.json" ;
-      rml:referenceFormulation ql:JSONPath ;
+<http://example.com/base/TriplesMap1> a rml:TriplesMap;
+  rml:logicalSource [ a rml:LogicalSource;
+      rml:referenceFormulation rml:JSONPath;
       rml:iterator "$[*]";
+      rml:source [ a rml:RelativePathSource;
+          rml:root rml:MappingDirectory;
+          rml:path "data.json"
+        ]
     ];
-    rr:subjectMap [
-      rr:template "https://example.org/instances/{id}";
+  rml:predicateObjectMap [
+      rml:objectMap [
+          rml:reference "$.FOO"
+        ];
+      rml:predicate ex:x
     ];
-    rr:predicateObjectMap [
-      rr:predicate <http://example.org/ns/p> ;
-      rr:object true ; # datatype is boolean
-    ];
-  ] .
-
+  rml:subject ex:example .
 ```
 
 **Output**
 ```
-<https://example.org/instances/0> <http://example.org/ns/p> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .
-
+<http://example.com/example> <http://example.com/x> "one" .
+<http://example.com/example> <http://example.com/x> "two" .
 ```
 

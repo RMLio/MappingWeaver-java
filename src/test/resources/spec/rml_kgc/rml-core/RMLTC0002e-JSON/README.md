@@ -4,6 +4,8 @@
 
 **Description**: "Tests the presence of an undefined rml:path"
 
+**Default Base IRI**: http://example.com/
+
 **Error expected?** Yes
 
 **Input**
@@ -33,7 +35,7 @@
     ];
   rml:predicateObjectMap [
       rml:objectMap [
-          rml:reference "$.IDs"
+          rml:reference "$.ID"
         ];
       rml:predicate ex:id
     ];
