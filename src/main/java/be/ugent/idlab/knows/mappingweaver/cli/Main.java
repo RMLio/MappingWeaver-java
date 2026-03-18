@@ -67,17 +67,22 @@ public class Main {
         ParseResult options = commandLine.parseArgs(args);
 
         try {
+            boolean isAlgeMapLoomPlan = false;
             String mappingFile = options.matchedOptionValue("-m", "");
             if (mappingFile.isEmpty()) {
-                commandLine.usage(System.out);
-                System.exit(1);
+                mappingFile = options.matchedOptionValue("-l", "");
+                if (mappingFile.isEmpty()) {
+                    commandLine.usage(System.out);
+                    System.exit(1);
+                }
+                isAlgeMapLoomPlan = true;
             }
             // read in the mapping file and generate a mapping plan
             Path path = Paths.get(mappingFile);
             String document = Files.readString(path);
 
             // check for base iri
-            if (options.hasMatchedOption("-i")) {
+            if (!isAlgeMapLoomPlan && options.hasMatchedOption("-i")) {
                 String baseIRI = options.matchedOptionValue("-i", "null");
                 // go through the lines and replace the @base entry with the option provided
                 document = document.lines()
@@ -118,8 +123,13 @@ public class Main {
                 context.put("function-descriptions", descriptions);
             }
 
-            ITranslator t = ITranslator.getInstance();
-            String jsonPlan = t.translate_to_document(document);
+            String jsonPlan;
+            if (isAlgeMapLoomPlan) {
+                jsonPlan = document;
+            } else {
+                ITranslator t = ITranslator.getInstance();
+                jsonPlan = t.translate_to_document(document);
+            }
 
             String basePath;
             if (path.getParent() == null) {

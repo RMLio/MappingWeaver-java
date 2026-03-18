@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented stdout sink using Flink 2.2's Sink API
 - Added a FlinkTargetOperator to handle the creation of sinks using a Factory pattern
 - Added an extra Flink operator step to extract the serialized RDF output from solution mappings before written the records into the sinks
+- Added CLI option `-l --loom-file` to take an AlgeMapLoom plan as input.
 
 ### Fixed
 - Updated RML test cases

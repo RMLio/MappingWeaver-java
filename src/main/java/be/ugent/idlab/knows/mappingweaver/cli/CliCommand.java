@@ -1,5 +1,6 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
+import picocli.CommandLine;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Model.OptionSpec;
 import picocli.CommandLine.Model.UsageMessageSpec;
@@ -82,6 +83,25 @@ public final class CliCommand {
                 .usageMessage(new UsageMessageSpec().description("Do everything, but discard output"));
 
 
+        CommandLine.Model.ArgGroupSpec mappingKind = CommandLine.Model.ArgGroupSpec.builder()
+                .exclusive(true)
+                .addArg(
+                        OptionSpec.builder("-m", "--mapping-file")
+                                .paramLabel("<RML mapping file>")
+                                .description("The path to an RML mapping file. The path must be accessible on the Flink cluster.")
+                                .type(String.class)
+                                .build()
+                )
+                .addArg(
+                        OptionSpec.builder("-l", "--loom-file")
+                                .paramLabel("<AlgeMapLoom mapping plan file>")
+                                .description("The path to an AlgeMapLoom mapping plan file, in JSON format. The path must be accessible on the Flink cluster.")
+                                .type(String.class)
+                                .build()
+                )
+
+                .build();
+
         CommandSpec root = CommandSpec.create()
                 .mixinStandardHelpOptions(true)
                 .exitCodeOnInvalidInput(1)
@@ -93,6 +113,7 @@ public final class CliCommand {
                 .addSubcommand("toMQTT", toMQTT)
                 .addSubcommand("toWebSocket", toWebSocket)
                 .addSubcommand("noOutput", noOutput)
+                .addArgGroup(mappingKind)
                 .addOption(OptionSpec.builder("-j", "--job-name")
                         .paramLabel("<job name>")
                         .type(String.class)
@@ -110,12 +131,6 @@ public final class CliCommand {
                         .paramLabel("<task slots>")
                         .type(Integer.class)
                         .description("Sets the maximum operator parallelism (~nr of task slots used)")
-                        .build())
-                .addOption(OptionSpec.builder("-m", "--mapping-file")
-                        .paramLabel("<RML mapping file>")
-                        .type(String.class)
-                        .required(true)
-                        .description("The path to an RML mapping file. The path must be accessible on the Flink cluster.")
                         .build())
                 .addOption(OptionSpec.builder("--json-ld")
                         .description("Write the output as JSON-LD instead of N-Quads. An object contains all RDF generated from one input record. Note: this is slower than using the default N-Quads format.")
