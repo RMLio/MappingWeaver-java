@@ -50,12 +50,12 @@ public class MappingPlan {
      * @param path path to the JSON file
      * @return a MappingPlan representing the instance
      */
-    public static MappingPlan fromFile(StreamExecutionEnvironment env, String path) throws IOException {
-        return JSONPlanParser.fromFile(env, path);
+    public static MappingPlan fromFile(StreamExecutionEnvironment env, String path, String defaultBaseIRI) throws IOException {
+        return JSONPlanParser.fromFile(env, path, defaultBaseIRI);
     }
 
-    public static MappingPlan fromString(StreamExecutionEnvironment env, String json, String basePath) {
-        return JSONPlanParser.fromString(env, json, basePath);
+    public static MappingPlan fromString(StreamExecutionEnvironment env, String json, String basePath, String defaultBaseIRI) {
+        return JSONPlanParser.fromString(env, json, basePath, defaultBaseIRI);
     }
 
     public JobExecutionResult execute(String jobname, Map<String, Object> extraOptions) throws Exception {

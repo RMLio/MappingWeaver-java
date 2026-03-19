@@ -207,7 +207,7 @@ public class RDBSourceTest {
             return; // Skip faulty tests
         }
 
-        MappingPlan plan = MappingPlan.fromFile(env, basePath + planPath);
+        MappingPlan plan = MappingPlan.fromFile(env, basePath + planPath, "http://example.com/");
         GraphVisitorCustomTargetDebugger visitor = new GraphVisitorCustomTargetDebugger(env, plan.getOperatorGraph(), TargetOperator.TARGET_VARIABLE);
         visitor.activateDebugging();
         plan.setVisitor(visitor);

@@ -44,6 +44,7 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0008b-JSON",
                 "RMLTC0008c-JSON",
                 "RMLTC0009a-JSON",
+                "RMLTC0009b-JSON",
                 "RMLTC0010a-JSON",
                 "RMLTC0010b-JSON",
                 "RMLTC0010c-JSON",
@@ -52,12 +53,16 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0012b-JSON",
                 "RMLTC0013a-JSON",
                 "RMLTC0015a-JSON",
-                "RMLTC0019b-JSON",
                 "RMLTC0021a-JSON",
                 "RMLTC0022a-JSON",
                 "RMLTC0022b-JSON",
-                "RMLTC0023a-JSON",
+                "RMLTC0022d-JSON",
+                "RMLTC0022e-JSON",
+                "RMLTC0023f-JSON",
+                "RMLTC0025a-JSON",
+                "RMLTC0025c-JSON",
                 "RMLTC0026a-JSON",
+                "RMLTC0026b-JSON"/*,
                 "RMLTC0027a-JSON",
                 "RMLTC0027b-JSON",
                 "RMLTC0027c-JSON",
@@ -65,7 +70,7 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0028a-JSON",
                 "RMLTC0028b-JSON",
                 "RMLTC0028c-JSON",
-                "RMLTC0029b-JSON"
+                "RMLTC0029b-JSON"*/
         ).map(Arguments::of);
     }
 
@@ -78,10 +83,13 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0012c-JSON",
                 "RMLTC0012d-JSON",
                 "RMLTC0015b-JSON",
+                "RMLTC0019b-JSON",
+                "RMLTC0023a-JSON",
                 "RMLTC0023b-JSON",
                 "RMLTC0023c-JSON",
                 "RMLTC0023d-JSON",
-                "RMLTC0023f-JSON",
+                "RMLTC0023e-JSON",
+                "RMLTC0024a-JSON",
                 "RMLTC0025b-JSON",
                 "RMLTC0026b-JSON"
         ).map(Arguments::of);
@@ -89,7 +97,6 @@ public class RMLCoreTest extends TestCore {
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
-                "RMLTC0009b-JSON",  // Awaits fixing https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/47
                 "RMLTC0019a-JSON",
                 "RMLTC0020a-JSON",
                 "RMLTC0022c-JSON",
@@ -99,9 +106,7 @@ public class RMLCoreTest extends TestCore {
     }
 
     private static Stream<Arguments> negativeFailing() {
-        return Stream.of(
-                "RMLTC0023e-JSON"
-        ).map(Arguments::of);
+        return Stream.of().map(Arguments::of);
     }
 
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")

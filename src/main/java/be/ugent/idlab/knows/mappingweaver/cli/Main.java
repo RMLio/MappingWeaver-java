@@ -83,7 +83,8 @@ public class Main {
 
             // check for base iri
             if (!isAlgeMapLoomPlan && options.hasMatchedOption("-i")) {
-                String baseIRI = options.matchedOptionValue("-i", "null");
+                // TODO: isn't this only valid for old RML? KGC RML adds a base IRI per triples map...
+                String baseIRI = options.matchedOptionValue("-i", null);
                 // go through the lines and replace the @base entry with the option provided
                 document = document.lines()
                         .map(l -> l.startsWith("@base") ? "@base <" + baseIRI + "> ." : l)
@@ -123,7 +124,7 @@ public class Main {
                 context.put("function-descriptions", descriptions);
             }
 
-            String jsonPlan;
+            final String jsonPlan;
             if (isAlgeMapLoomPlan) {
                 jsonPlan = document;
             } else {
@@ -131,14 +132,16 @@ public class Main {
                 jsonPlan = t.translate_to_document(document);
             }
 
-            String basePath;
+            final String basePath;
             if (path.getParent() == null) {
                 basePath = System.getProperty("user.dir");
             } else {
                 basePath = path.getParent().toString() + '/';
             }
 
-            MappingPlan p = JSONPlanParser.fromString(env, jsonPlan, basePath);
+            final String baseIRI = options.hasMatchedOption("-i")? options.matchedOptionValue("-i", null) : "";
+
+            MappingPlan p = JSONPlanParser.fromString(env, jsonPlan, basePath, baseIRI);
 
             if (options.hasSubcommand() && this.subcommands.contains(options.subcommand().commandSpec().name())) {
                 p.initializeFlinkTopology(false);

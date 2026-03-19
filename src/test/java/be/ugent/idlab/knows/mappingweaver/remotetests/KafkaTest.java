@@ -52,7 +52,7 @@ public class KafkaTest extends TestCore {
         String planJson = ITranslator.getInstance().translate_to_document(planTTL);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/kafka/csv");
+        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/kafka/csv", "http://example.com/");
         SourceOperator op = (SourceOperator) plan.getOperatorGraph().getOperators().getFirst();
         runKafkaTest(op);
     }
@@ -70,7 +70,7 @@ public class KafkaTest extends TestCore {
         String planJson = ITranslator.getInstance().translate_to_document(planTTL);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/kafka/json");
+        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/kafka/json", "http://example.com/");
         SourceOperator op = (SourceOperator) plan.getOperatorGraph().getOperators().getFirst();
         runKafkaTest(op);
     }
@@ -87,7 +87,7 @@ public class KafkaTest extends TestCore {
         String planJson = ITranslator.getInstance().translate_to_document(planTTL);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/kafka/xml");
+        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/kafka/xml", "http://example.com/");
         SourceOperator op = (SourceOperator) plan.getOperatorGraph().getOperators().getFirst();
         runKafkaTest(op);
     }

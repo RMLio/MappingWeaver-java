@@ -32,6 +32,7 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOPa
  * Due to the complexity of the operator, a separate class was created
  */
 public class ExtendOperatorParser {
+    private final String defaultBaseIRI;
 
     /**
      * A map for easy access to the different node types without an if-statement
@@ -40,6 +41,10 @@ public class ExtendOperatorParser {
             "Iri", RDFType.IRI,
             "Literal", RDFType.Literal,
             "BlankNode", RDFType.Blank);
+
+    public ExtendOperatorParser(String defaultBaseIRI) {
+        this.defaultBaseIRI = defaultBaseIRI;
+    }
 
     /**
      * Main method for constructing the operator
@@ -80,7 +85,15 @@ public class ExtendOperatorParser {
 
         ExtendFunction function = switch (funcType) {
             case "Iri" -> {
-                String iri = functionDescription.isNull("base_iri") ? null : functionDescription.getString("base_iri");
+                String iri;
+                if (functionDescription.isNull("base_iri")) {
+                    iri = defaultBaseIRI;
+                } else {
+                    iri = functionDescription.getString("base_iri");
+                    if (iri.isEmpty()) {
+                        iri = defaultBaseIRI;
+                    }
+                }
                 yield new IriTypeFunction(iri, parseExtendFunction(innerFunc));
             }
             case "BlankNode" -> new BlankTypeFunction(parseExtendFunction(innerFunc));

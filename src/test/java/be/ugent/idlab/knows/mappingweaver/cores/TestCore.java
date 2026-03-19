@@ -124,7 +124,7 @@ public abstract class TestCore {
 
         System.out.printf("Testing test case: %s%n", directory);
         try {
-            MappingPlan plan = MappingPlan.fromString(env, mappingPlan, Paths.get(basePath, directory).toString());
+            MappingPlan plan = MappingPlan.fromString(env, mappingPlan, Paths.get(basePath, directory).toString(), "http://example.com/");
 //            System.out.println(plan.getOperatorGraph().getOperators());
             GraphOpVisitor visitor = new GraphVisitorCustomTarget(env, plan.getOperatorGraph(),
                     TargetOperator.TARGET_VARIABLE);

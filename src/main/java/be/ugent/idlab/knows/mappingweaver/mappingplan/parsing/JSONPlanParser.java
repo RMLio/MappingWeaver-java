@@ -75,6 +75,7 @@ public class JSONPlanParser implements Serializable {
     public static final Pattern allowedLanguagesPattern = Pattern.compile("^((?:(en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang))|((?:([A-Za-z]{2,3}(-(?:[A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4})(-(?:[A-Za-z]{4}))?(-(?:[A-Za-z]{2}|[0-9]{3}))?(-(?:[A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-(?:[0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(?:x(-[A-Za-z0-9]{1,8})+))?)|(?:x(-[A-Za-z0-9]{1,8})+))$");
 
     private final String basePath;
+    private final String defaultBaseIRI;
 
 
     /**
@@ -82,9 +83,11 @@ public class JSONPlanParser implements Serializable {
      * methods
      *
      * @param basePath base path for resolving the local paths
+     * @param defaultBaseIRI The default base IRI
      */
-    private JSONPlanParser(String basePath) {
+    private JSONPlanParser(String basePath, String defaultBaseIRI) {
         this.basePath = basePath;
+        this.defaultBaseIRI = defaultBaseIRI;
     }
 
     /**
@@ -93,14 +96,15 @@ public class JSONPlanParser implements Serializable {
      *
      * @param env  environment to build the operators under
      * @param path path to the description file
+     * @param defaultBaseIRI The default base IRI
      * @return a MappingPlan
      * @throws IOException when an IO error occurs while reading the file
      */
-    public static MappingPlan fromFile(StreamExecutionEnvironment env, String path) throws IOException {
+    public static MappingPlan fromFile(StreamExecutionEnvironment env, String path, String defaultBaseIRI) throws IOException {
         File file = new File(path);
         try (FileInputStream fis = new FileInputStream(path)) {
             String json = new String(fis.readAllBytes());
-            return new JSONPlanParser(file.getParent() + "/").parse(env, json);
+            return new JSONPlanParser(file.getParent() + "/", defaultBaseIRI).parse(env, json);
         }
     }
 
@@ -113,8 +117,8 @@ public class JSONPlanParser implements Serializable {
      * @param basePath base path for file resolution
      * @return a MappingPlan
      */
-    public static MappingPlan fromString(StreamExecutionEnvironment env, String json, String basePath) {
-        return new JSONPlanParser(basePath).parse(env, json);
+    public static MappingPlan fromString(StreamExecutionEnvironment env, String json, String basePath, String defaultBaseIRI) {
+        return new JSONPlanParser(basePath, defaultBaseIRI).parse(env, json);
     }
 
     /**
@@ -147,7 +151,7 @@ public class JSONPlanParser implements Serializable {
      */
     private List<Operator> parseOperators(JSONArray nodes, Adjacency adj) {
         List<Operator> operators = new ArrayList<>();
-        ExtendOperatorParser extendParser = new ExtendOperatorParser();
+        ExtendOperatorParser extendParser = new ExtendOperatorParser(defaultBaseIRI);
 
         for (int i = 0; i < nodes.length(); i++) {
             Set<Fragment> incomingFragments = adj.getIncomingFragments(i);
