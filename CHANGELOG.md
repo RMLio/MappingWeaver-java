@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Updated RML test cases
 - Put dependency to FnOio in small case. See https://github.com/RMLio/MappingWeaver-java/pull/1
+- Update dependency on MappingLoom to 0.6.6
 
 ### Changed
 - Updated Algemaploom-rs version to 0.6.5
