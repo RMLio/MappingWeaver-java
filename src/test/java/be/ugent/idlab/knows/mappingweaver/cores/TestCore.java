@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.test.util.MiniClusterWithClientResource;
+import org.apache.flink.util.SerializedThrowable;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFParser;
 import org.apache.jena.riot.lang.LabelToNode;
@@ -96,14 +97,17 @@ public abstract class TestCore {
     }
 
     private void runTest(String basePath, String directory, boolean positive) throws IOException {
+        String plan = null;
         try {
-            String plan = this.getMappingPlan(basePath, directory);
-            runTestWithMappingPlan(basePath, directory, plan, positive);
+            plan = this.getMappingPlan(basePath, directory);
         } catch (Throwable t) {
             if (positive) {
-                throw t;
+                fail("Positive test shouldn't fail!");
+            } else {
+                return;
             }
         }
+        runTestWithMappingPlan(basePath, directory, plan, positive);
     }
 
     private String getMappingPlan(String basePath, String directory) throws IOException {
@@ -136,17 +140,22 @@ public abstract class TestCore {
             if (positive) { // if positive, rethrow the exception to cause the test to fail
                 throw new RuntimeException(e);
             } else {
+                Throwable current = e;
                 // scan the exception stack for a MappingException
-                Throwable cause = e;
-                while (!(cause instanceof MappingException)) {
-                    if (cause.getCause() == null) {
-                        fail("Negative tes<t should've failed with a MappingException!");
+                String className;
+                do  {
+                    if (current instanceof SerializedThrowable) {
+                        className = ((SerializedThrowable)current).getOriginalErrorClassName();
                     } else {
-                        cause = cause.getCause();
+                        className = current.getClass().getName();
                     }
-                }
-
-                return; // cause was an instance of MappingException, so test passed
+                    System.out.println("className = " + className);
+                    if (className.endsWith("MappingException")) {
+                        return; // e was an instance of MappingException, so test passed
+                    }
+                    current = current.getCause();
+                } while (current != null);
+                fail("Negative test should've failed with a MappingException!");
             }
         }
 

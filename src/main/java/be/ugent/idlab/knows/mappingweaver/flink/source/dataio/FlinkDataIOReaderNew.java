@@ -9,7 +9,6 @@ import org.apache.flink.api.connector.source.SourceReader;
 import org.apache.flink.api.connector.source.SourceReaderContext;
 import org.apache.flink.core.io.InputStatus;
 
-import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
@@ -44,23 +43,24 @@ public class FlinkDataIOReaderNew implements SourceReader<MapTupValue, FlinkData
         FlinkDataIOSplit head = this.splits.peek();
         SourceOperator operator = head.getSourceOperator();
 
-        while (!operator.hasNext()) {
-            if (!operator.isReady()) {
-                try {
-                    operator.init();
-                } catch (SQLException sql) {
-                    throw new MappingException(sql.getMessage());
-                }
-            } else {
-                this.splits.poll();
-                if (this.splits.isEmpty()) {
-                    this.context.sendSplitRequest();
-                    return InputStatus.NOTHING_AVAILABLE;
-                }
+        try {
+            while (!operator.hasNext()) {
+                if (!operator.isReady()) {
+                        operator.init();
 
-                head = this.splits.peek();
-                operator = head.getSourceOperator();
+                } else {
+                    this.splits.poll();
+                    if (this.splits.isEmpty()) {
+                        this.context.sendSplitRequest();
+                        return InputStatus.NOTHING_AVAILABLE;
+                    }
+
+                    head = this.splits.peek();
+                    operator = head.getSourceOperator();
+                }
             }
+        } catch (Throwable t) {
+            throw new MappingException(t);
         }
 
         // operator now certainly has something
