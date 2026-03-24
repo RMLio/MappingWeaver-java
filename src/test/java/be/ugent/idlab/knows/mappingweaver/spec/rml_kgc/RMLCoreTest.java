@@ -53,24 +53,27 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0012b-JSON",
                 "RMLTC0013a-JSON",
                 "RMLTC0015a-JSON",
+                "RMLTC0020a-JSON",
                 "RMLTC0021a-JSON",
                 "RMLTC0022a-JSON",
                 "RMLTC0022b-JSON",
+                "RMLTC0022c-JSON",
                 "RMLTC0022d-JSON",
                 "RMLTC0022e-JSON",
                 "RMLTC0023f-JSON",
                 "RMLTC0025a-JSON",
                 "RMLTC0025c-JSON",
                 "RMLTC0026a-JSON",
-                "RMLTC0026b-JSON"/*,
+                "RMLTC0026b-JSON",
+                "RMLTC0026c-JSON",
+                "RMLTC0026d-JSON",
                 "RMLTC0027a-JSON",
-                "RMLTC0027b-JSON",
-                "RMLTC0027c-JSON",
-                "RMLTC0027d-JSON",
                 "RMLTC0028a-JSON",
-                "RMLTC0028b-JSON",
                 "RMLTC0028c-JSON",
-                "RMLTC0029b-JSON"*/
+                "RMLTC0029a-JSON",
+                "RMLTC0031a-JSON",
+                "RMLTC0031b-JSON",
+                "RMLTC0031c-JSON"
         ).map(Arguments::of);
     }
 
@@ -83,30 +86,35 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0012c-JSON",
                 "RMLTC0012d-JSON",
                 "RMLTC0015b-JSON",
-                "RMLTC0019b-JSON",
                 "RMLTC0023a-JSON",
                 "RMLTC0023b-JSON",
                 "RMLTC0023c-JSON",
                 "RMLTC0023d-JSON",
                 "RMLTC0023e-JSON",
                 "RMLTC0024a-JSON",
-                "RMLTC0025b-JSON",
-                "RMLTC0026b-JSON"
+                "RMLTC0025b-JSON"
         ).map(Arguments::of);
     }
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
                 "RMLTC0019a-JSON",
-                "RMLTC0020a-JSON",
-                "RMLTC0022c-JSON",
-                "RMLTC0029a-JSON",
-                "RMLTC0029c-JSON"
+                "RMLTC0027b-JSON",  // awaiting outcome of https://github.com/kg-construct/rml-core/issues/72
+                "RMLTC0027c-JSON",  // Doesn't support difference between IRI- and URI encoding + java only supports URL encoding (standard, libs do support it). See https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/48
+                "RMLTC0028b-JSON",  // Does not add the default graph triple.
+                "RMLTC0030a-JSON",
+                "RMLTC0030b-JSON",
+                "RMLTC0030c-JSON",
+                "RMLTC0030d-JSON",
+                "RMLTC0030e-JSON",
+                "RMLTC0030f-JSON"
         ).map(Arguments::of);
     }
 
     private static Stream<Arguments> negativeFailing() {
-        return Stream.of().map(Arguments::of);
+        return Stream.of(
+                "RMLTC0019b-JSON"  // SubjectMap: an IRI is generated from a reference by prepending the base IRI. This should not happen! See https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/29
+        ).map(Arguments::of);
     }
 
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
