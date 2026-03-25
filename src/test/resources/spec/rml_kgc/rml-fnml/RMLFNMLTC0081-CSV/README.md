@@ -1,18 +1,15 @@
-## RMLFNMLTC0001-CSV
+## RMLFNMLTC0081-CSV
 
-**Title**: Function on object, 0 parameters
+**Title**: Function on languageMap, 1 parameter
 
-**Description**: Tests
-(1) if a function without parameters can be used (FnO)
-(2) if a function on an object map can be used (Term)
-(3) if the output of the function is assigned the correct termType by default
+**Description**: Tests that function on LanguageMap is handled
 
 **Error expected?** No
 
 **Input**
 ```
-Id,Name,Comment,Class
-1,Venus,A&B,A
+Id,Name,Comment,Class,Lang
+1,Venus,A&B,A,en
 
 ```
 
@@ -23,6 +20,7 @@ Id,Name,Comment,Class
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rml: <http://w3id.org/rml/> .
 @prefix fno: <https://w3id.org/function/ontology#> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
 @prefix idlab-fn: <https://w3id.org/imec/idlab/function#> .
 
 @base <http://example.com/base/> .
@@ -41,19 +39,34 @@ Id,Name,Comment,Class
     rml:predicateObjectMap [
         rml:predicate foaf:name;
         rml:objectMap [
-            rml:functionExecution <#Execution> ;
-            rml:return idlab-fn:_stringOut
+           rml:reference "Name" ;
+           rml:languageMap [
+             rml:functionExecution <#Execution> ;
+             rml:return grel:stringOut
+           ] ;
         ]
     ] .
 
 <#Execution>
-    rml:function idlab-fn:random .
+    rml:function grel:string_substring ;
+    rml:input
+        [
+            rml:parameter grel:valueParam ;
+            rml:inputValueMap [
+                rml:reference "Lang"
+            ];
+        ]  ,
+        [
+            a rml:Input ;
+            rml:parameter grel:p_int_i_from ;
+            rml:inputValue "0"
+        ]  .
 
 ```
 
 **Output**
 ```
-<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "e4dcc7ee-8e2a-4012-92cc-9a74dd545e89" .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "Venus"@en .
 
 ```
 
