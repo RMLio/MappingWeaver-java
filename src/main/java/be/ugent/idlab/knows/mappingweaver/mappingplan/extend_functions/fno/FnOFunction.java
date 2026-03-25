@@ -1,11 +1,5 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
-
-import org.jspecify.annotations.Nullable;
-
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
@@ -15,6 +9,11 @@ import be.ugent.idlab.knows.functions.agent.Agent;
 import be.ugent.idlab.knows.functions.agent.AgentFactory;
 import be.ugent.idlab.knows.functions.agent.Arguments;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
+import org.jspecify.annotations.Nullable;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Function that applies the specified FnO function to the input
@@ -82,7 +81,8 @@ public class FnOFunction implements ExtendFunction, Serializable {
             arguments.add(predicate, arg.getParameter(solutionMapping));
         }
 
-        try {
+        // TODO: what is the expected behaviour? RMLFNML test cases expect errors to be thrown...
+                try {
             // extract the value from the Agent
             Object result = getAgent().execute(this.identifier, arguments);
             if (result == null) {
@@ -91,8 +91,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
             // Convert result to String - handles both String and other types (Integer, etc.)
             return result.toString();
         } catch (Exception e) { // TODO: replace the generic exception
-            System.err.println("Error executing FnO function: " + e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
     
