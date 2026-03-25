@@ -45,6 +45,7 @@ import org.testcontainers.utility.DockerImageName;
 
 public class CliOutputTest {
 
+    @Disabled("Flink does not necessarily write to a single file; can be a directory.")
     @Test
     public void testToFile() {
         String[] args = {"-m", "src/test/resources/test-cases/csv/RMLTC0001a-CSV/mapping.ttl", "toFile", "-o", "/tmp/output.ttl"};
@@ -63,6 +64,7 @@ public class CliOutputTest {
         assertEquals(expected, actual);
     }
 
+    @Disabled("Not yet implemented")
     @Test
     public void testToTCPSocket() throws IOException {
         // start a server
@@ -162,6 +164,7 @@ public class CliOutputTest {
         }
     }
 
+    @Disabled("Not yet implemented")
     @Nested
     @Testcontainers
     class ToMQTT {

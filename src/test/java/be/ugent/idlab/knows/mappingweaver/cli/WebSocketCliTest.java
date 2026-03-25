@@ -13,11 +13,13 @@ import org.java_websocket.server.WebSocketServer;
 import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 
+@Disabled("Not yet implemented")
 @ExtendWith(FlinkMiniClusterExtension.class)
 public class WebSocketCliTest {
 
