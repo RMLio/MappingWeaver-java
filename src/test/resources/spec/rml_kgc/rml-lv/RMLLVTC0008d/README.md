@@ -1,10 +1,10 @@
-## RMLLVTC0001a
+## RMLLVTC0008d
 
-**Title**: Expression Field: Reference
+**Title**: Cycle: Fields
 
-**Description**: Test a reference-valued expression field
+**Description**: Test a cycle in nested fields
 
-**Error expected?** No
+**Error expected?** Yes
 
 **Input**
 ```
@@ -53,30 +53,18 @@
 
 :jsonView a rml:LogicalView ;
   rml:viewOn :jsonSource ;
-  rml:field [
-    a rml:ExpressionField ;
-    rml:fieldName "name" ;
-    rml:reference "$.name" ;
-  ] .
+  rml:field :field1 .
 
-:triplesMapPerson a rml:TriplesMap ;
-  rml:logicalSource :jsonView ;
-  rml:subjectMap [
-    rml:template "http://example.org/person/{name}" ;
-  ] ;
-  rml:predicateObjectMap [
-    rml:predicate :hasName ;
-    rml:objectMap [
-      rml:reference "name" ;
-    ] ;
-  ] .
+:field1 a rml:IterableField ;
+  rml:fieldName "item" ;
+  rml:referenceFormulation rml:JSONPath ;
+  rml:iterator "$.items[*]" ;
+  rml:field :field2.
 
-```
-
-**Output**
-```
-<http://example.org/person/alice> <http://example.org/hasName> "alice" .
-<http://example.org/person/bob> <http://example.org/hasName> "bob" .
+:field2 a rml:ExpressionField ;
+  rml:fieldName "type" ;
+  rml:reference "$.type" ;
+  rml:field :field1.
 
 ```
 

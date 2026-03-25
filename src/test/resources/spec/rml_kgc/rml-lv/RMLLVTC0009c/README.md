@@ -1,10 +1,10 @@
-## RMLLVTC0006f
+## RMLLVTC0009c
 
-**Title**: Index Key of Field in Join
+**Title**: Name collision: between Fields from different Joins
 
-**Description**: Test references to indexes of fields from a join
+**Description**: Test a name collision between fields from different joins
 
-**Error expected?** No
+**Error expected?** Yes
 
 **Input**
 ```
@@ -30,11 +30,18 @@
 
 **Input 1**
 ```
-name,birthyear
-alice,1995
-tobias,2005
-bob,1999
+name,id
+alice,123
+bob,456
+tobias,789
 
+```
+
+**Input 2**
+```
+name,item
+alice,lantern
+bob,leaf
 ```
 
 **Mapping**
@@ -61,9 +68,31 @@ bob,1999
   ] ;
   rml:field [
     a rml:ExpressionField ;
-    rml:fieldName "item" ;
+    rml:fieldName "jsonitem" ;
     rml:reference "$.items[*]" ;
   ] .
+
+:additionalCsvSource a rml:LogicalSource ;
+  rml:source [
+   a rml:RelativePathSource , rml:Source ;
+   rml:root rml:MappingDirectory ;
+   rml:path "people2.csv" ;
+  ] ;
+  rml:referenceFormulation rml:CSV .
+
+:additionalCsvView a rml:LogicalView ;
+  rml:viewOn :additionalCsvSource ;
+    rml:field [
+     a rml:ExpressionField ;
+     rml:fieldName "name" ;
+     rml:reference "name" ;
+    ] ;
+    rml:field [
+     a rml:ExpressionField ;
+     rml:fieldName "csvitem" ;
+     rml:reference "item" ;
+    ] ;
+.
 
 :csvSource a rml:LogicalSource ;
   rml:source [
@@ -82,10 +111,10 @@ bob,1999
   ] ;
   rml:field [
     a rml:ExpressionField ;
-    rml:fieldName "birthyear" ;
-    rml:reference "birthyear" ;
+    rml:fieldName "id" ;
+    rml:reference "id" ;
   ] ;
-  rml:innerJoin [
+  rml:leftJoin [
     rml:parentLogicalView :jsonView ;
     rml:joinCondition [
       rml:parent "name" ;
@@ -93,8 +122,20 @@ bob,1999
     ] ;
     rml:field [
       a rml:ExpressionField ;
-      rml:fieldName "json_item" ;
-      rml:reference "item" ;
+      rml:fieldName "item" ;
+      rml:reference "jsonitem" ;
+    ] ;
+  ] ;
+  rml:leftJoin [
+    rml:parentLogicalView :additionalCsvView ;
+    rml:joinCondition [
+      rml:parent "name" ;
+      rml:child "name" ;
+    ] ;
+    rml:field [
+      a rml:ExpressionField ;
+      rml:fieldName "item" ;
+      rml:reference "csvitem" ;
     ] ;
   ] .
 
@@ -102,32 +143,14 @@ bob,1999
 :triplesMapPerson a rml:TriplesMap ;
   rml:logicalSource :csvView ;
   rml:subjectMap [
-    rml:template "http://example.org/person/{#}" ;
-  ] ;
-  rml:predicateObjectMap [
-    rml:predicate :hasBirthYear ;
-    rml:objectMap [
-      rml:reference "birthyear" ;
-      rml:datatype xsd:gYear ;
-    ] ;
+    rml:template "http://example.org/person/{id}" ;
   ] ;
   rml:predicateObjectMap [
     rml:predicate :hasItem ;
     rml:objectMap [
-      rml:template "http://example.org/person/{#}/item/{json_item.#}/{json_item}" ;
+      rml:template "http://example.org/person/{id}/item/{item}" ;
     ] ;
   ] .
-
-```
-
-**Output**
-```
-<http://example.org/person/0> <http://example.org/hasBirthYear> "1995"^^<http://www.w3.org/2001/XMLSchema#gYear> .
-<http://example.org/person/0> <http://example.org/hasItem> <http://example.org/person/0/item/0/sword> .
-<http://example.org/person/0> <http://example.org/hasItem> <http://example.org/person/0/item/1/shield> .
-<http://example.org/person/2> <http://example.org/hasBirthYear> "1999"^^<http://www.w3.org/2001/XMLSchema#gYear> .
-<http://example.org/person/2> <http://example.org/hasItem> <http://example.org/person/2/item/0/flower> .
-
 
 ```
 

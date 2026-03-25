@@ -2,7 +2,7 @@
 
 **Title**: Expression Field Siblings
 
-**Description**: Test multiple expression JSONPlanFields with the same parent
+**Description**: Test multiple expression fields with the same parent
 
 **Error expected?** No
 

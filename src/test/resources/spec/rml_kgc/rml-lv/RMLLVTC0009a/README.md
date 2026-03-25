@@ -1,3 +1,30 @@
+## RMLLVTC0009a
+
+**Title**: Name collision: between Fields with the same Parent
+
+**Description**: Test a name collision between fields with the same parent
+
+**Error expected?** Yes
+
+**Input**
+```
+{
+  "people": [
+    {
+      "givenName": "Alice",
+      "familyName": "Smith"
+    },
+    {
+      "givenName": "Bob",
+      "familyName": "Johnson"
+    }
+  ]
+}
+
+```
+
+**Mapping**
+```
 @prefix rml: <http://w3id.org/rml/> .
 @prefix : <http://example.org/> .
 
@@ -15,13 +42,12 @@
   rml:field [
     a rml:ExpressionField ;
     rml:fieldName "name" ;
-    rml:reference "$.name" ;
-  ] ;
-  rml:field [
+    rml:reference "$.givenName" ;
+  ], [
     a rml:ExpressionField ;
-    rml:fieldName "fullName" ;
-    rml:template "{$.name} {$.lastName}" ;
-  ] .
+    rml:fieldName "name" ;
+    rml:reference "$.familyName" ;
+  ]  .
 
 :triplesMapPerson a rml:TriplesMap ;
   rml:logicalSource :jsonView ;
@@ -29,8 +55,11 @@
     rml:template "http://example.org/person/{name}" ;
   ] ;
   rml:predicateObjectMap [
-    rml:predicate :hasFullName ;
+    rml:predicate :hasName ;
     rml:objectMap [
-      rml:reference "fullName" ;
+      rml:reference "name" ;
     ] ;
   ] .
+
+```
+

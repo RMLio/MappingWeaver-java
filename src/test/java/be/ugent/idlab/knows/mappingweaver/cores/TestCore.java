@@ -166,6 +166,7 @@ public abstract class TestCore {
                 // OK
                 return;
             } else {
+                System.err.println("Error or empty result expected. Was:\n" + rdfStrings);
                 fail("There should have been an empty result or an exception thrown for negative testcase");
             }
         }

@@ -15,13 +15,12 @@
   rml:field [
     a rml:ExpressionField ;
     rml:fieldName "name" ;
-    rml:reference "$.name" ;
-  ] ;
-  rml:field [
+    rml:reference "$.givenName" ;
+  ], [
     a rml:ExpressionField ;
-    rml:fieldName "fullName" ;
-    rml:template "{$.name} {$.lastName}" ;
-  ] .
+    rml:fieldName "name" ;
+    rml:reference "$.familyName" ;
+  ]  .
 
 :triplesMapPerson a rml:TriplesMap ;
   rml:logicalSource :jsonView ;
@@ -29,8 +28,8 @@
     rml:template "http://example.org/person/{name}" ;
   ] ;
   rml:predicateObjectMap [
-    rml:predicate :hasFullName ;
+    rml:predicate :hasName ;
     rml:objectMap [
-      rml:reference "fullName" ;
+      rml:reference "name" ;
     ] ;
   ] .

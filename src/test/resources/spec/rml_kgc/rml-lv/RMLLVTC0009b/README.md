@@ -1,24 +1,26 @@
-## RMLLVTC0006f
+## RMLLVTC0009b
 
-**Title**: Index Key of Field in Join
+**Title**: Name collision: caused by Field from a Join
 
-**Description**: Test references to indexes of fields from a join
+**Description**: Test a name collision caused by a field from a join
 
-**Error expected?** No
+**Error expected?** Yes
 
 **Input**
 ```
 {
   "people": [
     {
-      "name": "alice",
+      "givenName": "alice",
+      "familyName": "smith",
       "items": [
         "sword",
         "shield"
       ]
     },
     {
-      "name": "bob",
+      "givenName": "bob",
+      "familyName": "johnson",
       "items": [
         "flower"
       ]
@@ -32,8 +34,8 @@
 ```
 name,birthyear
 alice,1995
-tobias,2005
 bob,1999
+tobias,2005
 
 ```
 
@@ -56,13 +58,13 @@ bob,1999
   rml:viewOn :jsonSource ;
   rml:field [
     a rml:ExpressionField ;
-    rml:fieldName "name" ;
-    rml:reference "$.name" ;
+    rml:fieldName "givenName" ;
+    rml:reference "$.givenName" ;
   ] ;
   rml:field [
     a rml:ExpressionField ;
-    rml:fieldName "item" ;
-    rml:reference "$.items[*]" ;
+    rml:fieldName "familyName" ;
+    rml:reference "$.familyName" ;
   ] .
 
 :csvSource a rml:LogicalSource ;
@@ -85,24 +87,24 @@ bob,1999
     rml:fieldName "birthyear" ;
     rml:reference "birthyear" ;
   ] ;
-  rml:innerJoin [
+  rml:leftJoin [
     rml:parentLogicalView :jsonView ;
     rml:joinCondition [
-      rml:parent "name" ;
+      rml:parent "givenName" ;
       rml:child "name" ;
     ] ;
     rml:field [
       a rml:ExpressionField ;
-      rml:fieldName "json_item" ;
-      rml:reference "item" ;
-    ] ;
+      rml:fieldName "name" ;
+      rml:reference "familyName" ;
+    ] ; 
   ] .
 
 
 :triplesMapPerson a rml:TriplesMap ;
   rml:logicalSource :csvView ;
   rml:subjectMap [
-    rml:template "http://example.org/person/{#}" ;
+    rml:template "http://example.org/person/{name}" ;
   ] ;
   rml:predicateObjectMap [
     rml:predicate :hasBirthYear ;
@@ -110,24 +112,7 @@ bob,1999
       rml:reference "birthyear" ;
       rml:datatype xsd:gYear ;
     ] ;
-  ] ;
-  rml:predicateObjectMap [
-    rml:predicate :hasItem ;
-    rml:objectMap [
-      rml:template "http://example.org/person/{#}/item/{json_item.#}/{json_item}" ;
-    ] ;
   ] .
-
-```
-
-**Output**
-```
-<http://example.org/person/0> <http://example.org/hasBirthYear> "1995"^^<http://www.w3.org/2001/XMLSchema#gYear> .
-<http://example.org/person/0> <http://example.org/hasItem> <http://example.org/person/0/item/0/sword> .
-<http://example.org/person/0> <http://example.org/hasItem> <http://example.org/person/0/item/1/shield> .
-<http://example.org/person/2> <http://example.org/hasBirthYear> "1999"^^<http://www.w3.org/2001/XMLSchema#gYear> .
-<http://example.org/person/2> <http://example.org/hasItem> <http://example.org/person/2/item/0/flower> .
-
 
 ```
 

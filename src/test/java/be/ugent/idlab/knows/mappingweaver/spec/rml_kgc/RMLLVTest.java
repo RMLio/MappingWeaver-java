@@ -17,32 +17,16 @@ public class RMLLVTest extends TestCore {
     }
 
 
-    private static Stream<Arguments> unfixable() {
-        return Stream.of(
-                "RMLLVTC0008a", // panic in Rust thread
-                "RMLLVTC0008b",  // panic in Rust thread
-                "RMLLVTC0008c" // panic in Rust thread
-        ).map(Arguments::of);
-    }
-
-    private static Stream<Arguments> broken() {
-        return Stream.of(
-                "RMLLVTC0001c", // https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/14
-                // No join instructions from Rust
-                "RMLLVTC0006a",
-                "RMLLVTC0006b",
-                "RMLLVTC0006c",
-                "RMLLVTC0006d",
-                "RMLLVTC0006e",
-                "RMLLVTC0006f"
-        ).map(Arguments::of);
-    }
-
     private static Stream<Arguments> negativeTests() {
         return Stream.of(
                 "RMLLVTC0005a",
                 "RMLLVTC0005b",
-                "RMLLVTC0005c"
+                "RMLLVTC0005c",
+                "RMLLVTC0008a", // panic in Rust thread
+                "RMLLVTC0008b",  // panic in Rust thread
+                "RMLLVTC0008c",
+                "RMLLVTC0008d",
+                "RMLLVTC0009c"
         ).map(Arguments::of);
     }
 
@@ -69,9 +53,24 @@ public class RMLLVTest extends TestCore {
 
     public static Stream<Arguments> positiveFailing() {
         return Stream.of(
+                "RMLLVTC0001c", // https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/14
+                // No join instructions from Rust
+                "RMLLVTC0006a",
+                "RMLLVTC0006b",
+                "RMLLVTC0006c",
+                "RMLLVTC0006d",
+                "RMLLVTC0006e",
+                "RMLLVTC0006f",
                 "RMLLVTC0007a",
                 "RMLLVTC0007b",
                 "RMLLVTC0007c"
+        ).map(Arguments::of);
+    }
+
+    public static Stream<Arguments> negativeFailing() {
+        return Stream.of(
+                "RMLLVTC0009a",
+                "RMLLVTC0009b"
         ).map(Arguments::of);
     }
 
@@ -92,5 +91,12 @@ public class RMLLVTest extends TestCore {
     @MethodSource("positiveFailing")
     public void positiveFailingTests(String directory) throws Exception {
         this.positiveTest("src/test/resources/spec/rml_kgc/rml-lv", directory);
+    }
+
+    @Disabled("Not running known failing test cases in CI")
+    @ParameterizedTest(name = "Index: {index} Filename: {0}")
+    @MethodSource("negativeFailing")
+    public void negativeFailingTests(String directory) throws Exception {
+        this.negativeTest("src/test/resources/spec/rml_kgc/rml-lv", directory);
     }
 }

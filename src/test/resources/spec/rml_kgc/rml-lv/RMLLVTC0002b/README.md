@@ -2,7 +2,7 @@
 
 **Title**: Iterable Field with Multiple Children
 
-**Description**: Test a nested field construction: iterable field with mulitple expression JSONPlanFields as children
+**Description**: Test a nested field construction: iterable field with mulitple expression fields as children
 
 **Error expected?** No
 
