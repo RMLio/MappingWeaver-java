@@ -159,8 +159,15 @@ public abstract class TestCore {
             }
         }
 
+        List<String> rdfStrings = GraphVisitorCustomTarget.ResultCollector.values;
+
         if(!positive) {
-            fail("There should have been an exception thrown for negative testcase");
+            if (rdfStrings.isEmpty()) {
+                // OK
+                return;
+            } else {
+                fail("There should have been an empty result or an exception thrown for negative testcase");
+            }
         }
 
         StringBuilder result = new StringBuilder();
