@@ -28,11 +28,11 @@ public class RMLFNMLTest extends TestCore {
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
+                "RMLFNMLTC0008-CSV", // Fails because the used 'substring' functions throws an exception. If it were to return an empty string, the test would pass
                 "RMLFNMLTC0011-CSV", // expected output contains invalid IRI (HTTP://VENUS)
                 "RMLFNMLTC0031-CSV", // expected output contains invalid IRI (HTTP://WWW.EXAMPLE.COM)
                 "RMLFNMLTC0032-CSV", // condition doesn't work
-                "RMLFNMLTC0061-CSV", // expected output contains invalid IRI (HTTP://EXAMPLE.COM/VENUS)
-                "RMLFNMLTC0008-CSV" // Fails because the used 'substring' functions throws an exception. If it were to return an empty string, the test would pass
+                "RMLFNMLTC0061-CSV" // expected output contains invalid IRI (HTTP://EXAMPLE.COM/VENUS)
         ).map(Arguments::of);
     }
 
