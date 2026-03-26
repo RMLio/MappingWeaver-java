@@ -71,6 +71,8 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0028a-JSON",
                 "RMLTC0028c-JSON",
                 "RMLTC0029a-JSON",
+                "RMLTC0030a-JSON",
+                "RMLTC0030b-JSON",
                 "RMLTC0031a-JSON",
                 "RMLTC0031b-JSON",
                 "RMLTC0031c-JSON"
@@ -102,12 +104,10 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0027b-JSON",  // awaiting outcome of https://github.com/kg-construct/rml-core/issues/72
                 "RMLTC0027c-JSON",  // Doesn't support difference between IRI- and URI encoding + java only supports URL encoding (standard, libs do support it). See https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/48
                 "RMLTC0028b-JSON",  // Does not add the default graph triple.
-                "RMLTC0030a-JSON",
-                "RMLTC0030b-JSON",
-                "RMLTC0030c-JSON",
-                "RMLTC0030d-JSON",
-                "RMLTC0030e-JSON",
-                "RMLTC0030f-JSON"
+                "RMLTC0030c-JSON",  // Join goes wrong
+                "RMLTC0030d-JSON",  // Join goes wrong
+                "RMLTC0030e-JSON",  // Join goes wrong
+                "RMLTC0030f-JSON"   // Join goes wrong
         ).map(Arguments::of);
     }
 
