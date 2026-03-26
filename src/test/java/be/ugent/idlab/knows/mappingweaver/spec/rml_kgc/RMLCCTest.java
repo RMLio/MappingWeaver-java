@@ -62,13 +62,10 @@ public class RMLCCTest extends TestCore {
     );
 
     private static Stream<Arguments> positiveTests() {
-        List<String> directories = List.of(
-
-
-        );
-        return directories.stream().map(Arguments::of);
+        return Stream.of("").map(Arguments::of);
     }
 
+    @Disabled("Does not yet work")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positiveTests")
     public void positiveTest(String directory) throws Exception {

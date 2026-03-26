@@ -102,6 +102,7 @@ public abstract class TestCore {
             plan = this.getMappingPlan(basePath, directory);
         } catch (Throwable t) {
             if (positive) {
+                System.err.println("Error: " + t.getMessage().replace('|', '\n'));
                 fail("Positive test shouldn't fail!");
             } else {
                 return;
