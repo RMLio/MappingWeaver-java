@@ -53,6 +53,7 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0012b-JSON",
                 "RMLTC0013a-JSON",
                 "RMLTC0015a-JSON",
+                "RMLTC0019a-JSON",
                 "RMLTC0020a-JSON",
                 "RMLTC0021a-JSON",
                 "RMLTC0022a-JSON",
@@ -88,6 +89,7 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0012c-JSON",
                 "RMLTC0012d-JSON",
                 "RMLTC0015b-JSON",
+                "RMLTC0019b-JSON",
                 "RMLTC0023a-JSON",
                 "RMLTC0023b-JSON",
                 "RMLTC0023c-JSON",
@@ -100,7 +102,6 @@ public class RMLCoreTest extends TestCore {
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
-                "RMLTC0019a-JSON",
                 "RMLTC0027b-JSON",  // awaiting outcome of https://github.com/kg-construct/rml-core/issues/72
                 "RMLTC0027c-JSON",  // Doesn't support difference between IRI- and URI encoding + java only supports URL encoding (standard, libs do support it). See https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/48
                 "RMLTC0028b-JSON",  // Does not add the default graph triple.
@@ -113,7 +114,6 @@ public class RMLCoreTest extends TestCore {
 
     private static Stream<Arguments> negativeFailing() {
         return Stream.of(
-                "RMLTC0019b-JSON"  // SubjectMap: an IRI is generated from a reference by prepending the base IRI. This should not happen! See https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/29
         ).map(Arguments::of);
     }
 
