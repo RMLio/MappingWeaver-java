@@ -26,6 +26,7 @@ public class RMLLVTest extends TestCore {
                 "RMLLVTC0008b",  // panic in Rust thread
                 "RMLLVTC0008c",
                 "RMLLVTC0008d",
+                "RMLLVTC0009a",
                 "RMLLVTC0009c"
         ).map(Arguments::of);
     }
@@ -69,7 +70,7 @@ public class RMLLVTest extends TestCore {
 
     public static Stream<Arguments> negativeFailing() {
         return Stream.of(
-                "RMLLVTC0009a",
+
                 "RMLLVTC0009b"
         ).map(Arguments::of);
     }
