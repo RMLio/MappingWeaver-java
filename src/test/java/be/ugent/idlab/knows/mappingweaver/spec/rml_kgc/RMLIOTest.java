@@ -23,11 +23,10 @@ public class RMLIOTest extends TestCore {
 
                 // Unsupported reference formulation: http://w3id.org/rml/SQL2008Table && rust panic
                 // waiting for https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/18
-                "RMLSTC0006a",
+                "RMLSTC0006a"
 
                 // Complex reference formulation unsupported: ReferenceFormulation { iri: BlankNode(BnodeId("riog00000003")), kind: CustomReferenceFormulation { meta_data_graph: "_:riog00000003 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://w3id.org/rml/XPathReferenceFormulation>.\n_:riog00000003 <http://w3id.org/rml/namespace> _:riog00000004.\n_:riog00000004 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://w3id.org/rml/Namespace>.\n_:riog00000004 <http://w3id.org/rml/namespacePrefix> \"ex\".\n_:riog00000004 <http://w3id.org/rml/namespaceURL> \"http://example.org\".\n" } }
                 // waiting for https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/18
-                "RMLSTC0007d"
         ).map(Arguments::of);
     }
 
@@ -43,6 +42,7 @@ public class RMLIOTest extends TestCore {
                 "RMLSTC0007a",
                 "RMLSTC0007b",
                 "RMLSTC0007c",
+                "RMLSTC0007d",
                 "RMLSTC0008a",
                 "RMLSTC0008b",
                 "RMLSTC0009a",
@@ -66,6 +66,11 @@ public class RMLIOTest extends TestCore {
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
+                "RMLSTC0002b",
+                "RMLSTC0002c",
+                "RMLSTC0002d",
+                "RMLSTC0002e",
+
                 "RMLSTC0012b",
                 "RMLSTC0012c",
                 "RMLSTC0012d",
