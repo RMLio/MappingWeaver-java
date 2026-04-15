@@ -414,19 +414,54 @@ public class JSONPlanParser implements Serializable {
             return parseKafkaSource(id, operatorConfig, outputFragments, rootIteratorObj);
         }
 
-        String referenceFormulation = rootIteratorObj
-                .getString("reference_formulation");
 
-        return switch (referenceFormulation) {
-            case "CSVRows" -> parseCSVOperator(id, operatorConfig, outputFragments, rootIteratorObj);
-            case "JSONPath" -> parseJSONOrXMLOperator(id, operatorConfig, outputFragments, rootIteratorObj, true);
-            case "XMLPath" -> parseJSONOrXMLOperator(id, operatorConfig, outputFragments, rootIteratorObj, false);
-            default -> throw new IllegalStateException("Unexpected reference formulation: " + referenceFormulation);
-        };
+        Object referenceFormulation = rootIteratorObj.get("reference_formulation");
+        if (referenceFormulation instanceof String){
+            return switch ((String) referenceFormulation) {
+                case "CSVRows" -> parseCSVOperator(id, operatorConfig, outputFragments, rootIteratorObj);
+                case "JSONPath" -> parseJSONOrXMLOperator(id, operatorConfig, outputFragments, rootIteratorObj, true);
+                case "XMLPath" -> parseJSONOrXMLOperator(id, operatorConfig, outputFragments, rootIteratorObj, false);
+                default -> throw new IllegalStateException("Unexpected reference formulation: " + referenceFormulation);
+            };
+
+        }else{
+            JSONObject referenceFormulationObj = (JSONObject) referenceFormulation;
+            return switch (referenceFormulationObj.keys().next()) {
+                case "XMLPath" -> parseXMLOperator(id, operatorConfig, outputFragments, rootIteratorObj, referenceFormulationObj.getJSONObject("XMLPath"));
+                default -> throw new IllegalStateException("Unexpected reference formulation: " + referenceFormulation);
+            };
+        }
+
+    }
+    private SourceOperator parseXMLOperator(final String id, final JSONObject config, final Set<String> outputFragments, final JSONObject rootIteratorObj, JSONObject referenceFormulationObj){
+        JSONArray fieldsArray = rootIteratorObj.getJSONArray("fields");
+        List<JSONPlanField> fields = parseFields(fieldsArray);
+        List<Field> amoFields = fields.stream().map(JSONPlanField::getAMOField).toList();
+        Map<String,String> namespaceMap = new HashMap<>();
+        for (Object namespace: referenceFormulationObj.getJSONArray("namespaces")){
+            JSONObject namespaceJSON = (JSONObject) namespace;
+            String prefix = namespaceJSON.getString("prefix");
+            String uri = namespaceJSON.getString("url");
+            namespaceMap.put(prefix, uri);
+        }
+
+        final Access access = parseAccess(config);
+
+        final String rootIterator = parseRootIterator(rootIteratorObj);
+        return new XMLSourceOperator(
+                id,
+                access,
+                outputFragments,
+                rootIterator,
+                amoFields,
+                Set.of(),
+                namespaceMap
+        );
     }
 
     private SourceOperator parseJSONOrXMLOperator(final String id, final JSONObject config, final Set<String> outputFragments, final JSONObject rootIteratorObj, boolean isJSON) {
         JSONArray fieldsArray = rootIteratorObj.getJSONArray("fields");
+        System.out.println(config.toString());
         List<JSONPlanField> fields = parseFields(fieldsArray);
         List<Field> amoFields = fields.stream().map(JSONPlanField::getAMOField).toList();
         final Access access = parseAccess(config);
@@ -463,9 +498,16 @@ public class JSONPlanParser implements Serializable {
 
     private JSONPlanField parseField(JSONObject field) {
         List<JSONPlanField> subfields = parseFields(field.getJSONArray("inner_fields"));
+        Object refFormulation = field.get("reference_formulation");
+        String refFormulationString;
+        if (refFormulation instanceof JSONObject){
+            refFormulationString = ((JSONObject) refFormulation).keys().next();
+        }else{
+            refFormulationString = (String) refFormulation;
+        }
         return new JSONPlanField(
                 field.isNull("reference") ? null : field.getString("reference"),
-                field.isNull("reference_formulation") ? null : field.getString("reference_formulation"),
+                field.isNull("reference_formulation") ? null : refFormulationString,
                 field.isNull("iterator") ? null : field.getString("iterator"),
                 field.isNull("constant") ? null : field.getString("constant"),
                 field.isNull("alias") ? null : field.getString("alias"),
