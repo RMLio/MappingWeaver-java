@@ -152,7 +152,7 @@ public class Main {
 
                 ParseResult subcommand = options.subcommand();
                 switch (subcommand.commandSpec().name()) {
-                    case "toFile" -> handleToFile(subcommand, unionStream);
+                    case "toFile" -> handleToFile(subcommand, unionStream, env.getParallelism());
                     default ->
                         throw new IllegalArgumentException("Invalid subcommand: " + subcommand.commandSpec().name());
                 }
@@ -173,14 +173,14 @@ public class Main {
         }
     }
 
-    private void handleToFile(ParseResult subcommand, DataStream<MapTupValue> stream) throws IOException {
+    private void handleToFile(ParseResult subcommand, DataStream<MapTupValue> stream, int parallelism) throws IOException {
         String outputFile = subcommand.matchedOptionValue("-o", null);
         if (outputFile != null) {
             JSONObject config = new JSONObject(Map.ofEntries(
                     Map.entry("target_type", "File"),
                     Map.entry("path", outputFile)));
             WeaverSinkFactory factory = new WeaverSinkFactory(config, "FileSink", "?serialized_output");
-            factory.attachSink(stream).setParallelism(1); 
+            factory.attachSink(stream).setParallelism(parallelism); 
         } else {
             throw new IllegalArgumentException("No output file specified");
         }
