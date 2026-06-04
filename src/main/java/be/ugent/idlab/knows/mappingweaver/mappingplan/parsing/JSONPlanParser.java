@@ -461,7 +461,6 @@ public class JSONPlanParser implements Serializable {
 
     private SourceOperator parseJSONOrXMLOperator(final String id, final JSONObject config, final Set<String> outputFragments, final JSONObject rootIteratorObj, boolean isJSON) {
         JSONArray fieldsArray = rootIteratorObj.getJSONArray("fields");
-        System.out.println(config.toString());
         List<JSONPlanField> fields = parseFields(fieldsArray);
         List<Field> amoFields = fields.stream().map(JSONPlanField::getAMOField).toList();
         final Access access = parseAccess(config);
