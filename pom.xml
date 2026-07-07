@@ -174,33 +174,19 @@ under the License.
         <!-- Add logging framework, to produce console output when running in the IDE. -->
         <!-- These dependencies are excluded from the application JAR by default. -->
 
-        <!-- == CRITICAL == -->
-        <!-- Ensure that these two libraries are installed in local Maven repository-->
-        <!-- DataIO for access classes -->
-        <dependency>
-            <groupId>be.ugent.idlab.knows</groupId>
-            <artifactId>dataio</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-
         <!-- AMO for operators -->
+        <!-- includes dependency to dataio -->
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>algebraic-mapping-operators</artifactId>
-            <version>2.0.3-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>be.ugent.idlab.knows</groupId>
-                    <artifactId>dataio</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>2.0.3</version>
         </dependency>
 
         <!-- AlgeMapLoom-rs -->
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>MappingLoom</artifactId>
-            <version>0.6.6</version>
+            <version>0.6.8</version>
         </dependency>
 
         <dependency>
