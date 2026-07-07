@@ -53,6 +53,7 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0011b-JSON",
                 "RMLTC0012a-JSON",
                 "RMLTC0012b-JSON",
+                "RMLTC0012e-JSON",
                 "RMLTC0013a-JSON",
                 "RMLTC0015a-JSON",
                 "RMLTC0019a-JSON",
@@ -105,7 +106,6 @@ public class RMLCoreTest extends TestCore {
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
-                "RMLTC0012e-JSON",  // SubjectMap with term type BlankNode not supported
                 "RMLTC0027b-JSON",  // awaiting outcome of https://github.com/kg-construct/rml-core/issues/72
                 "RMLTC0027c-JSON",  // Doesn't support difference between IRI- and URI encoding + java only supports URL encoding (standard, libs do support it). See https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/48
                 "RMLTC0030c-JSON",  // Join: constant-valued parentMap not supported

@@ -6,24 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import be.ugent.idlab.knows.amo.blocks.Pair;
-import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.operators.Operator;
 import be.ugent.idlab.knows.amo.operators.intermediate.unary.ExtendOperator;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.BlankTypeFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConcatenateFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConstantValueFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.EncodeUriFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.IriTypeFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.LiteralTypeFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.NopFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ReferenceFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.TemplateValueFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOParameter;
 
@@ -33,14 +24,6 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOPa
  */
 public class ExtendOperatorParser {
     private final String defaultBaseIRI;
-
-    /**
-     * A map for easy access to the different node types without an if-statement
-     */
-    private final Map<String, RDFType> nodeTypes = Map.of(
-            "Iri", RDFType.IRI,
-            "Literal", RDFType.Literal,
-            "BlankNode", RDFType.Blank);
 
     public ExtendOperatorParser(String defaultBaseIRI) {
         this.defaultBaseIRI = defaultBaseIRI;
@@ -83,7 +66,7 @@ public class ExtendOperatorParser {
         String funcType = functionDescription.getString("type");
         JSONObject innerFunc = functionDescription.optJSONObject("inner_function");
 
-        ExtendFunction function = switch (funcType) {
+        return switch (funcType) {
             case "Iri" -> {
                 String iri;
                 if (functionDescription.isNull("base_iri")) {
@@ -127,14 +110,13 @@ public class ExtendOperatorParser {
 
                 yield new ConcatenateFunction(left, right, separator);
             }
+            case "GenerateBlankNode" -> new GenerateBlankNode();
             case "Nop" -> new NopFunction();
             default -> (ExtendFunction) solutionMapping -> {
                 throw new RuntimeException(
                         String.format("Extend function for type '%s' not implemented!", funcType));
             };
         };
-
-        return function;
     }
 
     private ExtendFunction parseFnOFunction(JSONObject functionDescription) {
