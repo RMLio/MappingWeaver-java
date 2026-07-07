@@ -28,6 +28,7 @@ public class RMLFNMLTest extends TestCore {
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
+                "RMLFNMLTC0001-CSV", // Function not found (HTTPS://W3ID.ORG/IMEC/IDLAB/FUNCTION#ALWAYSRETURNSABC)
                 "RMLFNMLTC0008-CSV", // Fails because the used 'substring' functions throws an exception. If it were to return an empty string, the test would pass
                 "RMLFNMLTC0011-CSV", // expected output contains invalid IRI (HTTP://VENUS)
                 "RMLFNMLTC0031-CSV", // expected output contains invalid IRI (HTTP://WWW.EXAMPLE.COM)
