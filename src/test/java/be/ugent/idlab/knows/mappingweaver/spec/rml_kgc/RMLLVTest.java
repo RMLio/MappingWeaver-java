@@ -64,7 +64,13 @@ public class RMLLVTest extends TestCore {
                 "RMLLVTC0006f",
                 "RMLLVTC0007a",
                 "RMLLVTC0007b",
-                "RMLLVTC0007c"
+                "RMLLVTC0007c",
+                // rml:LogicalView joins carrying rml:ExpressionField are not materialised: the joined field is absent downstream
+                "RMLLVTC0010a", // MappingException: reference 'json_item' (joined field) not present in the input data
+                "RMLLVTC0010b", // MappingException: reference 'json_item' (joined field) not present in the input data
+                "RMLLVTC0010c", // MappingException: reference 'json_item' (joined field) not present in the input data
+                "RMLLVTC0010d", // Rust translation panic: "Logical view join's field cannot be an iterable" (template-valued joined field)
+                "RMLLVTC0010e"  // MappingException: reference 'status' (constant joined field) not present in the input data
         ).map(Arguments::of);
     }
 
