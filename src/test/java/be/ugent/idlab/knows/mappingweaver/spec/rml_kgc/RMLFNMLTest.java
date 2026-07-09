@@ -18,9 +18,12 @@ public class RMLFNMLTest extends TestCore {
                 "RMLFNMLTC0004-CSV",
                 "RMLFNMLTC0005-CSV",
                 "RMLFNMLTC0007-CSV",
+                "RMLFNMLTC0011-CSV",
                 "RMLFNMLTC0021-CSV",
+                "RMLFNMLTC0031-CSV",
                 "RMLFNMLTC0041-CSV", //RETURNMAP -> rml:constant
                 "RMLFNMLTC0051-CSV",
+                "RMLFNMLTC0061-CSV",
                 "RMLFNMLTC0071-CSV",
                 "RMLFNMLTC0081-CSV"
         ).map(Arguments::of);
@@ -30,10 +33,7 @@ public class RMLFNMLTest extends TestCore {
         return Stream.of(
                 "RMLFNMLTC0001-CSV", // Function not found (HTTPS://W3ID.ORG/IMEC/IDLAB/FUNCTION#ALWAYSRETURNSABC)
                 "RMLFNMLTC0008-CSV", // Fails because the used 'substring' functions throws an exception. If it were to return an empty string, the test would pass
-                "RMLFNMLTC0011-CSV", // expected output contains invalid IRI (HTTP://VENUS)
-                "RMLFNMLTC0031-CSV", // expected output contains invalid IRI (HTTP://WWW.EXAMPLE.COM)
-                "RMLFNMLTC0032-CSV", // condition doesn't work
-                "RMLFNMLTC0061-CSV" // expected output contains invalid IRI (HTTP://EXAMPLE.COM/VENUS)
+                "RMLFNMLTC0032-CSV" // condition doesn't work
         ).map(Arguments::of);
     }
 
@@ -41,13 +41,8 @@ public class RMLFNMLTest extends TestCore {
         return Stream.of(
                 "RMLFNMLTC0101-CSV",
                 "RMLFNMLTC0102-CSV",
-                "RMLFNMLTC0103-CSV"
-        ).map(Arguments::of);
-    }
-
-    private static Stream<Arguments> negativeFailing() {
-        return Stream.of(
-                "RMLFNMLTC0104-CSV" // Doesn't take rml:return into account (Return Map not properly implemented - probably also not in AlgeMapLoom)
+                "RMLFNMLTC0103-CSV",
+                "RMLFNMLTC0104-CSV"
         ).map(Arguments::of);
     }
 
@@ -69,12 +64,4 @@ public class RMLFNMLTest extends TestCore {
     public void positiveFailingTest(String directory) throws Exception {
         super.positiveTest("src/test/resources/spec/rml_kgc/rml-fnml/", directory + '/');
     }
-
-    @Disabled("Not running known failing test cases in CI")
-    @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
-    @MethodSource("negativeFailing")
-    public void negativeFailingTest(String directory) throws Exception {
-        super.negativeTest("src/test/resources/spec/rml_kgc/rml-fnml/", directory + '/');
-    }
 }
-
