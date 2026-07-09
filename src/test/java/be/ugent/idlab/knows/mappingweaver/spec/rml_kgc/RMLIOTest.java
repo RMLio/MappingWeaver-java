@@ -4,19 +4,17 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 
 public class RMLIOTest extends TestCore {
-    // all unfixable due to rust panic
+    // Positive tests that crash while translating: the source needs a reference
+    // formulation / access description that isn't supported and panics in Rust.
     private static Stream<Arguments> unfixableTests() {
         return Stream.of(
-                ///// positive, rust panic
                 // Unsupported reference formulation: http://www.w3.org/ns/formats/SPARQL_Results_CSV
                 // waiting for https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/18
                 "RMLSTC0003",
@@ -35,7 +33,6 @@ public class RMLIOTest extends TestCore {
                 "RMLSTC0001a",
                 "RMLSTC0001b",
                 "RMLSTC0002a",
-                "RMLSTC0004a",
                 "RMLSTC0004b",
                 "RMLSTC0004c",
                 "RMLSTC0006b",
@@ -64,12 +61,20 @@ public class RMLIOTest extends TestCore {
     }
 
 
+    // Positive tests (README: "**Error expected?** No") that currently don't pass.
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
+                // Crash: compressed source (GZip/Zip/TarXz/TarGzip) not supported, Flink job fails
                 "RMLSTC0002b",
                 "RMLSTC0002c",
                 "RMLSTC0002d",
                 "RMLSTC0002e",
+
+                // Wrong output: runs, but the result does not match the expected output.
+                // Default NULL values (RMLSTC0004a) are dropped instead of emitting empty
+                // literals; complex XML source (RMLSTC0012*) and Logical Target handling
+                // (RMLTTC*) are not (fully) implemented, so only part of the triples is produced.
+                "RMLSTC0004a",
 
                 "RMLSTC0012b",
                 "RMLSTC0012c",
@@ -80,6 +85,7 @@ public class RMLIOTest extends TestCore {
                 "RMLTTC0001c",
                 "RMLTTC0001d",
                 "RMLTTC0001e",
+                "RMLTTC0001f",
                 "RMLTTC0002a",
                 "RMLTTC0002b",
                 "RMLTTC0002c",
@@ -117,6 +123,8 @@ public class RMLIOTest extends TestCore {
         ).map(Arguments::of);
     }
 
+    // Negative tests (README: "**Error expected?** Yes") that don't yet fail as expected:
+    // the invalid CSV source is not detected, so no MappingException is thrown.
     private static Stream<Arguments> negativeFailing() {
         return Stream.of("RMLSTC0010a",
                 "RMLSTC0010b"
@@ -138,6 +146,13 @@ public class RMLIOTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTest(String directory) throws Exception {
+        this.positiveTest("src/test/resources/spec/rml_kgc/rml-io/", directory);
+    }
+
+    @Disabled("These tests panic the Rust thread")
+    @ParameterizedTest(name = "Index: {index} Filename: {0}")
+    @MethodSource("unfixableTests")
+    public void unfixableTest(String directory) throws Exception {
         this.positiveTest("src/test/resources/spec/rml_kgc/rml-io/", directory);
     }
 
