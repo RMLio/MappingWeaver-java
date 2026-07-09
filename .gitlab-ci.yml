@@ -64,11 +64,14 @@ Specification Tests:
   parallel:
     matrix:
       - TEST: [
-        # there specs are not implemented yet
-        # RMLCCTest, RMLFNMLTest, RMLSTARTest
         RMLCoreTest, RMLIOTest, RMLLVTest,
-        # RMLIOFNOTest
-        RMLIOCoreFileTest
+        # implemented and passing (previously commented as "not implemented")
+        RMLFNMLTest, RMLSTARTest,
+        # previously unreferenced (never ran in CI); 10 passing tests
+        RMLRegistryTest,
+        RMLIOCoreFileTest,
+        # RMLCCTest    — RML-CC not implemented: all 35 cases @Disabled/failing (runs 0 tests)
+        # RMLIOFNOTest — class @Disabled: "Old RML not supported in MappingLoom-rs" (runs 0 tests)
       ]
   except:
     - master
@@ -101,15 +104,17 @@ Utility Tests:
     matrix:
       - TEST: [
                 # file tests
-                CSVTest, JSONTest, XMLTest,
+                CSVTest, JSONTest, XMLTest, WebSocketTest,
                 # FnO
-                FnOTest,
+                FnOTest, FnOParameterTranslatorTest,
                 # Remote
                 PostgresTest,
                 # Fixed bugs
                 FixedBugsTest,
                 # Miscellaneous
                 ExtendParserTest, MappingPlanTest,
+                # omitted — class @Disabled and/or Docker-only, run no tests:
+                # CliOutputTest, WebSocketCliTest, KafkaTest, RDBSourceTest
       ]
   except:
     - main
