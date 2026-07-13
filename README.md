@@ -18,12 +18,12 @@ This project aims to implement following specifications, but is work in progress
 
 | Spec     | Test cases passing (%) |
 |----------|------------------------|
-| RML-Core | 87                     |
-| RML-IO   | 34                     |
+| RML-Core | 92                     |
+| RML-IO   | 29                     |
 | RML-CC   | 0                      |
-| RML-FNML | 2                      |
-| RML-STAR | 0                      |
-| RML-LV   | 59                     |
+| RML-FNML | 85                     |
+| RML-STAR | 11                     |
+| RML-LV   | 61                     |
 | ShExML   | /                      |
 
 #### Data formats

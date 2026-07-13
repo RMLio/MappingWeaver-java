@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Classified the RML-CC, RML-FNML and RML-STAR conformance test cases as passing or known-failing, each with an explanatory reason.
+
+### Changed
+- Synced the RML-IO, RML-STAR and RML-FNML test resources with their upstream RML test-case repositories and re-triaged the affected tests.
+- Enabled the passing spec test classes (RML-FNML, RML-STAR, RMLRegistry, WebSocket, FnO) in the GitLab CI pipeline.
+- Updated the README conformance table with the current test-case pass percentages.
+
 ### Fixed
 - Updated Algebraic Mapping Operators to 2.0.3
 - Updated MappingLoom to 0.6.8
