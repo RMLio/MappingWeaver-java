@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Updated Algebraic Mapping Operators to 2.0.3
 - Updated MappingLoom to 0.6.8
+- Added GenerateBlankNode extend function, fixes RML-Core test case RMLTC0012e.
 
 ## [0.2.0] - 2026-05-27
 ### Added
