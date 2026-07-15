@@ -18,6 +18,7 @@ public class RMLFNMLTest extends TestCore {
                 "RMLFNMLTC0004-CSV",
                 "RMLFNMLTC0005-CSV",
                 "RMLFNMLTC0007-CSV",
+                "RMLFNMLTC0008-CSV",
                 "RMLFNMLTC0011-CSV",
                 "RMLFNMLTC0021-CSV",
                 "RMLFNMLTC0031-CSV",
@@ -32,7 +33,6 @@ public class RMLFNMLTest extends TestCore {
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
                 "RMLFNMLTC0001-CSV", // Function not found (HTTPS://W3ID.ORG/IMEC/IDLAB/FUNCTION#ALWAYSRETURNSABC)
-                "RMLFNMLTC0008-CSV", // Fails because the used 'substring' functions throws an exception. If it were to return an empty string, the test would pass
                 "RMLFNMLTC0032-CSV" // condition doesn't work
         ).map(Arguments::of);
     }

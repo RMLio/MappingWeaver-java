@@ -90,8 +90,13 @@ public class FnOFunction implements ExtendFunction, Serializable {
             }
             // Convert result to String - handles both String and other types (Integer, etc.)
             return result.toString();
-        } catch (Exception e) { // TODO: replace the generic exception
+        } catch (FnOException e) {
+            // Function could not be resolved (e.g. function not found): a real mapping error.
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            // The function executed but could not produce a value (e.g. substring index out
+            // of range): per RML this yields no value, so no triple is generated.
+            return null;
         }
     }
     
