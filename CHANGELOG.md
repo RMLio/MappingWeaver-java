@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated the README conformance table with the current test-case pass percentages.
 
 ### Fixed
+- A function that fails at runtime (e.g. a `substring` index out of range) now yields an empty result instead of aborting the whole mapping, so no triple is generated for that value; a function that cannot be resolved still raises an error (fixes RML-FNML test case RMLFNMLTC0008-CSV).
 - Updated Algebraic Mapping Operators to 2.0.3
 - Updated MappingLoom to 0.6.8
 - Added GenerateBlankNode extend function, fixes RML-Core test case RMLTC0012e.
