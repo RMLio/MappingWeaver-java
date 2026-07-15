@@ -10,6 +10,8 @@ import be.ugent.idlab.knows.functions.agent.AgentFactory;
 import be.ugent.idlab.knows.functions.agent.Arguments;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
 import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.List;
@@ -32,6 +34,8 @@ public class FnOFunction implements ExtendFunction, Serializable {
     
     private static final FnOReturnTypeTranslator RETURN_TYPE_TRANSLATOR =
             new FnOReturnTypeTranslator(FUNCTION_DESCRIPTIONS);
+
+    private static final Logger LOG = LoggerFactory.getLogger(FnOFunction.class);
 
     // Lazy initialization of the Agent (not serialized, created per JVM instance)
     private static volatile Agent cachedAgent = null;
@@ -95,7 +99,10 @@ public class FnOFunction implements ExtendFunction, Serializable {
             throw new RuntimeException(e);
         } catch (Exception e) {
             // The function executed but could not produce a value (e.g. substring index out
-            // of range): per RML this yields no value, so no triple is generated.
+            // of range). This is a data error: no triple is generated for this value, but the
+            // mapping continues for the rest of the data. The RML spec says to report data
+            // errors as early as possible, so log it at ERROR level.
+            LOG.error("Function '{}' failed while producing a value; no triple is generated for this record.", this.identifier, e);
             return null;
         }
     }
