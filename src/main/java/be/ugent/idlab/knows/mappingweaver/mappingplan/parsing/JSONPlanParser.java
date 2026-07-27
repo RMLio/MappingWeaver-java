@@ -1,12 +1,10 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.parsing;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -20,18 +18,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import be.ugent.idlab.knows.amo.blocks.nodes.IRINode;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
-import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
+import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.functions.JoinCondition;
 import be.ugent.idlab.knows.amo.operators.Operator;
 import be.ugent.idlab.knows.amo.operators.intermediate.binary.NaturalJoinOperator;
@@ -61,6 +52,8 @@ import be.ugent.idlab.knows.mappingweaver.flink.source.KafkaSourceOperator;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConstantValueFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ReferenceFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.fragment_functions.CopyFragmentFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.join_conditions.EqualityJoinCondition;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.Adjacency.Fragment;
@@ -76,6 +69,7 @@ public class JSONPlanParser implements Serializable {
 
     private final String basePath;
     private final String defaultBaseIRI;
+    private final ExtendOperatorParser extendParser;
 
 
     /**
@@ -88,6 +82,7 @@ public class JSONPlanParser implements Serializable {
     private JSONPlanParser(String basePath, String defaultBaseIRI) {
         this.basePath = basePath;
         this.defaultBaseIRI = defaultBaseIRI;
+        this.extendParser = new ExtendOperatorParser(defaultBaseIRI);
     }
 
     /**
@@ -151,7 +146,6 @@ public class JSONPlanParser implements Serializable {
      */
     private List<Operator> parseOperators(JSONArray nodes, Adjacency adj) {
         List<Operator> operators = new ArrayList<>();
-        ExtendOperatorParser extendParser = new ExtendOperatorParser(defaultBaseIRI);
 
         for (int i = 0; i < nodes.length(); i++) {
             Set<Fragment> incomingFragments = adj.getIncomingFragments(i);
@@ -504,12 +498,15 @@ public class JSONPlanParser implements Serializable {
         }else{
             refFormulationString = (String) refFormulation;
         }
+        // As of MappingLoom 0.7.0 a field's value ('reference'/'constant' in earlier
+        // versions) is fused into a single 'expression', an ExtendFunction tree parsed
+        // by the ExtendOperatorParser (a plain reference, a constant, or a computed value).
+        ExtendFunction expression = extendParser.parseExtendFunction(field.optJSONObject("expression"));
         return new JSONPlanField(
-                field.isNull("reference") ? null : field.getString("reference"),
                 field.isNull("reference_formulation") ? null : refFormulationString,
                 field.isNull("iterator") ? null : field.getString("iterator"),
-                field.isNull("constant") ? null : field.getString("constant"),
                 field.isNull("alias") ? null : field.getString("alias"),
+                expression,
                 subfields);
     }
 
@@ -576,11 +573,10 @@ public class JSONPlanParser implements Serializable {
     }
 
     record JSONPlanField(
-            String reference,
             String referenceFormulation,
             String iterator,
-            String constant,
             String alias,
+            ExtendFunction expression,
             List<JSONPlanField> innerFields
     ) {
         public Field getAMOField() {
@@ -591,29 +587,28 @@ public class JSONPlanParser implements Serializable {
                     .withReferenceFormulation(ReferenceFormulation.valueOf(referenceFormulation))
                     .withSubfields(subfields);
 
-            if (constant != null) {
-                // a little hack to get the correct RDF node in here...
-                final String mockedTriple = "<http://example.com/s> <http://example.com/p> " + constant + " .";
-                final Model model = ModelFactory.createDefaultModel();
-                RDFDataMgr.read(model, new ByteArrayInputStream(mockedTriple.getBytes(StandardCharsets.UTF_8)), Lang.NTRIPLES);
-                Statement statement = model.listStatements().nextStatement();
-                org.apache.jena.rdf.model.RDFNode object = statement.getObject();
-                RDFNode rdfConstant;
-
-                if (object.isURIResource()) {
-                    rdfConstant = new IRINode(object.asResource().getURI());
-                } else  {   // it is a Literal!
-                    Literal litObject = object.asLiteral();
-                    rdfConstant = new LiteralNode(litObject.getString(), litObject.getDatatype().getURI(), litObject.getLanguage());
-                }
-                builder = builder.withConstant(rdfConstant);
-            }
-
             if (iterator != null) {
                 return builder.withIterator(iterator).build();
             }
 
-            return builder.withReference(reference).build();
+            // A plain reference or constant maps directly onto an AMO Reference/Constant
+            // field. Any other (computed) expression would require an AMO field type that
+            // can evaluate an ExtendFunction, which does not exist yet.
+            if (expression instanceof ReferenceFunction reference) {
+                return builder.withReference(reference.referenceAttribute()).build();
+            }
+
+            if (expression instanceof ConstantValueFunction constant) {
+                // As of MappingLoom 0.7.0 a Constant carries a bare lexical value (not a
+                // serialized RDF term); the downstream Iri/Literal term functions decide the
+                // actual RDF type, so the source field just carries the value as a literal.
+                return builder.withConstant(new LiteralNode(constant.value())).build();
+            }
+
+            // A computed expression (e.g. a logical-view field applying a function like
+            // toUpperCase(name)): the field applies the function to the record data at read
+            // time and binds the result to this field's variable.
+            return builder.withExpression(expression).build();
         }
     }
 }

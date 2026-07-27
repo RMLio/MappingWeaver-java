@@ -67,6 +67,8 @@ Specification Tests:
         RMLCoreTest, RMLIOTest, RMLLVTest,
         # implemented and passing (previously commented as "not implemented")
         RMLFNMLTest, RMLSTARTest,
+        # logical-view + FNML: source field computed by a function (e.g. toUpperCase(name))
+        RMLLVFNMLTest,
         # previously unreferenced (never ran in CI); 10 passing tests
         RMLRegistryTest,
         RMLIOCoreFileTest,

@@ -179,14 +179,14 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>algebraic-mapping-operators</artifactId>
-            <version>2.0.3</version>
+            <version>2.0.4</version>
         </dependency>
 
         <!-- AlgeMapLoom-rs -->
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>MappingLoom</artifactId>
-            <version>0.6.9</version>
+            <version>0.7.1</version>
         </dependency>
 
         <dependency>
@@ -232,7 +232,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>idlab-functions-java</artifactId>
-            <version>1.3.3</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.fnoio</groupId>

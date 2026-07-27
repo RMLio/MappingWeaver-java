@@ -59,7 +59,7 @@ public class ExtendOperatorParser {
      * @param functionDescription a description of the function as JSON
      * @return an instance of ExtendFunction, reflecting the description
      */
-    private ExtendFunction parseExtendFunction(JSONObject functionDescription) {
+    ExtendFunction parseExtendFunction(JSONObject functionDescription) {
         if (functionDescription == null) {
             return null;
         }
