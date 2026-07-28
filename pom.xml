@@ -179,7 +179,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>algebraic-mapping-operators</artifactId>
-            <version>2.0.4</version>
+            <version>3.0.0</version>
         </dependency>
 
         <!-- AlgeMapLoom-rs -->
