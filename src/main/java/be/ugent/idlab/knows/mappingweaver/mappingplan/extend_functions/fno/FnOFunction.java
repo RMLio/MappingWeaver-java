@@ -14,7 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -76,8 +78,14 @@ public class FnOFunction implements ExtendFunction, Serializable {
         return cachedAgent;
     }
 
-    @Override
-    public @Nullable String apply(@Nullable SolutionMapping solutionMapping) {
+    /**
+     * Runs the function through the FnO Agent and returns its raw result, which may be a
+     * single value or a collection of them.
+     *
+     * @param solutionMapping the solution mapping to read the arguments from
+     * @return the Agent's result, or null if the function produced no value
+     */
+    private @Nullable Object execute(@Nullable SolutionMapping solutionMapping) {
         Arguments arguments = new Arguments();
         for (int i = 0; i < this.parameters.size(); i++) {
             FnOParameter arg = this.parameters.get(i);
@@ -88,12 +96,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
         // TODO: what is the expected behaviour? RMLFNML test cases expect errors to be thrown...
                 try {
             // extract the value from the Agent
-            Object result = getAgent().execute(this.identifier, arguments);
-            if (result == null) {
-                return null;
-            }
-            // Convert result to String - handles both String and other types (Integer, etc.)
-            return result.toString();
+            return getAgent().execute(this.identifier, arguments);
         } catch (FnOException e) {
             // Function could not be resolved (e.g. function not found): a real mapping error.
             throw new RuntimeException(e);
@@ -106,7 +109,37 @@ public class FnOFunction implements ExtendFunction, Serializable {
             return null;
         }
     }
-    
+
+    @Override
+    public @Nullable String apply(@Nullable SolutionMapping solutionMapping) {
+        Object result = execute(solutionMapping);
+        if (result == null) {
+            return null;
+        }
+        // Convert result to String - handles both String and other types (Integer, etc.)
+        return result.toString();
+    }
+
+    @Override
+    public List<String> applyMulti(@Nullable SolutionMapping solutionMapping) {
+        Object result = execute(solutionMapping);
+        if (result == null) {
+            return List.of();
+        }
+
+        // A function may produce several values (e.g. a split): each becomes its own record.
+        // apply() cannot express that, as it would stringify the whole collection into one
+        // value, so unwrap it here.
+        if (result instanceof Collection<?> values) {
+            return values.stream()
+                    .filter(Objects::nonNull)
+                    .map(Object::toString)
+                    .toList();
+        }
+
+        return List.of(result.toString());
+    }
+
     @Override
     public @Nullable RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
         // If return_type is unknownOut or doesn't match expected, return null (no output)
