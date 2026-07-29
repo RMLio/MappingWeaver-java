@@ -21,7 +21,6 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.functions.JoinCondition;
 import be.ugent.idlab.knows.amo.operators.Operator;
@@ -52,8 +51,6 @@ import be.ugent.idlab.knows.mappingweaver.flink.source.KafkaSourceOperator;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConstantValueFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ReferenceFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.fragment_functions.CopyFragmentFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.join_conditions.EqualityJoinCondition;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.Adjacency.Fragment;
@@ -591,23 +588,9 @@ public class JSONPlanParser implements Serializable {
                 return builder.withIterator(iterator).build();
             }
 
-            // A plain reference or constant maps directly onto an AMO Reference/Constant
-            // field. Any other (computed) expression would require an AMO field type that
-            // can evaluate an ExtendFunction, which does not exist yet.
-            if (expression instanceof ReferenceFunction reference) {
-                return builder.withReference(reference.referenceAttribute()).build();
-            }
-
-            if (expression instanceof ConstantValueFunction constant) {
-                // As of MappingLoom 0.7.0 a Constant carries a bare lexical value (not a
-                // serialized RDF term); the downstream Iri/Literal term functions decide the
-                // actual RDF type, so the source field just carries the value as a literal.
-                return builder.withConstant(new LiteralNode(constant.value())).build();
-            }
-
-            // A computed expression (e.g. a logical-view field applying a function like
-            // toUpperCase(name)): the field applies the function to the record data at read
-            // time and binds the result to this field's variable.
+            // The expression produces the field's value, whether it is a reference, a
+            // constant or a function computing a value from the record; a function
+            // producing several values makes the field produce a record per value.
             return builder.withExpression(expression).build();
         }
     }

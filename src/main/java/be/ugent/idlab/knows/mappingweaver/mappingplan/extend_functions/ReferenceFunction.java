@@ -6,6 +6,8 @@ import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Optional;
+
 /**
  * ExtendFunction that performs a reference on the passed SolutionMapping
  *
@@ -32,6 +34,16 @@ public record ReferenceFunction(String referenceAttribute) implements ExtendFunc
         }
         throw new MappingException("Specified reference attribute '" + this.referenceAttribute + "' not present in the input data. \n" +
                 "Only these attributes are present in the in solution mapping: \n" + solutionMapping.keySet() );
+    }
+
+    /**
+     * A reference reads an attribute of the record as-is, so a source field carrying this
+     * function reads the attribute straight from the record: only then can a path that
+     * matches several values (a JSON array, an XML node list) yield all of them.
+     */
+    @Override
+    public Optional<String> asReference() {
+        return Optional.of(this.referenceAttribute);
     }
 
     public RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
