@@ -38,6 +38,7 @@ public class RMLLVTest extends TestCore {
                 "RMLLVTC0000c",
                 "RMLLVTC0001a",
                 "RMLLVTC0001b",
+                "RMLLVTC0001c",
                 "RMLLVTC0001d",
                 "RMLLVTC0002a",
                 "RMLLVTC0002b",
@@ -54,7 +55,6 @@ public class RMLLVTest extends TestCore {
 
     public static Stream<Arguments> positiveFailing() {
         return Stream.of(
-                "RMLLVTC0001c", // https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/14
                 // No join instructions from Rust
                 "RMLLVTC0006a",
                 "RMLLVTC0006b",
