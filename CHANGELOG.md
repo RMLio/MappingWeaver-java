@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.3.0] - 2026-07-30
+
 ### Added
 - Classified the RML-CC, RML-FNML and RML-STAR conformance test cases as passing or known-failing, each with an explanatory reason.
 - RMLLVFNMLTest, covering a logical-view field whose value is computed by an FnO function (`toUpperCase`), and enabled it in the GitLab CI pipeline.
@@ -59,5 +61,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial source code
 
+[0.3.0]: https://github.com/RMLio/MappingWeaver-java/releases/tag/v0.1.0
 [0.2.0]: https://github.com/RMLio/MappingWeaver-java/releases/tag/v0.1.0
 [0.1.0]: https://github.com/RMLio/MappingWeaver-java/releases/tag/v0.1.0
