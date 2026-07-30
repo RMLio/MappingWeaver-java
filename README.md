@@ -23,7 +23,7 @@ This project aims to implement following specifications, but is work in progress
 | RML-CC   | 0                      |
 | RML-FNML | 85                     |
 | RML-STAR | 11                     |
-| RML-LV   | 61                     |
+| RML-LV   | 63                     |
 | ShExML   | /                      |
 
 #### Data formats

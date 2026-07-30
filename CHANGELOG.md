@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - RMLLVFNMLTest, covering a logical-view field whose value is computed by an FnO function (`toUpperCase`), and enabled it in the GitLab CI pipeline.
 
 ### Changed
-- Updated Algebraic Mapping Operators to 4.0.0-SNAPSHOT, MappingLoom to 0.7.1 and idlab-functions-java to 1.5.0.
+- Updated Algebraic Mapping Operators to 4.0.0, MappingLoom to 0.7.1 and idlab-functions-java to 1.5.0.
 - A source field's value is now read from MappingLoom's single `expression` instead of the separate `reference` and `constant` keys, which were fused as of MappingLoom 0.7.0. The expression is handed to an AMO `ExpressionField` as it is, whether it is a reference, a constant or a function computing the value; a function producing several values makes the field produce a record per value. This replaces the earlier mapping of a reference or constant onto AMO's now removed reference and constant fields.
 - `ReferenceFunction` reports itself as a bare reference (`ExtendFunction.asReference()`), so a field carrying it reads the attribute straight from the record and a path matching several values (a JSON array, an XML node list) still yields all of them.
 - RML-LV test case RMLLVTC0001c (a template-valued expression field) passes and is no longer listed as known-failing.
