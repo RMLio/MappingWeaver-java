@@ -1,0 +1,36 @@
+@prefix rml:  <http://w3id.org/rml/> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix :     <urn:example:> .
+
+:source a rml:LogicalSource ;
+    rml:source [
+        a rml:RelativePathSource , rml:Source ;
+        rml:root rml:MappingDirectory ;
+        rml:path "input.json" ;
+    ] ;
+    rml:referenceFormulation rml:JSONPath ;
+    rml:iterator "$[*]" .
+
+# the split is a computed FIELD of the logical view, not an object-map function
+:view a rml:LogicalView ;
+    rml:viewOn :source ;
+    rml:field [
+        a rml:ExpressionField ;
+        rml:fieldName "scopePart" ;
+        rml:functionExecution :SplitExec ;
+        rml:return grel:stringOut ;
+    ] .
+
+:SplitExec
+    rml:function grel:string_split ;
+    rml:input
+        [ rml:parameter grel:valueParam ; rml:inputValueMap [ rml:reference "scope" ] ] ,
+        [ rml:parameter grel:p_string_sep ; rml:inputValueMap [ rml:constant " " ] ] .
+
+:TriplesMap a rml:TriplesMap ;
+    rml:logicalSource :view ;
+    rml:subjectMap [ rml:template "urn:example:record" ] ;
+    rml:predicateObjectMap [
+        rml:predicate :hasValue ;
+        rml:objectMap [ rml:reference "scopePart" ]
+    ] .

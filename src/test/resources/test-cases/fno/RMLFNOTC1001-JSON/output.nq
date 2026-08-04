@@ -1,0 +1,2 @@
+<http://example.com/urn:example:record> <urn:example:hasValue> "read" .
+<http://example.com/urn:example:record> <urn:example:hasValue> "write" .
