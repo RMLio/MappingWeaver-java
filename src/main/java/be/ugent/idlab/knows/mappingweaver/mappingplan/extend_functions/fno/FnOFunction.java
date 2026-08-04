@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -112,29 +114,53 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     @Override
     public @Nullable String apply(@Nullable SolutionMapping solutionMapping) {
-        Object result = execute(solutionMapping);
-        if (result == null) {
+        List<String> values = valuesOf(execute(solutionMapping));
+        if (values.isEmpty()) {
             return null;
         }
-        // Convert result to String - handles both String and other types (Integer, etc.)
-        return result.toString();
+
+        // Only one value fits where a single value is expected. A function producing
+        // several of them belongs in a place that can carry them all, which is what
+        // applyMulti() is for; taking the first is the best that can be done here.
+        return values.get(0);
     }
 
     @Override
     public List<String> applyMulti(@Nullable SolutionMapping solutionMapping) {
-        Object result = execute(solutionMapping);
+        return valuesOf(execute(solutionMapping));
+    }
+
+    /**
+     * The values a function's result stands for: a function may produce several (a split,
+     * for instance), and it may hand them over as a collection or as an array. GREL's
+     * functions return arrays, so unwrapping only collections left the array itself as the
+     * value, which stringified to something like {@code [Ljava.lang.String;@1b6d3586}.
+     *
+     * @param result what the function returned, {@code null} if it produced nothing
+     * @return the values it produced, empty if it produced none
+     */
+    private static List<String> valuesOf(@Nullable Object result) {
         if (result == null) {
             return List.of();
         }
 
-        // A function may produce several values (e.g. a split): each becomes its own record.
-        // apply() cannot express that, as it would stringify the whole collection into one
-        // value, so unwrap it here.
         if (result instanceof Collection<?> values) {
             return values.stream()
                     .filter(Objects::nonNull)
                     .map(Object::toString)
                     .toList();
+        }
+
+        if (result.getClass().isArray()) {
+            int length = Array.getLength(result);
+            List<String> values = new ArrayList<>(length);
+            for (int i = 0; i < length; i++) {
+                Object value = Array.get(result, i);
+                if (value != null) {
+                    values.add(value.toString());
+                }
+            }
+            return values;
         }
 
         return List.of(result.toString());
