@@ -29,7 +29,7 @@
 
 :TriplesMap a rml:TriplesMap ;
     rml:logicalSource :view ;
-    rml:subjectMap [ rml:template "urn:example:record" ] ;
+    rml:subjectMap [ rml:template "{#}" ] ;
     rml:predicateObjectMap [
         rml:predicate :hasValue ;
         rml:objectMap [ rml:reference "scopePart" ]

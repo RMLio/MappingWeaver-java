@@ -1,3 +1,3 @@
-<http://example.com/urn:example:record> <urn:example:hasValue> "read" .
-<http://example.com/urn:example:record> <urn:example:hasValue> "write" .
-<http://example.com/urn:example:record> <urn:example:hasValue> "" .
+<http://example.com/0> <urn:example:hasValue> "read" .
+<http://example.com/0> <urn:example:hasValue> "write" .
+<http://example.com/1> <urn:example:hasValue> "" .
