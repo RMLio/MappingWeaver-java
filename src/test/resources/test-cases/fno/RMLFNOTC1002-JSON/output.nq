@@ -1,3 +1,2 @@
 <http://example.com/0> <urn:example:hasValue> "read" .
 <http://example.com/0> <urn:example:hasValue> "write" .
-<http://example.com/1> <urn:example:hasValue> "" .

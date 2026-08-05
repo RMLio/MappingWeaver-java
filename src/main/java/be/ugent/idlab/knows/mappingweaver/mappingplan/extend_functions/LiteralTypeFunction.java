@@ -9,6 +9,8 @@ import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class LiteralTypeFunction
@@ -35,9 +37,34 @@ public class LiteralTypeFunction
     @Override
     @Nullable
     public RDFNode applyToNode(@Nullable SolutionMapping mapping) {
+        return asLiteral(this.innerFunction.applyToNode(mapping), mapping);
+    }
 
-        RDFNode innerNode = this.innerFunction.applyToNode(mapping);
+    /**
+     * A literal per value the inner function produced, so that a function producing
+     * several of them (a split, for instance) keeps them all: the operator using this
+     * function then generates a term for every value.
+     */
+    @Override
+    public List<RDFNode> applyMultiToNode(@Nullable SolutionMapping mapping) {
+        List<RDFNode> literals = new ArrayList<>();
 
+        for (RDFNode innerNode : this.innerFunction.applyMultiToNode(mapping)) {
+            RDFNode literal = asLiteral(innerNode, mapping);
+            if (literal != null) {
+                literals.add(literal);
+            }
+        }
+
+        return literals;
+    }
+
+    /**
+     * Turns a value the inner function produced into a literal, with the language and
+     * datatype this function was given.
+     */
+    @Nullable
+    private RDFNode asLiteral(@Nullable RDFNode innerNode, @Nullable SolutionMapping mapping) {
         //extract inner value
         if (innerNode == null || innerNode.isNull()) {
             return null;

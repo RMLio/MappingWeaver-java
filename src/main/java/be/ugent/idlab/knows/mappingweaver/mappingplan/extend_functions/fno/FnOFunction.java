@@ -41,6 +41,8 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(FnOFunction.class);
 
+    private static final String XSD_STRING = "http://www.w3.org/2001/XMLSchema#string";
+
     // Lazy initialization of the Agent (not serialized, created per JVM instance)
     private static volatile Agent cachedAgent = null;
     private static final Object agentLock = new Object();
@@ -87,14 +89,51 @@ public class FnOFunction implements ExtendFunction, Serializable {
      * @param solutionMapping the solution mapping to read the arguments from
      * @return the Agent's result, or null if the function produced no value
      */
-    private @Nullable Object execute(@Nullable SolutionMapping solutionMapping) {
-        Arguments arguments = new Arguments();
-        for (int i = 0; i < this.parameters.size(); i++) {
-            FnOParameter arg = this.parameters.get(i);
-            String predicate = PARAMETER_TRANSLATOR.translate(arg.getIdentifier());
-            arguments.add(predicate, arg.getParameter(solutionMapping));
+    /**
+     * Runs the function once for every combination of its parameters' values and returns
+     * everything the runs produced.
+     * <p>
+     * A parameter is usually a single value, but the function filling it in may produce
+     * several: splitting a value and passing the result on, for instance. Each of them
+     * stands for a record of its own, so the function is applied to every one rather than
+     * to the first, and parameters that produce several values multiply out.
+     *
+     * @param solutionMapping the solution mapping to read the arguments from
+     * @return the values produced, empty if the function produced none
+     */
+    private List<String> allValues(@Nullable SolutionMapping solutionMapping) {
+        List<String> predicates = new ArrayList<>(this.parameters.size());
+        List<List<String>> valuesPerParameter = new ArrayList<>(this.parameters.size());
+
+        for (FnOParameter parameter : this.parameters) {
+            predicates.add(PARAMETER_TRANSLATOR.translate(parameter.getIdentifier()));
+            valuesPerParameter.add(parameter.getParameters(solutionMapping));
         }
 
+        List<String> produced = new ArrayList<>();
+        // one run per combination: an Arguments is built from scratch each time, as it
+        // collects the values added under a name rather than replacing them
+        int[] chosen = new int[predicates.size()];
+        while (true) {
+            Arguments arguments = new Arguments();
+            for (int i = 0; i < predicates.size(); i++) {
+                arguments.add(predicates.get(i), valuesPerParameter.get(i).get(chosen[i]));
+            }
+
+            produced.addAll(valuesOf(execute(arguments)));
+
+            int parameter = chosen.length - 1;
+            while (parameter >= 0 && ++chosen[parameter] >= valuesPerParameter.get(parameter).size()) {
+                chosen[parameter] = 0;
+                parameter--;
+            }
+            if (parameter < 0) {
+                return produced;
+            }
+        }
+    }
+
+    private @Nullable Object execute(Arguments arguments) {
         // TODO: what is the expected behaviour? RMLFNML test cases expect errors to be thrown...
                 try {
             // extract the value from the Agent
@@ -114,7 +153,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     @Override
     public @Nullable String apply(@Nullable SolutionMapping solutionMapping) {
-        List<String> values = valuesOf(execute(solutionMapping));
+        List<String> values = allValues(solutionMapping);
         if (values.isEmpty()) {
             return null;
         }
@@ -127,7 +166,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     @Override
     public List<String> applyMulti(@Nullable SolutionMapping solutionMapping) {
-        return valuesOf(execute(solutionMapping));
+        return allValues(solutionMapping);
     }
 
     /**
@@ -168,17 +207,29 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     @Override
     public @Nullable RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
+        List<RDFNode> nodes = applyMultiToNode(solutionMapping);
+
+        return nodes.isEmpty() ? null : nodes.get(0);
+    }
+
+    @Override
+    public List<RDFNode> applyMultiToNode(@Nullable SolutionMapping solutionMapping) {
         // If return_type is unknownOut or doesn't match expected, return null (no output)
         if (returnType != null && returnType.contains("unknownOut")) {
-            return null;
+            return List.of();
         }
-        
-        String value = apply(solutionMapping);
-        if (value == null) {
-            return null;
+
+        List<String> values = allValues(solutionMapping);
+        if (values.size() == 1) {
+            return List.of(new LiteralNode(values.get(0), datatypeIRI, ""));
         }
-        // Return a LiteralNode with the appropriate datatype
-        return new LiteralNode(value, datatypeIRI, "");
+
+        // The declared datatype describes what the function returns as a whole, which for
+        // a function producing several values is the collection (rdf:List) and not the
+        // values in it. Each of them is a string.
+        return values.stream()
+                .map(value -> (RDFNode) new LiteralNode(value, XSD_STRING, ""))
+                .toList();
     }
     
     @Override

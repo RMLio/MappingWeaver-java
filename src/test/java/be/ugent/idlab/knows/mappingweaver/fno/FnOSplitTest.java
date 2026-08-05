@@ -1,7 +1,6 @@
 package be.ugent.idlab.knows.mappingweaver.fno;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,11 +10,10 @@ import java.util.stream.Stream;
 /**
  * A function that produces several values, such as a split, inside a logical view.
  * <p>
- * The values all have to be mapped: splitting {@code "read write"} is meant to yield a
- * triple for {@code read} and one for {@code write}. Whether that happens depends on where
- * the function sits. A field of the logical view can produce a record per value, so the
- * field carries them all; an object map cannot, as the operator filling it in maps one
- * record to one record, so only the first value survives.
+ * The values all have to be mapped: splitting {@code "read write"} yields a triple for
+ * {@code read} and one for {@code write}. This holds wherever the function sits, in a
+ * field of the logical view or in an object map, and whether the split is the outermost
+ * function or fills in a parameter of another one.
  * <p>
  * These cases are written in RML-FNML's current vocabulary ({@code rml:functionExecution},
  * {@code rml:input}). The mappings they came from used the older
@@ -47,8 +45,6 @@ public class FnOSplitTest extends TestCore {
         return Stream.of("RMLFNOTC1004-JSON").map(Arguments::of);
     }
 
-    @Disabled("A multi-valued function in an object map keeps only its first value: the "
-            + "Extend operator maps one record to one record, so the other values are dropped")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("multiValuedObjectMap")
     public void multiValuedFunctionInAnObjectMap(String directory) throws Exception {
