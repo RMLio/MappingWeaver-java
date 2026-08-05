@@ -3,7 +3,6 @@ package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions;
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
-import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
@@ -22,18 +21,17 @@ public record ReferenceFunction(String referenceAttribute) implements ExtendFunc
             return null;
         }
 
-        if (solutionMapping.containsKey(this.referenceAttribute) || this.referenceAttribute.endsWith(".#")) {
-            RDFNode value = solutionMapping.get(this.referenceAttribute);
-            if (value == null || value.isNull()) {
-                return null;
-            }
+        RDFNode value = solutionMapping.get(this.referenceAttribute);
 
-            if (!value.toString().isEmpty()) {
-                return value.getValue().toString();
-            }
+        // A reference to something the record does not have yields NULL rather than an
+        // error: the RML-IO registry requires it of a JSONPath referring to a non-existent
+        // name or child, and the term that would have used the value is simply not
+        // generated. An empty value is a value, and is returned as it is.
+        if (value == null || value.isNull()) {
+            return null;
         }
-        throw new MappingException("Specified reference attribute '" + this.referenceAttribute + "' not present in the input data. \n" +
-                "Only these attributes are present in the in solution mapping: \n" + solutionMapping.keySet() );
+
+        return value.getValue().toString();
     }
 
     /**
@@ -46,15 +44,14 @@ public record ReferenceFunction(String referenceAttribute) implements ExtendFunc
         return Optional.of(this.referenceAttribute);
     }
 
+    @Nullable
     public RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
         if (solutionMapping == null) {
             return null;
         }
-        if (solutionMapping.containsKey(this.referenceAttribute)) {
-            return solutionMapping.get(this.referenceAttribute);
-        }
 
-        throw new MappingException("Specified reference attribute '" + this.referenceAttribute + "' not present in the input data");
+        // as above: absent is NULL, not an error
+        return solutionMapping.get(this.referenceAttribute);
     }
 
 }

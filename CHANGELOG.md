@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - A function returning several values as an array, which is what the GREL functions do (`grel:string_split`, for one), no longer ends up as the array itself. Only collections were unwrapped, so the value became something like `[Ljava.lang.String;@1b6d3586`. A split in a logical view's field now produces a record per value, as intended.
+- A reference to something the record does not have yields NULL instead of aborting the mapping with a `MappingException`. The [RML-IO registry](https://kg-construct.github.io/rml-io-registry/json-path/index.html#generation-of-null-values) requires it of the JSONPath reference formulation: a path referring to a non-existent name or child of the input value results in NULL, so the term that would have used it is simply not generated. An empty value is a value, and no longer reported as an absent attribute either.
 
 ### Added
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map (`1001`), with nulls turned into empty strings (`1002`), with empty strings filtered out afterwards by `idlab-fn:trueCondition` (`1003`), and the same split as a field of the view (`1004`). The first three record that an object map keeps only the first value a function produces; the fourth that reading a field a record does not have aborts the mapping.

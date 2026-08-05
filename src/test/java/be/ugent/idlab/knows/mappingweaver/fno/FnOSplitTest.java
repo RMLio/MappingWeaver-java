@@ -55,8 +55,6 @@ public class FnOSplitTest extends TestCore {
         this.positiveTest(BASE, directory);
     }
 
-    @Disabled("Reading a field that the record does not have raises a MappingException, "
-            + "which aborts the mapping instead of leaving the value unbound")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("multiValuedField")
     public void multiValuedFunctionInAField(String directory) throws Exception {
