@@ -11,20 +11,12 @@ import java.util.stream.Stream;
 /**
  * A function that produces several values, such as a split, inside a logical view.
  * <p>
- * The values all have to be mapped: splitting {@code "read write"} is meant to yield a
- * triple for {@code read} and one for {@code write}. Whether that happens depends on where
- * the function sits. A field of the logical view can produce a record per value, so the
- * field carries them all; an object map cannot, as the operator filling it in maps one
- * record to one record, so only the first value survives.
- * <p>
- * These cases are written in RML-FNML's current vocabulary ({@code rml:functionExecution},
- * {@code rml:input}). The mappings they came from used the older
- * {@code fnml:functionValue} with {@code rr:predicateObjectMap}, which MappingLoom cannot
- * translate at all: it panics before a plan is produced.
+ * Every value has to be mapped: splitting {@code "read write"} yields a triple for
+ * {@code read} and one for {@code write}, wherever the function is used.
  */
 public class FnOSplitTest extends TestCore {
 
-    private static final String BASE = "src/test/resources/test-cases/fno/";
+    private static final String BASE = "src/test/resources/test-cases/rml_kgc/fnml/";
 
     /**
      * A split in an object map, which should map every value it produces.
@@ -47,8 +39,8 @@ public class FnOSplitTest extends TestCore {
         return Stream.of("RMLFNOTC1004-JSON").map(Arguments::of);
     }
 
-    @Disabled("A multi-valued function in an object map keeps only its first value: the "
-            + "Extend operator maps one record to one record, so the other values are dropped")
+    @Disabled("Known bug: a multi-valued function in an object map keeps only its first "
+            + "value, while every value should be mapped wherever the function is used.")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("multiValuedObjectMap")
     public void multiValuedFunctionInAnObjectMap(String directory) throws Exception {

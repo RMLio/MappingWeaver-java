@@ -4,6 +4,8 @@ import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
@@ -14,24 +16,40 @@ import java.util.Optional;
  *                           inner function
  */
 public record ReferenceFunction(String referenceAttribute) implements ExtendFunction {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ReferenceFunction.class);
+
+    /**
+     * The node the record holds for this reference, or {@code null} if it holds none.
+     * <p>
+     * A reference to something the record does not have is NULL rather than an error, as
+     * the RML-IO registry requires of a JSONPath referring to a non-existent name or
+     * child: the term that would have used the value is simply not generated. An empty
+     * value is a value, and is returned as it is.
+     */
     @Override
     @Nullable
-    public String apply(@Nullable SolutionMapping solutionMapping) {
+    public RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
         if (solutionMapping == null) {
             return null;
         }
 
         RDFNode value = solutionMapping.get(this.referenceAttribute);
-
-        // A reference to something the record does not have yields NULL rather than an
-        // error: the RML-IO registry requires it of a JSONPath referring to a non-existent
-        // name or child, and the term that would have used the value is simply not
-        // generated. An empty value is a value, and is returned as it is.
         if (value == null || value.isNull()) {
+            LOG.debug("Reference '{}' has no value in this record, so no term is generated for it. "
+                    + "The record holds: {}", this.referenceAttribute, solutionMapping.keySet());
             return null;
         }
 
-        return value.getValue().toString();
+        return value;
+    }
+
+    @Override
+    @Nullable
+    public String apply(@Nullable SolutionMapping solutionMapping) {
+        RDFNode value = applyToNode(solutionMapping);
+
+        return value == null ? null : value.getValue().toString();
     }
 
     /**
@@ -43,15 +61,4 @@ public record ReferenceFunction(String referenceAttribute) implements ExtendFunc
     public Optional<String> asReference() {
         return Optional.of(this.referenceAttribute);
     }
-
-    @Nullable
-    public RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
-        if (solutionMapping == null) {
-            return null;
-        }
-
-        // as above: absent is NULL, not an error
-        return solutionMapping.get(this.referenceAttribute);
-    }
-
 }
