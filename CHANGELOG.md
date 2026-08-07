@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Fixed
-- A logical view read by more than one triples map no longer exhausts the heap. The plan holds the view's fields once per triples map reading it, and the source operator combined those repeats with one another, so a field iterating over 13 items in a view read by six triples maps produced 13^6 records. Fields are now read once per name.
+- A source field is read once per name, so a logical view read by several triples maps no longer exhausts the heap
 - A function returning its values as an array, as the GREL functions do, no longer ends up as the array itself
 - A reference to something the record does not have yields NULL instead of aborting the mapping, as the [RML-IO registry](https://kg-construct.github.io/rml-io-registry/json-path/index.html#generation-of-null-values) requires of JSONPath
 - An empty value is a value, and no longer reported as an absent attribute

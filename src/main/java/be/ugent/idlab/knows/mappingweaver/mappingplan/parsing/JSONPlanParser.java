@@ -484,26 +484,24 @@ public class JSONPlanParser implements Serializable {
     }
 
     /**
-     * Parses the fields of a source, keeping one field per name.
-     * <p>
-     * A field's name is the variable it binds, so the same name twice is the same field
-     * twice. A plan can hold such repeats: MappingLoom writes a logical view's fields once
-     * for every triples map reading that view, so a view used by six triples maps arrives
-     * with every field six times over. The source operator combines its fields with one
-     * another, and combining a field with itself multiplies the records it produces by
-     * itself: a field yielding 13 records, repeated six times, yields 13^6 of them.
-     *
-     * @param fieldsArray the fields as they appear in the plan
-     * @return the fields, one per name, in the order the plan gives them
+     * Parses the fields of a source.
      */
     private List<JSONPlanField> parseFields(JSONArray fieldsArray) {
+        // We use a LinkedHashMap so that multiple views over the same field name (and thus
+        // same reference) is only resolved once per reference, not per view, preventing a
+        // combinatorial explosion: the source operator combines its fields with one
+        // another. (MappingLoom writes a logical view's fields once for every triples map
+        // reading that view.)
         Map<String, JSONPlanField> fieldsByName = new LinkedHashMap<>();
         for (int i = 0; i < fieldsArray.length(); i++) {
-            JSONPlanField field = parseField(fieldsArray.getJSONObject(i));
-            JSONPlanField alreadyThere = fieldsByName.putIfAbsent(field.alias(), field);
-            if (alreadyThere != null) {
-                LOG.debug("The plan holds field '{}' more than once; keeping the first.", field.alias());
+            JSONObject field = fieldsArray.getJSONObject(i);
+            String name = field.isNull("alias") ? null : field.getString("alias");
+
+            if (fieldsByName.containsKey(name)) {
+                continue;
             }
+
+            fieldsByName.put(name, parseField(field));
         }
 
         return new ArrayList<>(fieldsByName.values());
