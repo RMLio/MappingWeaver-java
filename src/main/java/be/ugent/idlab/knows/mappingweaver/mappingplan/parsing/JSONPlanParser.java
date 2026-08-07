@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -59,6 +62,8 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.Adjacency.Fragment
  * Class for parsing the JSON descriptions of the operators
  */
 public class JSONPlanParser implements Serializable {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JSONPlanParser.class);
 
     public static final Pattern languagePattern = Pattern.compile("\\?.*?@(.*)");
     // pattern straight from Mapper
@@ -478,12 +483,30 @@ public class JSONPlanParser implements Serializable {
         }
     }
 
+    /**
+     * Parses the fields of a source, keeping one field per name.
+     * <p>
+     * A field's name is the variable it binds, so the same name twice is the same field
+     * twice. A plan can hold such repeats: MappingLoom writes a logical view's fields once
+     * for every triples map reading that view, so a view used by six triples maps arrives
+     * with every field six times over. The source operator combines its fields with one
+     * another, and combining a field with itself multiplies the records it produces by
+     * itself: a field yielding 13 records, repeated six times, yields 13^6 of them.
+     *
+     * @param fieldsArray the fields as they appear in the plan
+     * @return the fields, one per name, in the order the plan gives them
+     */
     private List<JSONPlanField> parseFields(JSONArray fieldsArray) {
-        List<JSONPlanField> JSONPlanFields = new ArrayList<>();
+        Map<String, JSONPlanField> fieldsByName = new LinkedHashMap<>();
         for (int i = 0; i < fieldsArray.length(); i++) {
-            JSONPlanFields.add(parseField(fieldsArray.getJSONObject(i)));
+            JSONPlanField field = parseField(fieldsArray.getJSONObject(i));
+            JSONPlanField alreadyThere = fieldsByName.putIfAbsent(field.alias(), field);
+            if (alreadyThere != null) {
+                LOG.debug("The plan holds field '{}' more than once; keeping the first.", field.alias());
+            }
         }
-        return JSONPlanFields;
+
+        return new ArrayList<>(fieldsByName.values());
     }
 
     private JSONPlanField parseField(JSONObject field) {

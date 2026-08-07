@@ -1,0 +1,427 @@
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxAf4> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxFo3> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa10> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa11> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa1> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa2> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa7> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa9> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHo0> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxIf6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxLa8> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/hasPart> <https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/Oxford%20Knee%20Score%20%2F48> .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxAf4_codingparams_0> <https://www.hl7.org/fhir/code> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxAf4> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxAf4> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxAf4> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxAf4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxAf4> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxAf4 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxAf4> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxAf4> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxAf4_codingparams_0> .
+<https://moveup.care/Question/OxAf4> <https://www.w3.org/TR/rdf-schema/label> "After a meal (sat at a table) how painful has it been for you to stand up from a chair because of your knee?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxAf4> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxAf4> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxAf4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxAf4> <https://ns.faqir.org/q-o#answerValue> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxAf4> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxAf4> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxAf4> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxAf4_codingparams_0> <https://www.hl7.org/fhir/display> "Slightly painful"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxFo3_codingparams_0> <https://www.hl7.org/fhir/code> "2" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxFo3> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxFo3> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxFo3> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxFo3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxFo3> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxFo3 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxFo3> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxFo3> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxFo3_codingparams_0> .
+<https://moveup.care/Question/OxFo3> <https://www.w3.org/TR/rdf-schema/label> "For how long have you been able to walk before the pain from your knee became severe (with or without a stick)?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxFo3> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxFo3> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxFo3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxFo3> <https://ns.faqir.org/q-o#answerValue> "2" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxFo3> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxFo3> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxFo3> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxFo3_codingparams_0> <https://www.hl7.org/fhir/display> "5-15 minutes"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxHa10_codingparams_0> <https://www.hl7.org/fhir/code> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxHa10> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa10> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa10> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxHa10> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxHa10 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa10> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa10> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxHa10_codingparams_0> .
+<https://moveup.care/Question/OxHa10> <https://www.w3.org/TR/rdf-schema/label> "Have you been able to do your own household shopping on your own?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa10> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxHa10> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa10> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa10> <https://ns.faqir.org/q-o#answerValue> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa10> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxHa10> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxHa10> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxHa10_codingparams_0> <https://www.hl7.org/fhir/display> "With little difficulty"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxHa11_codingparams_0> <https://www.hl7.org/fhir/code> "3" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxHa11> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa11> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa11> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa11> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxHa11> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxHa11 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa11> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa11> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxHa11_codingparams_0> .
+<https://moveup.care/Question/OxHa11> <https://www.w3.org/TR/rdf-schema/label> "Have you been able to walk down a flight of stairs?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa11> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxHa11> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa11> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa11> <https://ns.faqir.org/q-o#answerValue> "3" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa11> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxHa11> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxHa11> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxHa11_codingparams_0> <https://www.hl7.org/fhir/display> "With extreme difficulty"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxHa1_codingparams_0> <https://www.hl7.org/fhir/code> "0" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxHa1> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa1> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa1> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxHa1> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxHa1 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa1> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa1> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxHa1_codingparams_0> .
+<https://moveup.care/Question/OxHa1> <https://www.w3.org/TR/rdf-schema/label> "Have you had any trouble with washing and drying yourself all over because of your knee?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa1> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxHa1> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa1> <https://ns.faqir.org/q-o#answerValue> "0" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa1> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxHa1> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxHa1> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxHa1_codingparams_0> <https://www.hl7.org/fhir/display> "No trouble at all"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxHa2_codingparams_0> <https://www.hl7.org/fhir/code> "3" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxHa2> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa2> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa2> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxHa2> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxHa2 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa2> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa2> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxHa2_codingparams_0> .
+<https://moveup.care/Question/OxHa2> <https://www.w3.org/TR/rdf-schema/label> "Have you had any trouble getting in and out of a car or using public transport because of your knee?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa2> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxHa2> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa2> <https://ns.faqir.org/q-o#answerValue> "3" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa2> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxHa2> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxHa2> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxHa2_codingparams_0> <https://www.hl7.org/fhir/display> "Extreme difficulty"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxHa5_codingparams_0> <https://www.hl7.org/fhir/code> "2" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxHa5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa5> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxHa5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxHa5 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa5> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa5> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxHa5_codingparams_0> .
+<https://moveup.care/Question/OxHa5> <https://www.w3.org/TR/rdf-schema/label> "Have you been limping when walking because of your knee?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa5> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxHa5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa5> <https://ns.faqir.org/q-o#answerValue> "2" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxHa5> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxHa5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxHa5_codingparams_0> <https://www.hl7.org/fhir/display> "Often, not just at first"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxHa7_codingparams_0> <https://www.hl7.org/fhir/code> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxHa7> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa7> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa7> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxHa7> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxHa7 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa7> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa7> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxHa7_codingparams_0> .
+<https://moveup.care/Question/OxHa7> <https://www.w3.org/TR/rdf-schema/label> "Have you been troubled by pain from your knee in bed at night?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa7> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxHa7> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa7> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa7> <https://ns.faqir.org/q-o#answerValue> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa7> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxHa7> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxHa7> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxHa7_codingparams_0> <https://www.hl7.org/fhir/display> "Only 1 or 2 nights"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxHa9_codingparams_0> <https://www.hl7.org/fhir/code> "2" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxHa9> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa9> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa9> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxHa9> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxHa9 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa9> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa9> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxHa9_codingparams_0> .
+<https://moveup.care/Question/OxHa9> <https://www.w3.org/TR/rdf-schema/label> "Have you felt that your knee might suddenly give way or let you down?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa9> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxHa9> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHa9> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa9> <https://ns.faqir.org/q-o#answerValue> "2" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHa9> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxHa9> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxHa9> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxHa9_codingparams_0> <https://www.hl7.org/fhir/display> "Often, not just at first"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxHo0_codingparams_0> <https://www.hl7.org/fhir/code> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxHo0> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHo0> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHo0> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHo0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxHo0> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxHo0 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHo0> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHo0> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxHo0_codingparams_0> .
+<https://moveup.care/Question/OxHo0> <https://www.w3.org/TR/rdf-schema/label> "How would you describe the pain you have usually from your knee?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHo0> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxHo0> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxHo0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHo0> <https://ns.faqir.org/q-o#answerValue> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxHo0> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxHo0> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxHo0> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxHo0_codingparams_0> <https://www.hl7.org/fhir/display> "Very mild"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxIf6_codingparams_0> <https://www.hl7.org/fhir/code> "2" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxIf6> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxIf6> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxIf6> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxIf6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxIf6> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxIf6 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxIf6> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxIf6> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxIf6_codingparams_0> .
+<https://moveup.care/Question/OxIf6> <https://www.w3.org/TR/rdf-schema/label> "If you were to kneel down could you stand up afterwards?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxIf6> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxIf6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxIf6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxIf6> <https://ns.faqir.org/q-o#answerValue> "2" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxIf6> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxIf6> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxIf6> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxIf6_codingparams_0> <https://www.hl7.org/fhir/display> "With moderate difficulty"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Question/OxLa8_codingparams_0> <https://www.hl7.org/fhir/code> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/OxLa8> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxLa8> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxLa8> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxLa8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/OxLa8> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp OxLa8 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxLa8> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxLa8> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/OxLa8_codingparams_0> .
+<https://moveup.care/Question/OxLa8> <https://www.w3.org/TR/rdf-schema/label> "How much pain from your knee interfered with your usual work (including housework)?"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxLa8> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/OxLa8> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/OxLa8> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxLa8> <https://ns.faqir.org/q-o#answerValue> "1" .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/OxLa8> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/OxLa8> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/choice> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/OxLa8> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/Question/OxLa8_codingparams_0> <https://www.hl7.org/fhir/display> "A little bit"@en .
+<https://moveup.care/RCJ67FKWa9WWizrXi> <http://xmlns.com/foaf/0.1/made> <https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseBySubject> <https://moveup.care/RCJ67FKWa9WWizrXi> .
+<https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/Oxford%20Knee%20Score%20%2F48> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Questionnaire Response PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/Oxford%20Knee%20Score%20%2F48> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/Oxford%20Knee%20Score%20%2F48> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Answer> .
+<https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Knee Score /48 question modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/Oxford%20Knee%20Score%20%2F48> <https://www.w3.org/TR/rdf-schema/label> "Example MoveUp Answer PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48> <https://ns.faqir.org/q-o#questionCodingParams> <https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48_codingparams_0> .
+<https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score /48 score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/Oxford%20Knee%20Score%20%2F48> <https://ns.faqir.org/q-o#answerToQuestion> <https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseToQuestionnaire> <https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/prov-o/atTime> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/2002/07/owl#versionInfo> "1.0.0" .
+<https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Question> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#Questionnaire> .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/label> "Oxford Knee Score"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/Oxford%20Knee%20Score%20%2F48> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Answer modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Questionnaire Response modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Questionnaire%2FvzX565EGcvS9oT2N5> <https://www.w3.org/TR/rdf-schema/comment> "This is an example of a MoveUp Oxford Questionnaire modelled in the PACSOI PHR-O v1.0.0"@en .
+<https://moveup.care/Answer/e9PmCqfRpckhQNTKp/MkSBgXBZRFgKnSk5T/Oxford%20Knee%20Score%20%2F48> <https://ns.faqir.org/q-o#answerValue> "29"^^<http://www.w3.org/2001/XMLSchema#float> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/isPartOf> <https://moveup.care/Procedure%2FtDtBhsgnapMSTTHS6> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://www.hl7.org/fhir/status> <https://www.hl7.org/fhir/questionnaire-answers-status-completed> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.faqir.org/q-o#QuestionnaireResponse> .
+<https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48> <https://www.w3.org/TR/prov-o/type> <https://www.hl7.org/fhir/decimal> .
+<https://moveup.care/QuestionnaireResponse/e9PmCqfRpckhQNTKp> <https://ns.faqir.org/q-o#questionnaireResponseLastUpdated> "2026-05-29T13:20:50.544Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://moveup.care/Question/Oxford%20Knee%20Score%20%2F48> <https://www.w3.org/TR/prov-o/wasAttributedTo> <https://moveup.care/> .
