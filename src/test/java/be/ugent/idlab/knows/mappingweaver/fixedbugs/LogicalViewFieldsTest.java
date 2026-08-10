@@ -16,7 +16,7 @@ public class LogicalViewFieldsTest extends TestCore {
     private static final String BASE = "src/test/resources/test-cases/rml_kgc/lv/";
 
     private static Stream<Arguments> positiveTests() {
-        return Stream.of("RMLLVTC2002-JSON").map(Arguments::of);
+        return Stream.of("RMLLVTC2001-JSON").map(Arguments::of);
     }
 
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
