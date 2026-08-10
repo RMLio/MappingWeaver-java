@@ -10,19 +10,12 @@ import java.util.stream.Stream;
 /**
  * A function that produces several values, such as a split, inside a logical view.
  * <p>
- * The values all have to be mapped: splitting {@code "read write"} yields a triple for
- * {@code read} and one for {@code write}. This holds wherever the function sits, in a
- * field of the logical view or in an object map, and whether the split is the outermost
- * function or fills in a parameter of another one.
- * <p>
- * These cases are written in RML-FNML's current vocabulary ({@code rml:functionExecution},
- * {@code rml:input}). The mappings they came from used the older
- * {@code fnml:functionValue} with {@code rr:predicateObjectMap}, which MappingLoom cannot
- * translate at all: it panics before a plan is produced.
+ * Every value has to be mapped: splitting {@code "read write"} yields a triple for
+ * {@code read} and one for {@code write}, wherever the function is used.
  */
 public class FnOSplitTest extends TestCore {
 
-    private static final String BASE = "src/test/resources/test-cases/fno/";
+    private static final String BASE = "src/test/resources/test-cases/rml_kgc/fnml/";
 
     /**
      * A split in an object map, which should map every value it produces.
