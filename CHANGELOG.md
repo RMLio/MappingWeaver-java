@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - A function producing several values is applied to every one of them, wherever it is used
 - A value from a multi-valued function no longer carries the datatype of the collection the function returns
+- A source field is read once per name, so a logical view read by several triples maps no longer exhausts the heap
 - A function returning its values as an array, as the GREL functions do, no longer ends up as the array itself
 - A reference to something the record does not have yields NULL instead of aborting the mapping, as the [RML-IO registry](https://kg-construct.github.io/rml-io-registry/json-path/index.html#generation-of-null-values) requires of JSONPath
 - An empty value is a value, and no longer reported as an absent attribute

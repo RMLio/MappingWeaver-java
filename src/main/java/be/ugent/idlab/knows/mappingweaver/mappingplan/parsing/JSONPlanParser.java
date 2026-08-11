@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -59,6 +62,8 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.Adjacency.Fragment
  * Class for parsing the JSON descriptions of the operators
  */
 public class JSONPlanParser implements Serializable {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JSONPlanParser.class);
 
     public static final Pattern languagePattern = Pattern.compile("\\?.*?@(.*)");
     // pattern straight from Mapper
@@ -478,12 +483,28 @@ public class JSONPlanParser implements Serializable {
         }
     }
 
+    /**
+     * Parses the fields of a source.
+     */
     private List<JSONPlanField> parseFields(JSONArray fieldsArray) {
-        List<JSONPlanField> JSONPlanFields = new ArrayList<>();
+        // We use a LinkedHashMap so that multiple views over the same field name (and thus
+        // same reference) is only resolved once per reference, not per view, preventing a
+        // combinatorial explosion: the source operator combines its fields with one
+        // another. (MappingLoom writes a logical view's fields once for every triples map
+        // reading that view.)
+        Map<String, JSONPlanField> fieldsByName = new LinkedHashMap<>();
         for (int i = 0; i < fieldsArray.length(); i++) {
-            JSONPlanFields.add(parseField(fieldsArray.getJSONObject(i)));
+            JSONObject field = fieldsArray.getJSONObject(i);
+            String name = field.isNull("alias") ? null : field.getString("alias");
+
+            if (fieldsByName.containsKey(name)) {
+                continue;
+            }
+
+            fieldsByName.put(name, parseField(field));
         }
-        return JSONPlanFields;
+
+        return new ArrayList<>(fieldsByName.values());
     }
 
     private JSONPlanField parseField(JSONObject field) {

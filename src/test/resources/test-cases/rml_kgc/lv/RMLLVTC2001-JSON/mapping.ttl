@@ -1,0 +1,35 @@
+@base <http://example.com/> .
+@prefix rml: <http://w3id.org/rml/> .
+@prefix : <urn:example:> .
+
+# A logical view whose field iterates, read by more than one triples map. The plan holds
+# the view's fields once per triples map, so the source must not combine those repeats
+# with one another: three things read by three triples maps is nine triples, not 3^3 x 3.
+
+<json> a rml:LogicalSource ;
+    rml:source [ a rml:RelativePathSource , rml:Source ; rml:root rml:MappingDirectory ; rml:path "input.json" ] ;
+    rml:referenceFormulation rml:JSONPath ;
+    rml:iterator "$.[*]" .
+
+<view> a rml:LogicalView ;
+    rml:viewOn <json> ;
+    rml:field [
+        rml:fieldName "things" ;
+        rml:iterator "$.item[*]" ;
+        rml:field [ rml:fieldName "id" ; rml:reference "$.id" ] ;
+    ] .
+
+<FirstTriplesMap> a rml:TriplesMap ;
+    rml:logicalSource <view> ;
+    rml:subjectMap [ rml:template "urn:example:{things.id}" ] ;
+    rml:predicateObjectMap [ rml:predicate :first ; rml:objectMap [ rml:reference "things.id" ] ] .
+
+<SecondTriplesMap> a rml:TriplesMap ;
+    rml:logicalSource <view> ;
+    rml:subjectMap [ rml:template "urn:example:{things.id}" ] ;
+    rml:predicateObjectMap [ rml:predicate :second ; rml:objectMap [ rml:reference "things.id" ] ] .
+
+<ThirdTriplesMap> a rml:TriplesMap ;
+    rml:logicalSource <view> ;
+    rml:subjectMap [ rml:template "urn:example:{things.id}" ] ;
+    rml:predicateObjectMap [ rml:predicate :third ; rml:objectMap [ rml:reference "things.id" ] ] .
