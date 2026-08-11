@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A reference to something the record does not have yields NULL instead of aborting the mapping, as the [RML-IO registry](https://kg-construct.github.io/rml-io-registry/json-path/index.html#generation-of-null-values) requires of JSONPath
 - An empty value is a value, and no longer reported as an absent attribute
 - Git ignore `pom.xml.versionsBackup`
+- Remove reference to non-existing branch in GitLab CI script
 
 ### Added
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view

@@ -81,7 +81,7 @@ Specification Tests:
         # RMLIOFNOTest — class @Disabled: "Old RML not supported in MappingLoom-rs" (runs 0 tests)
       ]
   except:
-    - master
+    - main
     - development
 
 Utility Tests:
@@ -125,3 +125,4 @@ Utility Tests:
       ]
   except:
     - main
+    - development
