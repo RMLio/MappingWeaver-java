@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+- Updated Algebraic Mapping Operators to 4.1.0
+
 ### Fixed
 - A function producing several values is applied to every one of them, wherever it is used
 - A value from a multi-valued function no longer carries the datatype of the collection the function returns
