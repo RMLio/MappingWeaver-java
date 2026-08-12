@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated Algebraic Mapping Operators to 4.1.0
+- Declared `slf4j-simple` as a runtime dependency, so the CLI has a concrete logging backend on its runtime classpath
+- FnO descriptions are parsed into a single merged Jena `Model` once and reused across translators and the FnO agent (see HANDBOOK: FnO function descriptions)
+- Built-in FnO descriptions use a `classpath://` prefix; custom descriptions can override them by filename (see README: Custom FnO function descriptions)
 
 ### Fixed
 - A function producing several values is applied to every one of them, wherever it is used
@@ -23,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view
 - GitLab CI: added Javadoc check in linting phase
+- Debug logging now reports the discovered/loaded FnO function IRIs when the FnO agent is initialized
 
 ## [0.3.0] - 2026-07-30
 

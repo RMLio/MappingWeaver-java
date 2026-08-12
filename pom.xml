@@ -193,7 +193,7 @@ under the License.
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.7</version>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -307,6 +307,16 @@ under the License.
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>hivemq</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <!-- WebSocket server for testing -->
         <dependency>
@@ -316,25 +326,11 @@ under the License.
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>hivemq</artifactId>
-            <version>1.20.0</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Flink test utilities -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-test-utils</artifactId>
             <version>${flink.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>kafka</artifactId>
-            <version>1.20.4</version>
             <scope>test</scope>
         </dependency>
 
@@ -383,7 +379,6 @@ under the License.
                                 <excludes>
                                     <exclude>org.apache.flink:flink-shaded-force-shading</exclude>
                                     <exclude>com.google.code.findbugs:jsr305</exclude>
-                                    <exclude>org.slf4j:*</exclude>
                                     <exclude>org.apache.logging.log4j:*</exclude>
                                 </excludes>
                             </artifactSet>

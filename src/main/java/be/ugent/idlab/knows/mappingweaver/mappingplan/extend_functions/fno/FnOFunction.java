@@ -1,5 +1,28 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
+import java.io.InputStream;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Stream;
+
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.ResIterator;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.riot.RiotException;
+import org.apache.jena.vocabulary.RDF;
+import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
@@ -9,43 +32,141 @@ import be.ugent.idlab.knows.functions.agent.Agent;
 import be.ugent.idlab.knows.functions.agent.AgentFactory;
 import be.ugent.idlab.knows.functions.agent.Arguments;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
-import org.jspecify.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Function that applies the specified FnO function to the input
  */
 public class FnOFunction implements ExtendFunction, Serializable {
 
-    private static final String[] FUNCTION_DESCRIPTIONS = new String[]{
-            "functions_grel.ttl",
-            "grel_java_mapping.ttl",
-            "functions_idlab.ttl",
-            "functions_idlab_classes_java_mapping.ttl",
+    private static final class OpenedResource {
+        private final InputStream inputStream;
+        private final String source;
+
+        private OpenedResource(InputStream inputStream, String source) {
+            this.inputStream = inputStream;
+            this.source = source;
+        }
+    }
+
+    private static final String CLASSPATH_PREFIX = "classpath://";
+
+    private static final String[] DEFAULT_FUNCTION_DESCRIPTIONS = new String[]{
+            "classpath://functions_grel.ttl",
+            "classpath://grel_java_mapping.ttl",
+            "classpath://functions_idlab.ttl",
+            "classpath://functions_idlab_classes_java_mapping.ttl",
     };
 
-    private static final FnOParameterTranslator PARAMETER_TRANSLATOR =
-            new FnOParameterTranslator(FUNCTION_DESCRIPTIONS);
-    
-    private static final FnOReturnTypeTranslator RETURN_TYPE_TRANSLATOR =
-            new FnOReturnTypeTranslator(FUNCTION_DESCRIPTIONS);
+    // mutable only via configure(); volatile for safe cross-thread reads
+    private static volatile String[] effectiveDescriptions = DEFAULT_FUNCTION_DESCRIPTIONS;
+    private static volatile FnOParameterTranslator parameterTranslator = null;
+    private static volatile FnOReturnTypeTranslator returnTypeTranslator = null;
+
+    private static final String FNO_FUNCTION_TYPE = "https://w3id.org/function/ontology#Function";
 
     private static final Logger LOG = LoggerFactory.getLogger(FnOFunction.class);
 
     private static final String XSD_STRING = "http://www.w3.org/2001/XMLSchema#string";
 
-    // Lazy initialization of the Agent (not serialized, created per JVM instance)
+    // not serialized; recreated per JVM instance
     private static volatile Agent cachedAgent = null;
+    private static volatile Model effectiveModel = null;
     private static final Object agentLock = new Object();
+
+    /**
+     * Configures the set of FnO function descriptions used by all FnOFunction instances.
+     * Must be called before the mapping plan is parsed.
+     *
+     * @param customDescriptions  additional description paths (file path or URL)
+     * @param customFunctionsOnly when true, only the provided descriptions are used;
+     *                            when false (default), they are appended to the built-ins
+     */
+    public static void configure(List<String> customDescriptions, boolean customFunctionsOnly) {
+        synchronized (agentLock) {
+            String[] custom = customDescriptions.toArray(new String[0]);
+            java.util.Set<String> customSet = new java.util.HashSet<>(customDescriptions);
+            effectiveDescriptions = customFunctionsOnly
+                    ? custom
+                    : Stream.concat(
+                        Arrays.stream(DEFAULT_FUNCTION_DESCRIPTIONS).filter(d -> {
+                            String stripped = d.startsWith(CLASSPATH_PREFIX) ? d.substring(CLASSPATH_PREFIX.length()) : d;
+                            return !customSet.contains(stripped) && !customSet.contains(d);
+                        }),
+                        Arrays.stream(custom))
+                            .toArray(String[]::new);
+            parameterTranslator = null;
+            returnTypeTranslator = null;
+            cachedAgent = null;
+            effectiveModel = null;
+        }
+    }
+
+    private static Model getEffectiveModel() {
+        if (effectiveModel == null) {
+            synchronized (agentLock) {
+                if (effectiveModel == null) {
+                    effectiveModel = buildModel(effectiveDescriptions);
+                }
+            }
+        }
+        return effectiveModel;
+    }
+
+    private static Model buildModel(String[] descriptions) {
+        Model model = ModelFactory.createDefaultModel();
+        for (String description : descriptions) {
+            OpenedResource opened = openResource(description);
+            LOG.debug("Parsing FnO description '{}'", opened != null ? opened.source : abbreviateDescription(description));
+            if (opened == null) {
+                throw new IllegalStateException("FnO description '" + description + "' not found on the classpath or filesystem.");
+            }
+            try (InputStream in = opened.inputStream) {
+                try {
+                    model.read(in, null, "TURTLE");
+                } catch (RiotException e) {
+                    throw new IllegalStateException("Failed to parse FnO description '" + description + "': " + messageOf(e));
+                }
+            } catch (IllegalStateException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new IllegalStateException("Failed to load FnO description '" + description + "': " + messageOf(e), e);
+            }
+        }
+        return model;
+    }
+
+    private static String abbreviateDescription(String description) {
+        return description.length() > 80
+                ? description.substring(0, 40) + "\u2026" + description.substring(description.length() - 35)
+                : description;
+    }
+
+    private static String messageOf(Throwable t) {
+        String message = t.getMessage();
+        return (message == null || message.isBlank()) ? t.toString() : message;
+    }
+
+    private static FnOParameterTranslator getParameterTranslator() {
+        if (parameterTranslator == null) {
+            synchronized (agentLock) {
+                if (parameterTranslator == null) {
+                    parameterTranslator = new FnOParameterTranslator(getEffectiveModel());
+                }
+            }
+        }
+        return parameterTranslator;
+    }
+
+    private static FnOReturnTypeTranslator getReturnTypeTranslator() {
+        if (returnTypeTranslator == null) {
+            synchronized (agentLock) {
+                if (returnTypeTranslator == null) {
+                    returnTypeTranslator = new FnOReturnTypeTranslator(getEffectiveModel());
+                }
+            }
+        }
+        return returnTypeTranslator;
+    }
 
     private final String identifier;
     private final List<FnOParameter> parameters;
@@ -60,7 +181,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
         this.identifier = identifier;
         this.parameters = parameters;
         this.returnType = returnType;
-        this.datatypeIRI = RETURN_TYPE_TRANSLATOR.getDatatype(identifier);
+        this.datatypeIRI = getReturnTypeTranslator().getDatatype(identifier);
     }
 
     /**
@@ -72,7 +193,14 @@ public class FnOFunction implements ExtendFunction, Serializable {
             synchronized (agentLock) {
                 if (cachedAgent == null) {
                     try {
-                        cachedAgent = AgentFactory.createFromFnO(FUNCTION_DESCRIPTIONS);
+                        // serialize the already-parsed model once rather than re-reading individual files
+                        java.io.StringWriter sw = new java.io.StringWriter();
+                        getEffectiveModel().write(sw, "TURTLE");
+                        cachedAgent = AgentFactory.createFromFnO(sw.toString());
+                        if (LOG.isDebugEnabled()) {
+                            List<String> discoveredFunctions = discoverFunctions(getEffectiveModel());
+                            LOG.debug("Discovered/loaded {} FnO functions: {}", discoveredFunctions.size(), discoveredFunctions);
+                        }
                     } catch (Exception e) {
                         throw new RuntimeException("Failed to create FnO Agent", e);
                     }
@@ -106,7 +234,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
         List<List<String>> valuesPerParameter = new ArrayList<>(this.parameters.size());
 
         for (FnOParameter parameter : this.parameters) {
-            predicates.add(PARAMETER_TRANSLATOR.translate(parameter.getIdentifier()));
+            predicates.add(getParameterTranslator().translate(parameter.getIdentifier()));
             valuesPerParameter.add(parameter.getParameters(solutionMapping));
         }
 
@@ -135,7 +263,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     private @Nullable Object execute(Arguments arguments) {
         // TODO: what is the expected behaviour? RMLFNML test cases expect errors to be thrown...
-                try {
+        try {
             // extract the value from the Agent
             return getAgent().execute(this.identifier, arguments);
         } catch (FnOException e) {
@@ -203,6 +331,47 @@ public class FnOFunction implements ExtendFunction, Serializable {
         }
 
         return List.of(result.toString());
+    }
+
+    private static List<String> discoverFunctions(Model model) {
+        Set<String> discovered = new TreeSet<>();
+        Resource functionType = model.createResource(FNO_FUNCTION_TYPE);
+        ResIterator functions = model.listResourcesWithProperty(RDF.type, functionType);
+        while (functions.hasNext()) {
+            Resource function = functions.next();
+            if (function.isURIResource()) {
+                discovered.add(function.getURI());
+            }
+        }
+        return List.copyOf(discovered);
+    }
+
+    private static @Nullable OpenedResource openResource(String name) {
+        if (name.startsWith(CLASSPATH_PREFIX)) {
+            String resource = name.substring(CLASSPATH_PREFIX.length());
+            return openClasspathResource(resource);
+        }
+        try {
+            java.nio.file.Path path = java.nio.file.Paths.get(name);
+            if (java.nio.file.Files.exists(path)) {
+                java.nio.file.Path absolutePath = path.toAbsolutePath().normalize();
+                return new OpenedResource(java.nio.file.Files.newInputStream(absolutePath), absolutePath.toString());
+            }
+        } catch (Exception ignored) {}
+        return openClasspathResource(name);
+    }
+
+    private static @Nullable OpenedResource openClasspathResource(String resourceName) {
+        ClassLoader loader = FnOFunction.class.getClassLoader();
+        java.net.URL resourceUrl = loader.getResource(resourceName);
+        if (resourceUrl == null) {
+            return null;
+        }
+        InputStream in = loader.getResourceAsStream(resourceName);
+        if (in == null) {
+            return null;
+        }
+        return new OpenedResource(in, resourceUrl.toString());
     }
 
     @Override

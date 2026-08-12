@@ -1,11 +1,9 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
@@ -17,8 +15,8 @@ final class FnOReturnTypeTranslator {
     private static final String XSD_STRING = "http://www.w3.org/2001/XMLSchema#string";
     private final Map<String, String> functionToDatatype;
 
-    FnOReturnTypeTranslator(String[] functionDescriptions) {
-        this.functionToDatatype = loadDatatypes(functionDescriptions);
+    FnOReturnTypeTranslator(Model model) {
+        this.functionToDatatype = loadDatatypes(model);
     }
 
     String getDatatype(String functionIdentifier) {
@@ -32,19 +30,8 @@ final class FnOReturnTypeTranslator {
         return functionToDatatype.getOrDefault(trimmed, XSD_STRING);
     }
 
-    private Map<String, String> loadDatatypes(String[] functionDescriptions) {
+    private Map<String, String> loadDatatypes(Model model) {
         Map<String, String> map = new HashMap<>();
-        Model model = ModelFactory.createDefaultModel();
-
-        for (String desc : functionDescriptions) {
-            try (InputStream in = getClass().getClassLoader().getResourceAsStream(desc)) {
-                if (in != null) {
-                    model.read(in, null, "TTL");
-                }
-            } catch (Exception e) {
-                // Ignore parsing errors, just continue
-            }
-        }
 
         // Query: SELECT ?func ?type WHERE { ?func fno:returns ?ret . ?ret rdf:first ?out . ?out fno:type ?type }
         String query = "PREFIX fno: <https://w3id.org/function/ontology#> " +

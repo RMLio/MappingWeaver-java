@@ -1,11 +1,11 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
+import java.util.List;
+
 import picocli.CommandLine;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Model.OptionSpec;
 import picocli.CommandLine.Model.UsageMessageSpec;
-
-import java.util.List;
 
 public final class CliCommand {
 
@@ -83,6 +83,16 @@ public final class CliCommand {
                 .usageMessage(new UsageMessageSpec().description("Do everything, but discard output"));
 
 
+        CommandLine.Model.ArgGroupSpec verbosity = CommandLine.Model.ArgGroupSpec.builder()
+                .exclusive(true)
+                .addArg(OptionSpec.builder("-v").arity("0").type(boolean.class)
+                        .description("Set log level to WARN").build())
+                .addArg(OptionSpec.builder("-vv").arity("0").type(boolean.class)
+                        .description("Set log level to INFO").build())
+                .addArg(OptionSpec.builder("-vvv").arity("0").type(boolean.class)
+                        .description("Set log level to DEBUG").build())
+                .build();
+
         CommandLine.Model.ArgGroupSpec mappingKind = CommandLine.Model.ArgGroupSpec.builder()
                 .exclusive(true)
                 .addArg(
@@ -114,6 +124,7 @@ public final class CliCommand {
                 .addSubcommand("toWebSocket", toWebSocket)
                 .addSubcommand("noOutput", noOutput)
                 .addArgGroup(mappingKind)
+                .addArgGroup(verbosity)
                 .addOption(OptionSpec.builder("-j", "--job-name")
                         .paramLabel("<job name>")
                         .type(String.class)
@@ -153,6 +164,11 @@ public final class CliCommand {
                         .paramLabel("<function descriptions>")
                         .type(List.class).auxiliaryTypes(String.class) // List<String>
                         .description("An optional comma-separated list of paths to function description files (in RDF using FnO). A path can be a file location or a URL.")
+                        .build())
+                .addOption(OptionSpec.builder("--custom-functions-only")
+                        .arity("0")
+                        .type(boolean.class)
+                        .description("When set, only the descriptions provided via -f are used; the built-in GREL/IDLab descriptions are excluded.")
                         .build());
         return root;
     }
