@@ -1,6 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
+import be.ugent.idlab.knows.amo.blocks.nodes.CollectionNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
@@ -212,6 +213,14 @@ public class FnOFunction implements ExtendFunction, Serializable {
         return nodes.isEmpty() ? null : nodes.get(0);
     }
 
+    /**
+     * The function's result as a single node: several values are held together in a
+     * {@link CollectionNode} rather than handed over one by one.
+     * <p>
+     * Keeping them as one value is what lets the result be passed on: a function taking it
+     * as an argument sees every value, and a term is generated per member only where the
+     * collection is serialized.
+     */
     @Override
     public List<RDFNode> applyMultiToNode(@Nullable SolutionMapping solutionMapping) {
         // If return_type is unknownOut or doesn't match expected, return null (no output)
@@ -220,6 +229,10 @@ public class FnOFunction implements ExtendFunction, Serializable {
         }
 
         List<String> values = allValues(solutionMapping);
+        if (values.isEmpty()) {
+            // a function that produced nothing has no node, rather than an empty collection
+            return List.of();
+        }
         if (values.size() == 1) {
             return List.of(new LiteralNode(values.get(0), datatypeIRI, ""));
         }
@@ -227,9 +240,9 @@ public class FnOFunction implements ExtendFunction, Serializable {
         // The declared datatype describes what the function returns as a whole, which for
         // a function producing several values is the collection (rdf:List) and not the
         // values in it. Each of them is a string.
-        return values.stream()
+        return List.of(new CollectionNode(values.stream()
                 .map(value -> (RDFNode) new LiteralNode(value, XSD_STRING, ""))
-                .toList();
+                .toList()));
     }
     
     @Override

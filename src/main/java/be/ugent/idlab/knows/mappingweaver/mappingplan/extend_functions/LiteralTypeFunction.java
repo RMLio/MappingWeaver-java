@@ -1,6 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions;
 
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
+import be.ugent.idlab.knows.amo.blocks.nodes.CollectionNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
@@ -61,13 +62,26 @@ public class LiteralTypeFunction
 
     /**
      * Turns a value the inner function produced into a literal, with the language and
-     * datatype this function was given.
+     * datatype this function was given. A value standing for several terms gives a literal
+     * per term, held together as one value the way the inner function handed it over.
      */
     @Nullable
     private RDFNode asLiteral(@Nullable RDFNode innerNode, @Nullable SolutionMapping mapping) {
         //extract inner value
         if (innerNode == null || innerNode.isNull()) {
             return null;
+        }
+
+        if (innerNode.isCollection()) {
+            List<RDFNode> literals = new ArrayList<>();
+            for (RDFNode member : ((CollectionNode) innerNode).members()) {
+                RDFNode literal = asLiteral(member, mapping);
+                if (literal != null) {
+                    literals.add(literal);
+                }
+            }
+
+            return literals.isEmpty() ? null : new CollectionNode(literals);
         }
 
         String language = (this.languageFunction == null) ? "" : this.languageFunction.apply(mapping);

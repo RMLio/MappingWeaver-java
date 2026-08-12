@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated Algebraic Mapping Operators to 4.1.0
+- A function producing several values hands them over as one `CollectionNode` instead of one node per value. The values stay together while they are passed around, so a function taking the result as an argument sees all of them, and the terms are generated where the collection is serialized: a `TemplateSerializer` states the template once per member. A collection that a term map asks to be serialized as an `rdf:List` or `rdf:Seq` is RML-CC and not implemented, so every collection is serialized a term at a time for now.
 
 ### Fixed
 - A function producing several values is applied to every one of them, wherever it is used
