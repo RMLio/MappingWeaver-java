@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A function producing several values hands them over as one `CollectionNode` instead of one node per value. The values stay together while they are passed around, so a function taking the result as an argument sees all of them, and the terms are generated where the collection is serialized: a `TemplateSerializer` states the template once per member. A collection that a term map asks to be serialized as an `rdf:List` or `rdf:Seq` is RML-CC and not implemented, so every collection is serialized a term at a time for now.
 
 ### Fixed
+- An IRI object map fed by a function producing several values yields an IRI per value, instead of keeping only the first
 - A function producing several values is applied to every one of them, wherever it is used
 - A value from a multi-valued function no longer carries the datatype of the collection the function returns
 - A source field is read once per name, so a logical view read by several triples maps no longer exhausts the heap
@@ -20,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An empty value is a value, and no longer reported as an absent attribute
 
 ### Added
+- Test case `RMLFNOTC1005-JSON`, covering a multi-valued function in an IRI object map
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view
 
 ## [0.3.0] - 2026-07-30
