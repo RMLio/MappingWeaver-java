@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+- A join on equality whose condition holds no attributes is refused instead of joining every combination. A mapping plan that cannot express its condition, one joining on a constant for instance, arrives with an empty condition; the loop over the attributes then found nothing to reject on and answered that every record matched, so a cross join was silently produced where an equality was asked for (RML-Core test cases RMLTC0030c to RMLTC0030f).
+- An equality join no longer logs both solution mappings and both attribute names at WARN level for every pair of records it compares.
+
 ### Changed
 - Updated Algebraic Mapping Operators to 4.1.0
 
