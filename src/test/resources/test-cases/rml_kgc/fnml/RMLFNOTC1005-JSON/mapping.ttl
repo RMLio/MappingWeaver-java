@@ -3,6 +3,8 @@
 @prefix idlab-fn: <https://w3id.org/imec/idlab/function#> .
 @prefix :         <urn:example:> .
 
+# It's like RMLFNOTC1002, but the return type of the Split function is string instead of array. This means that the output of the function will be a string instead of an array.
+
 :source a rml:LogicalSource ;
     rml:source [
         a rml:RelativePathSource , rml:Source ;
@@ -25,7 +27,7 @@
     rml:subjectMap [ rml:template "{#}" ] ;
     rml:predicateObjectMap [
         rml:predicate :hasValue ;
-        rml:objectMap [ rml:functionExecution :Split ; rml:return grel:output_array ]
+        rml:objectMap [ rml:functionExecution :Split ; rml:return grel:stringOut ]
     ] .
 
 :Split

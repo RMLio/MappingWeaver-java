@@ -12,8 +12,6 @@ public class CliVerbosityTest {
     void verbosityVVV_setsDebugLevel() throws Exception {
         ParseResult result = new CommandLine(CliCommand.create()).parseArgs("-m", "dummy.ttl", "-vvv");
         Main.applyVerbosity(result);
-        Object rootLogger = Class.forName("org.apache.logging.log4j.LogManager")
-                .getMethod("getRootLogger").invoke(null);
-        assertEquals("DEBUG", rootLogger.getClass().getMethod("getLevel").invoke(rootLogger).toString());
+        assertEquals("debug", System.getProperty("org.slf4j.simpleLogger.log.be.ugent.idlab.knows.mappingweaver"));
     }
 }

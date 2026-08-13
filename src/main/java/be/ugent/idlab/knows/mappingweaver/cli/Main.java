@@ -176,20 +176,8 @@ public class Main {
         else if (options.hasMatchedOption("-vv")) level = "INFO";
         else if (options.hasMatchedOption("-v")) level = "WARN";
         else level = "ERROR";
-        try {
-            Class<?> configurator = Class.forName("org.apache.logging.log4j.core.config.Configurator");
-            Class<?> levelClass = Class.forName("org.apache.logging.log4j.Level");
-            Object logLevel = levelClass.getMethod("toLevel", String.class).invoke(null, level);
-            Object errorLevel = levelClass.getMethod("toLevel", String.class).invoke(null, "ERROR");
-
-            // Keep everything at ERROR, then raise only MappingWeaver according to -v flags.
-            configurator.getMethod("setRootLevel", levelClass).invoke(null, errorLevel);
-            configurator.getMethod("setAllLevels", String.class, levelClass).invoke(null, "", errorLevel);
-            configurator.getMethod("setAllLevels", String.class, levelClass).invoke(null, "be.ugent.idlab.knows.mappingweaver", logLevel);
-        } catch (Exception ignored) {
-            System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error");
-            System.setProperty("org.slf4j.simpleLogger.log.be.ugent.idlab.knows.mappingweaver", level.toLowerCase());
-        }
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error");
+        System.setProperty("org.slf4j.simpleLogger.log.be.ugent.idlab.knows.mappingweaver", level.toLowerCase());
     }
 
     public static class CommonSink implements TargetSink<String> {

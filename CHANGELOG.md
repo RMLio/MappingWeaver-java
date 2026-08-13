@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - A function producing several values is applied to every one of them, wherever it is used
+- FnO return datatypes now follow the selected resource in the function's ordered `fno:returns` list, with warnings and first-return fallback for invalid `rml:return` values
 - A value from a multi-valued function no longer carries the datatype of the collection the function returns
 - A source field is read once per name, so a logical view read by several triples maps no longer exhausts the heap
 - A function returning its values as an array, as the GREL functions do, no longer ends up as the array itself

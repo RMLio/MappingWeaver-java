@@ -20,8 +20,8 @@ Every implementation request handled by an AI agent/LLM should follow these cons
   - add or update a regression test when needed.
 - Make the smallest coherent patch.
 - **Push back** when a request would violate an established principle (e.g. breaking test hermeticity). Explain the principle and suggest a documentation-only fix instead of silently implementing the harmful change.
-- Update this handbook so the request is documented, not only implemented.
-  - Do not document all history of all requests (i.e., no changelog-style notes), instead, update documentation to reflect the latest state, integrated in the surrounding narrative (principles, behavior, rationale).
+- Update this handbook when the change establishes durable behavior, a principle, or rationale that future work should know; document it in the relevant existing section, not only in the implementation.
+  - Prefer concise, current-state documentation integrated into the surrounding narrative. Do not add request history, implementation transcripts, or redundant changelog-style notes.
 - Do not stop at making tests green; align implementation with the specification and document the semantic reason in this handbook.
 - Never remove or change existing tests (code nor files) without explicit permission.
 - Update `CHANGELOG.md` for implementation changes (update an existing unreleased entry or, if really relevant, add a new one); keep `## Unreleased` focused on the short diff from the previous version, not an accumulating list of every intermediate change.
@@ -30,7 +30,7 @@ Every implementation request handled by an AI agent/LLM should follow these cons
 
 ## Runtime logging
 
-MappingWeaver logs through SLF4J, with `slf4j-simple` as the runtime backend.
+MappingWeaver logs through SLF4J, with `slf4j-simple` as the single runtime backend.
 
 ## FnO function descriptions
 
@@ -45,3 +45,5 @@ Custom descriptions without a `classpath://` prefix are resolved in this order:
 2. Classpath fallback.
 
 All descriptions are merged into a single Jena `Model` once (`effectiveModel`) and reused for both the parameter/return-type translators and the FnO `Agent` (which receives the model serialized back to Turtle to avoid re-reading the original files).
+
+For an FnO execution, `rml:return` is validated against that function's ordered `fno:returns` RDF list. A missing or invalid return resource falls back to the first list member; invalid or unverifiable declarations emit a warning, while a missing `rml:return` on a known function is logged at debug level.

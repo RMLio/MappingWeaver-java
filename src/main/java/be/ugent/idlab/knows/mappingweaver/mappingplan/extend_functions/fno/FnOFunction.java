@@ -67,6 +67,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(FnOFunction.class);
 
     private static final String XSD_STRING = "http://www.w3.org/2001/XMLSchema#string";
+    private static final String RDF_LIST = "http://www.w3.org/1999/02/22-rdf-syntax-ns#List";
 
     // not serialized; recreated per JVM instance
     private static volatile Agent cachedAgent = null;
@@ -181,7 +182,8 @@ public class FnOFunction implements ExtendFunction, Serializable {
         this.identifier = identifier;
         this.parameters = parameters;
         this.returnType = returnType;
-        this.datatypeIRI = getReturnTypeTranslator().getDatatype(identifier);
+        FnOReturnTypeTranslator translator = getReturnTypeTranslator();
+        this.datatypeIRI = translator.resolveOutputDatatype(identifier, returnType);
     }
 
     /**
@@ -389,15 +391,9 @@ public class FnOFunction implements ExtendFunction, Serializable {
         }
 
         List<String> values = allValues(solutionMapping);
-        if (values.size() == 1) {
-            return List.of(new LiteralNode(values.get(0), datatypeIRI, ""));
-        }
-
-        // The declared datatype describes what the function returns as a whole, which for
-        // a function producing several values is the collection (rdf:List) and not the
-        // values in it. Each of them is a string.
+        String valueDatatype = RDF_LIST.equals(datatypeIRI) ? XSD_STRING : datatypeIRI;
         return values.stream()
-                .map(value -> (RDFNode) new LiteralNode(value, XSD_STRING, ""))
+            .map(value -> (RDFNode) new LiteralNode(value, valueDatatype, ""))
                 .toList();
     }
     

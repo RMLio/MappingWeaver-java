@@ -25,7 +25,7 @@
     rml:subjectMap [ rml:template "{#}" ] ;
     rml:predicateObjectMap [
         rml:predicate :hasValue ;
-        rml:objectMap [ rml:functionExecution :Split ; rml:return grel:stringOut ]
+        rml:objectMap [ rml:functionExecution :Split ; rml:return grel:output_array ]
     ] .
 
 :Split

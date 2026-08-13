@@ -1,12 +1,13 @@
 package be.ugent.idlab.knows.mappingweaver.spec.rml_kgc;
 
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.stream.Stream;
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 
 public class RMLFNMLTest extends TestCore {
 
