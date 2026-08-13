@@ -29,7 +29,9 @@ public class FnOSplitTest extends TestCore {
                 // empty strings filtered out after splitting, with idlab-fn:trueCondition
                 "RMLFNOTC1003-JSON",
                 // the values become IRIs instead of literals
-                "RMLFNOTC1005-JSON"
+                "RMLFNOTC1005-JSON",
+                // the values label blank nodes
+                "RMLFNOTC1006-JSON"
         ).map(Arguments::of);
     }
 
