@@ -8,6 +8,11 @@ include:
   - project: 'rml/util/ci-templates'
     ref: main
     file: 'CHANGELOG.gitlab-ci.yml'
+  # Check Javadoc
+  - project: 'rml/util/ci-templates'
+    ref: main
+    file: 'Javadoc-check.gitlab-ci.yml'
+  # Deploy on Maven Central
   - project: 'rml/util/ci-templates'
     ref: main
     file: 'Maven-Central.gitlab-ci.yml'
@@ -76,7 +81,7 @@ Specification Tests:
         # RMLIOFNOTest — class @Disabled: "Old RML not supported in MappingLoom-rs" (runs 0 tests)
       ]
   except:
-    - master
+    - main
     - development
 
 Utility Tests:
@@ -120,3 +125,4 @@ Utility Tests:
       ]
   except:
     - main
+    - development
