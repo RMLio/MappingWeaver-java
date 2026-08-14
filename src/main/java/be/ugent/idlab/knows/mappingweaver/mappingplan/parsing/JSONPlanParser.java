@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.json.JSONArray;
@@ -35,6 +36,8 @@ import be.ugent.idlab.knows.amo.operators.intermediate.unary.RenameOperator;
 import be.ugent.idlab.knows.amo.operators.intermediate.unary.TemplateSerializer;
 import be.ugent.idlab.knows.amo.operators.source.SourceOperator;
 import be.ugent.idlab.knows.amo.operators.source.dataio.CSVSourceOperator;
+import be.ugent.idlab.knows.dataio.iterators.csvw.CSVWConfiguration;
+import be.ugent.idlab.knows.dataio.iterators.csvw.CSVWConfigurationBuilder;
 import be.ugent.idlab.knows.amo.operators.source.dataio.DataIOSourceOperator;
 import be.ugent.idlab.knows.amo.operators.source.dataio.JSONSourceOperator;
 import be.ugent.idlab.knows.amo.operators.source.dataio.XMLSourceOperator;
@@ -311,6 +314,10 @@ public class JSONPlanParser implements Serializable {
     private Access parseFileAccess(JSONObject operatorConfig) {
         JSONObject access = operatorConfig.has("access") ? operatorConfig.getJSONObject("access") : operatorConfig;
         String path = access.has("path") ? access.getString("path") : operatorConfig.has("path") ? operatorConfig.getString("path") : null;
+        if (path == null && access.has("url")) {
+            // a CSV on the Web table says where its data is with csvw:url
+            path = access.getString("url");
+        }
         if (path == null) {
             throw new MappingException("File source missing 'path' in operator configuration");
         }
@@ -552,8 +559,72 @@ public class JSONPlanParser implements Serializable {
                 access,
                 outputFragments,
                 amoFields,
-                nulls
+                nulls,
+                parseCSVWConfiguration(config)
         );
+    }
+
+    /**
+     * The dialect the rows of a CSV on the Web table are written in.
+     * <p>
+     * The table's own configuration is read: the delimiter, the quote character, the
+     * encoding and the rest. A source saying none of it is a plain CSV, read the way it
+     * always was, and then no configuration is built.
+     *
+     * @param config the source operator's configuration
+     * @return the dialect, or {@code null} when the source does not describe one
+     */
+    private @Nullable CSVWConfiguration parseCSVWConfiguration(JSONObject config) {
+        JSONObject access = config.has("access") ? config.getJSONObject("access") : config;
+
+        // csvw:url alone says nothing about the dialect: a table without one is read with
+        // the defaults, which is what a plain CSV is
+        List<String> dialectKeys = List.of("delimiter", "encoding", "quoteChar", "trim",
+                "commentPrefix", "header", "null");
+        if (dialectKeys.stream().noneMatch(access::has)) {
+            return null;
+        }
+
+        CSVWConfigurationBuilder builder = CSVWConfiguration.builder();
+
+        if (access.has("delimiter")) {
+            builder.withDelimiter(singleCharacter(access.getString("delimiter"), "delimiter"));
+        }
+        if (access.has("quoteChar")) {
+            builder.withQuoteCharacter(singleCharacter(access.getString("quoteChar"), "quoteChar"));
+        }
+        if (access.has("encoding")) {
+            builder.withEncoding(Charset.forName(access.getString("encoding")));
+        }
+        if (access.has("trim")) {
+            builder.withTrim(access.getString("trim"));
+        }
+        if (access.has("commentPrefix")) {
+            builder.withCommentPrefix(access.getString("commentPrefix"));
+        }
+        if (access.has("header")) {
+            // csvw:header says whether the data has a header row; the iterator is told the
+            // opposite, as it skips reading one when the column names are given to it
+            builder.skipHeader(!Boolean.parseBoolean(access.getString("header")));
+        }
+        if (access.has("null")) {
+            builder.withNulls(Set.of(access.getString("null")));
+        }
+
+        return builder.build();
+    }
+
+    /**
+     * A dialect names a delimiter or a quote character as one character; an escape written
+     * as "\t" in the mapping arrives here as the tab it stands for.
+     */
+    private char singleCharacter(String value, String property) {
+        if (value.length() != 1) {
+            throw new MappingException(
+                    "The %s of a CSV dialect is one character, but '%s' was given".formatted(property, value));
+        }
+
+        return value.charAt(0);
     }
 
     // TODO: does this work??

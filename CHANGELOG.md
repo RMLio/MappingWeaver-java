@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- A source that is a CSV on the Web table is read in the dialect it says it is written in. The plan's source configuration carries what the table and its dialect said — the delimiter, the quote character, the encoding, whether the data has a header row, and the values standing for no value — and those become the `CSVWConfiguration` the CSV source operator reads through. A source saying none of it is a plain CSV and is read as before. Test case RMLIOREGTC0012b covers a semicolon-separated table naming "NULL" as its null value.
+- A file source may say where its data is with `url` instead of `path`, which is what a CSV on the Web table says.
+
 ### Changed
 - Updated Algebraic Mapping Operators to 4.1.0
 
