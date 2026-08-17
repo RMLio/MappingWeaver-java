@@ -1,0 +1,56 @@
+@prefix ex: <http://example.com/> .
+@prefix idlab-fn: <https://w3id.org/imec/idlab/function#> .
+@prefix rml: <http://w3id.org/rml/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:input a rml:LogicalSource ;
+  rml:source [
+    a rml:RelativePathSource ;
+    rml:path "input.csv" ;
+    rml:root rml:MappingDirectory
+  ] ;
+  rml:iterator "$[*]" ;
+  rml:referenceFormulation rml:CSV .
+
+ex:view a rml:LogicalView ;
+  rml:viewOn ex:input ;
+  rml:field [ rml:fieldName "id" ; rml:reference "id" ] ;
+  rml:field [ rml:fieldName "gender" ; rml:reference "gender" ] ;
+  rml:field [
+    rml:fieldName "genderCode" ;
+    rml:functionExecution ex:genderExecution ;
+    rml:return idlab-fn:_stringOut
+  ] ;
+  rml:field [
+    rml:fieldName "sexCode" ;
+    rml:functionExecution ex:sexExecution ;
+    rml:return idlab-fn:_stringOut
+  ] .
+
+ex:genderExecution
+  rml:function idlab-fn:lookupWithDelimiter ;
+  rml:input [ rml:parameter idlab-fn:_str ; rml:inputValueMap [ rml:reference "gender" ] ] ,
+    [ rml:parameter idlab-fn:_inputFile ; rml:inputValue "src/test/resources/test-cases/regressions/fixed-bugs/multiple-function-executions/gender.csv" ] ,
+    [ rml:parameter idlab-fn:_fromColumn ; rml:inputValue "0"^^xsd:integer ] ,
+    [ rml:parameter idlab-fn:_toColumn ; rml:inputValue "1"^^xsd:integer ] ,
+    [ rml:parameter idlab-fn:_delimiter ; rml:inputValue ";" ] .
+
+ex:sexExecution
+  rml:function idlab-fn:lookupWithDelimiter ;
+  rml:input [ rml:parameter idlab-fn:_str ; rml:inputValueMap [ rml:reference "gender" ] ] ,
+    [ rml:parameter idlab-fn:_inputFile ; rml:inputValue "src/test/resources/test-cases/regressions/fixed-bugs/multiple-function-executions/sex.csv" ] ,
+    [ rml:parameter idlab-fn:_fromColumn ; rml:inputValue "0"^^xsd:integer ] ,
+    [ rml:parameter idlab-fn:_toColumn ; rml:inputValue "1"^^xsd:integer ] ,
+    [ rml:parameter idlab-fn:_delimiter ; rml:inputValue ";" ] .
+
+ex:triplesMap a rml:TriplesMap ;
+  rml:logicalSource ex:view ;
+  rml:subjectMap [ rml:template "http://example.com/patient/{id}" ] ;
+  rml:predicateObjectMap [
+    rml:predicate ex:genderCode ;
+    rml:objectMap [ rml:reference "genderCode" ; rml:termType rml:IRI ]
+  ] ;
+  rml:predicateObjectMap [
+    rml:predicate ex:sexCode ;
+    rml:objectMap [ rml:reference "sexCode" ; rml:termType rml:IRI ]
+  ] .

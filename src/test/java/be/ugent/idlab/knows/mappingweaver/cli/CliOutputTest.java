@@ -61,13 +61,13 @@ public class CliOutputTest {
     @Disabled("Flink does not necessarily write to a single file; can be a directory.")
     @Test
     public void testToFile() {
-        String[] args = {"-m", "src/test/resources/test-cases/csv/RMLTC0001a-CSV/mapping.ttl", "toFile", "-o", "/tmp/output.ttl"};
+        String[] args = {"-m", "src/test/resources/test-cases/spec-adaptations/rmlio/core/csv/RMLTC0001a-CSV/mapping.ttl", "toFile", "-o", "/tmp/output.ttl"};
 
         Main.main(args);
 
         String expected, actual;
 
-        try (InputStream actualStream = new FileInputStream("/tmp/output.ttl"); InputStream expectedStream = new FileInputStream("src/test/resources/test-cases/csv/RMLTC0001a-CSV/output.nq")) {
+        try (InputStream actualStream = new FileInputStream("/tmp/output.ttl"); InputStream expectedStream = new FileInputStream("src/test/resources/test-cases/spec-adaptations/rmlio/core/csv/RMLTC0001a-CSV/output.nq")) {
             expected = new String(expectedStream.readAllBytes()).strip();
             actual = new String(actualStream.readAllBytes()).strip();
         } catch (IOException e) {
@@ -82,7 +82,7 @@ public class CliOutputTest {
     public void testToTCPSocket() throws IOException {
         // start a server
         try (ServerSocket server = new ServerSocket(0)) {
-            String[] args = {"-m", "src/test/resources/test-cases/csv/RMLTC0001a-CSV/mapping.ttl", "toTCPSocket", "-s", server.getInetAddress().getHostAddress() + ":" + server.getLocalPort()};
+            String[] args = {"-m", "src/test/resources/test-cases/spec-adaptations/rmlio/core/csv/RMLTC0001a-CSV/mapping.ttl", "toTCPSocket", "-s", server.getInetAddress().getHostAddress() + ":" + server.getLocalPort()};
 
             Thread t = new Thread(() -> Main.main(args));
 
@@ -107,7 +107,7 @@ public class CliOutputTest {
             t2.join();
 
             String expected;
-            try (InputStream is = new FileInputStream("src/test/resources/test-cases/csv/RMLTC0001a-CSV/output.nq")) {
+            try (InputStream is = new FileInputStream("src/test/resources/test-cases/spec-adaptations/rmlio/core/csv/RMLTC0001a-CSV/output.nq")) {
                 expected = new String(is.readAllBytes()).strip();
             }
 
@@ -146,13 +146,13 @@ public class CliOutputTest {
             }
 
             String expected;
-            try (InputStream expectedStream = new FileInputStream("src/test/resources/test-cases/csv/RMLTC0001a-CSV/output.nq")) {
+            try (InputStream expectedStream = new FileInputStream("src/test/resources/test-cases/spec-adaptations/rmlio/core/csv/RMLTC0001a-CSV/output.nq")) {
                 expected = new String(expectedStream.readAllBytes()).strip();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-            String[] args = {"-m", "src/test/resources/test-cases/csv/RMLTC0001a-CSV/mapping.ttl", "toKafka", "-b", kafka.getBootstrapServers(), "-t", "test-topic"};
+            String[] args = {"-m", "src/test/resources/test-cases/spec-adaptations/rmlio/core/csv/RMLTC0001a-CSV/mapping.ttl", "toKafka", "-b", kafka.getBootstrapServers(), "-t", "test-topic"};
 
             Properties props = new Properties();
             props.putAll(Map.of(
@@ -234,7 +234,7 @@ public class CliOutputTest {
                 }
             });
 
-            String[] args = {"-m", "src/test/resources/test-cases/csv/RMLTC0001a-CSV/mapping.ttl", "toMQTT", "-b", broker, "-t", topic};
+            String[] args = {"-m", "src/test/resources/test-cases/spec-adaptations/rmlio/core/csv/RMLTC0001a-CSV/mapping.ttl", "toMQTT", "-b", broker, "-t", topic};
             Main.main(args);
 
             // give the messages a chance to arrive
@@ -245,7 +245,7 @@ public class CliOutputTest {
 
             String actual = collected.stream().reduce(String::concat).orElse("");
             String expected;
-            try (InputStream is = new FileInputStream("src/test/resources/test-cases/csv/RMLTC0001a-CSV/output.nq")) {
+            try (InputStream is = new FileInputStream("src/test/resources/test-cases/spec-adaptations/rmlio/core/csv/RMLTC0001a-CSV/output.nq")) {
                 expected = new String(is.readAllBytes()).strip();
             }
 
@@ -309,7 +309,7 @@ public class CliOutputTest {
 
         @Test
         public void testCliWebSocketOutput() throws Exception {
-            String mapping = "src/test/resources/test-cases/json/RMLTC0019a-JSON/mapping.ttl";
+            String mapping = "src/test/resources/test-cases/spec-adaptations/rmlio/core/json/RMLTC0019a-JSON/mapping.ttl";
             String[] args = {"-m", mapping, "toWebSocket", "-u", "ws://localhost:" + WS_PORT};
 
             Main.main(args);

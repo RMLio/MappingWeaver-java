@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Changed
+- Reorganized test resources and Java runners by RML language and provenance, using authoritative spec fixtures where applicable
 - Updated Algebraic Mapping Operators to 4.1.0
 - Updated `idlab-functions-java` to 1.5.1-SNAPSHOT
 - Declared `slf4j-simple` as a runtime dependency, so the CLI has a concrete logging backend on its runtime classpath
