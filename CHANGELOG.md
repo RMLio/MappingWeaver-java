@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated Algebraic Mapping Operators to 4.1.0
+- Updated `idlab-functions-java` to 1.5.1-SNAPSHOT
 - Declared `slf4j-simple` as a runtime dependency, so the CLI has a concrete logging backend on its runtime classpath
 - FnO descriptions are parsed into a single merged Jena `Model` once and reused across translators and the FnO agent (see HANDBOOK: FnO function descriptions)
 - Built-in FnO descriptions use a `classpath://` prefix; custom descriptions can override them by filename (see README: Custom FnO function descriptions)
 
 ### Fixed
+- `lookupWithDelimiter` calls using different input files no longer reuse each other's results
 - A function producing several values is applied to every one of them, wherever it is used
 - FnO return datatypes now follow the selected resource in the function's ordered `fno:returns` list, with warnings and first-return fallback for invalid `rml:return` values
 - A value from a multi-valued function no longer carries the datatype of the collection the function returns

@@ -23,7 +23,7 @@ under the License.
     <name>MappingWeaver-Java</name>
     <groupId>be.ugent.idlab.knows</groupId>
     <artifactId>MappingWeaver</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>https://github.com/RMLio/MappingWeaver-java</url>
     <description>A data-to-RDF mapping engine written in Java. </description>
@@ -207,7 +207,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>function-agent-java</artifactId>
-            <version>1.3.0</version>
+            <version>1.3.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.jena</groupId>
@@ -219,7 +219,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>idlab-functions-java</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.fnoio</groupId>
