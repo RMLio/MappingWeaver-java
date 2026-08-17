@@ -1,8 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.rml_kgc.spec;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -32,7 +31,7 @@ public class RMLRegistryTest extends TestCore {
     }
 
     private static Stream<Arguments> unfixable() {
-        // panic in rust
+        // The registry cases below fail with a Rust translation panic.
         return Stream.of(
                 "RMLIOREGTC0003d",
                 "RMLIOREGTC0004a",
@@ -139,5 +138,12 @@ public class RMLRegistryTest extends TestCore {
     @MethodSource("negative")
     public void negativeTest(String directory) throws Exception {
         super.negativeTest("src/test/resources/rml_kgc/spec/rml-io-registry/", directory);
+    }
+
+    @Disabled("These tests panic in the Rust translation thread")
+    @ParameterizedTest(name = "Unfixable test index: {index} Filename: {0}")
+    @MethodSource("unfixable")
+    public void unfixableTest(String directory) throws Exception {
+        super.positiveTest("src/test/resources/rml_kgc/spec/rml-io-registry/", directory);
     }
 }

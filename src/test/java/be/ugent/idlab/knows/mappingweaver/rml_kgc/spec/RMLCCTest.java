@@ -15,13 +15,12 @@ public class RMLCCTest extends TestCore {
     }
 
     // All RML-CC test cases are positive (README: "**Error expected?** No"), but none
-    // currently pass: RML Collections & Containers (rml:gather / rml:gatherAs) is not
-    // implemented. 24 cases crash while translating the gather, the other 11 run but
-    // silently drop the gathered collection/container (rdf:Alt/Bag/Seq and rdf:List),
-    // so their output does not match the expected result.
+    // currently pass. The failures fall into three translation categories:
+    // predicate-object maps with no object maps, unsupported Concatenate extension
+    // functions, and unsupported collection/container term maps.
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
-                // Crash: translation of rml:gather panics, no output is produced
+                // Translation error: predicate-object map has no object maps.
                 "RMLTC-CC-0001-Alt",
                 "RMLTC-CC-0001-Bag",
                 "RMLTC-CC-0001-List",
@@ -47,7 +46,7 @@ public class RMLCCTest extends TestCore {
                 "RMLTC-CC-0009-DUP-List",
                 "RMLTC-CC-0010-Lista",
 
-                // Wrong output: runs, but the gathered collection/container isthrown away, so only the link triples are produced
+                // Translation error: the Concatenate extension function is not implemented.
                 "RMLTC-CC-0002-Bag",
                 "RMLTC-CC-0002-List",
                 "RMLTC-CC-0003-EL-BN",

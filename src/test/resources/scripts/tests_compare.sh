@@ -35,6 +35,35 @@ file_list() {
   (cd "$1" && find . -type f | grep -v -F -f "$exclude_file" | sort)
 }
 
+report_high_level_differences() {
+  local base1="$1"
+  local base2="$2"
+  local adaptation_dir="$3"
+
+  local local_only
+  local remote_only
+  local_only=$(comm -23 <(file_list "$base1") <(file_list "$base2"))
+  remote_only=$(comm -13 <(file_list "$base1") <(file_list "$base2"))
+
+  if [ -n "$local_only" ]; then
+    {
+      echo "**Local-only tests detected: move these to $adaptation_dir:**"
+      echo '```text'
+      echo "$local_only"
+      echo '```'
+    } >> "./$log_file"
+  fi
+
+  if [ -n "$remote_only" ]; then
+    {
+      echo "**Remote-only tests detected:**"
+      echo '```text'
+      echo "$remote_only"
+      echo '```'
+    } >> "./$log_file"
+  fi
+}
+
 # rml_kgc
 
 #Create temporary directory structure
@@ -89,6 +118,8 @@ if [ -n "$diff_output" ]; then
     echo -e '```\n'
   } >> "./$log_file"
 fi
+report_high_level_differences "$base1" "$base2" \
+  "src/test/resources/rml_kgc/test-cases/spec-adaptations"
 
 # Compare low-level.
 echo -e "## Differences (low-level) between current tests and remote tests: \n" >> "./$log_file"
@@ -199,6 +230,8 @@ if [ -n "$diff_output" ]; then
     echo -e '```\n'
   } >> "./$log_file"
 fi
+report_high_level_differences "$base1" "$base2" \
+  "src/test/resources/rmlio/test-cases/spec-adaptations"
 
 # Compare low-level.
 echo -e "## Differences (low-level) between current rmlio tests and remote rmlio tests: \n" >> "./$log_file"
