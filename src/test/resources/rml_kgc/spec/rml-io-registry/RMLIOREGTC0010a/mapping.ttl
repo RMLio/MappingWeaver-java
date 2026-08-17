@@ -1,8 +1,8 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rml: <http://w3id.org/rml/> .
-@prefix td: <https://www.w3.org/2019/wot/td#>;
-@prefix hctl: <https://www.w3.org/2019/wot/hypermedia#>;
-@prefix mqv: <http://example.org/mqv/>;
+@prefix td: <https://www.w3.org/2019/wot/td#> .
+@prefix hctl: <https://www.w3.org/2019/wot/hypermedia#> .
+@prefix mqv: <http://example.org/mqv/> .
 
 <#MQTTStream> a rml:LogicalSource;
     rml:source [ a rml:Source, td:Thing;

@@ -7,7 +7,14 @@
 **Error expected?** No
 
 **Input**
- [http://w3id.org/rml/resources/rml-io/RMLIOREGTC0005a/Friends.json](http://w3id.org/rml/resources/rml-io/RMLIOREGTC0005a/Friends.json)
+```
+DROP TABLE IF EXISTS student CASCADE ;
+CREATE TABLE student (
+  "Name" VARCHAR(50)
+);
+INSERT INTO student values ('Venus');
+
+```
 
 **Mapping**
 ```

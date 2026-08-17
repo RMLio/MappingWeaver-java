@@ -7,7 +7,15 @@
 **Error expected?** No
 
 **Input**
- [http://w3id.org/rml/resources/rml-io/RMLIOREGTC0005k/Friends.json](http://w3id.org/rml/resources/rml-io/RMLIOREGTC0005k/Friends.json)
+```
+DROP TABLE IF EXISTS student CASCADE ;
+CREATE TABLE student (
+  "ID" INTEGER,
+  "Name" VARCHAR(50)
+);
+INSERT INTO student values ('10', 'Venus');
+
+```
 
 **Mapping**
 ```
@@ -41,7 +49,7 @@
 
 **Output**
 ```
-<http://example.com/10/Venus> <http://example.com/id> "10";
+<http://example.com/10/Venus> <http://example.com/id> "10".
 
 ```
 
