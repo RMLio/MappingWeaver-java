@@ -8,7 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Changed
-- Updated Algebraic Mapping Operators to 4.1.0
+- Updated dependency on Algebraic Mapping Operators to 4.2.0
+- Updated dependency on MappingLoom to 0.8.0
+- Updated dependency on idlab-functions-java to 1.5.1
+- Updated dependencies on other libraries to latest stable release versions
 
 ### Fixed
 - A function producing several values is applied to every one of them, wherever it is used
