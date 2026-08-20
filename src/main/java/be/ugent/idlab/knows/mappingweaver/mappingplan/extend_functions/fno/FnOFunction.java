@@ -138,7 +138,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     private static String abbreviateDescription(String description) {
         return description.length() > 80
-                ? description.substring(0, 40) + "\u2026" + description.substring(description.length() - 35)
+                ? description.substring(0, 40) + '…' + description.substring(description.length() - 35)
                 : description;
     }
 
