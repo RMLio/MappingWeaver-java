@@ -12,10 +12,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import org.apache.flink.runtime.testutils.MiniClusterResourceConfiguration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.test.util.MiniClusterWithClientResource;
 import org.apache.flink.util.SerializedThrowable;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFParser;
@@ -23,26 +22,20 @@ import org.apache.jena.riot.lang.LabelToNode;
 import org.apache.jena.riot.system.FactoryRDFStd;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Quad;
-import org.junit.ClassRule;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
 import be.ugent.idlab.knows.dataio.utils.NAMESPACES;
 import be.ugent.idlab.knows.mappingLoom.ITranslator;
-import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
+import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 
+@ExtendWith(FlinkMiniClusterExtension.class)
 public abstract class TestCore {
-    
-    @ClassRule
-    public static MiniClusterWithClientResource flinkCluster = new MiniClusterWithClientResource(
-            new MiniClusterResourceConfiguration.Builder()
-                    .setNumberSlotsPerTaskManager(2)
-                    .setNumberTaskManagers(1)
-                    .build());
 
     /**
      * Provides a DatasetGraph from an RDF String
@@ -127,7 +120,8 @@ public abstract class TestCore {
     private void runTestWithMappingPlan(String basePath, String directory, String mappingPlan, boolean positive) throws FileNotFoundException {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(2);
-        GraphVisitorCustomTarget.ResultCollector.values.clear();
+        String resultSetId = UUID.randomUUID().toString();
+        GraphVisitorCustomTarget.ResultCollector.initialize(resultSetId);
 //        System.out.println(mappingPlan);
 
         System.out.printf("Testing test case: %s%n", directory);
@@ -135,13 +129,14 @@ public abstract class TestCore {
             MappingPlan plan = MappingPlan.fromString(env, mappingPlan, Paths.get(basePath, directory).toString(), "http://example.com/");
 //            System.out.println(plan.getOperatorGraph().getOperators());
             GraphOpVisitor visitor = new GraphVisitorCustomTarget(env, plan.getOperatorGraph(),
-                    TargetOperator.TARGET_VARIABLE);
+                    TargetOperator.TARGET_VARIABLE, resultSetId);
             plan.setVisitor(visitor);
 
             plan.initializeFlinkTopology(true);
             plan.execute();
         } catch (Throwable e) {
             if (positive) { // if positive, rethrow the exception to cause the test to fail
+                GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
                 throw new RuntimeException(e);
             } else {
                 Throwable current = e;
@@ -155,15 +150,17 @@ public abstract class TestCore {
                     }
                     System.out.println("className = " + className);
                     if (className.endsWith("MappingException")) {
+                        GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
                         return; // e was an instance of MappingException, so test passed
                     }
                     current = current.getCause();
                 } while (current != null);
+                GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
                 fail("Negative test should've failed with a MappingException!");
             }
         }
 
-        List<String> rdfStrings = GraphVisitorCustomTarget.ResultCollector.values;
+        List<String> rdfStrings = GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
 
         if(!positive) {
             if (rdfStrings.isEmpty()) {
@@ -176,7 +173,7 @@ public abstract class TestCore {
         }
 
         StringBuilder result = new StringBuilder();
-        for (String rdf : GraphVisitorCustomTarget.ResultCollector.values) {
+        for (String rdf : rdfStrings) {
             String s = rdf + "\n";
             result.append(s);
         }

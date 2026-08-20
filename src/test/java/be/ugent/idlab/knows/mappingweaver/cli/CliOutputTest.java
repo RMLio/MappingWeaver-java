@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.Duration;
@@ -12,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.flink.shaded.netty4.io.netty.handler.codec.mqtt.MqttQoS;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -33,15 +37,24 @@ import org.eclipse.paho.mqttv5.client.MqttDisconnectResponse;
 import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
+import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.WebSocketServer;
+import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.testcontainers.hivemq.HiveMQContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.kafka.KafkaContainer;
 import org.testcontainers.utility.DockerImageName;
+
+import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 
 public class CliOutputTest {
 
@@ -238,6 +251,84 @@ public class CliOutputTest {
 
             assertEquals(expected, actual);
 
+        }
+    }
+
+    @Disabled("Not yet implemented")
+    @Nested
+    @ExtendWith(FlinkMiniClusterExtension.class)
+    class ToWebSocket {
+
+        private static int WS_PORT;
+        private static TestServer server;
+        private static final BlockingQueue<String> received = new LinkedBlockingQueue<>();
+
+        public static class TestServer extends WebSocketServer {
+            public TestServer(int port) {
+                super(new InetSocketAddress(port));
+            }
+
+            @Override
+            public void onOpen(WebSocket conn, ClientHandshake handshake) {}
+
+            @Override
+            public void onClose(WebSocket conn, int code, String reason, boolean remote) {}
+
+            @Override
+            public void onMessage(WebSocket conn, String message) {
+                received.add(message);
+            }
+
+            @Override
+            public void onError(WebSocket conn, Exception ex) {
+                System.err.println("WebSocket server error: " + ex.getMessage());
+            }
+
+            @Override
+            public void onStart() {}
+        }
+
+        @BeforeAll
+        public static void startServer() throws Exception {
+            try (ServerSocket s = new ServerSocket(0)) {
+                WS_PORT = s.getLocalPort();
+            } catch (IOException e) {
+                WS_PORT = 9123;
+            }
+            server = new TestServer(WS_PORT);
+            server.start();
+            Thread.sleep(500);
+        }
+
+        @AfterAll
+        public static void stopServer() throws Exception {
+            if (server != null) {
+                server.stop(1000);
+            }
+        }
+
+        @Test
+        public void testCliWebSocketOutput() throws Exception {
+            String mapping = "src/test/resources/test-cases/json/RMLTC0019a-JSON/mapping.ttl";
+            String[] args = {"-m", mapping, "toWebSocket", "-u", "ws://localhost:" + WS_PORT};
+
+            Main.main(args);
+
+            StringBuilder all = new StringBuilder();
+            long end = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(15);
+            String msg;
+            while (System.currentTimeMillis() < end) {
+                msg = received.poll(500, TimeUnit.MILLISECONDS);
+                if (msg != null) {
+                    all.append(msg).append('\n');
+                } else {
+                    if (all.length() > 0) break;
+                }
+            }
+
+            String joined = all.toString();
+            assertTrue(joined.contains("<http://example.com/ns#Jhon>"), "Expected message to contain subject <http://example.com/ns#Jhon>");
+            assertTrue(joined.contains("<http://example.com/base/Carlos>"), "Expected message to contain subject <http://example.com/base/Carlos>");
         }
     }
 }

@@ -1,0 +1,52 @@
+@prefix rml: <http://w3id.org/rml/> .
+@prefix fno: <https://w3id.org/function/ontology#> .
+@prefix fnom: <https://w3id.org/function/vocabulary/mapping#> .
+@prefix fnoi: <https://w3id.org/function/vocabulary/implementation#> .
+@prefix exfn: <https://example.org/numeric-functions#> .
+@prefix : <urn:example:> .
+
+:source a rml:LogicalSource ;
+    rml:source [
+        a rml:RelativePathSource , rml:Source ;
+        rml:root rml:MappingDirectory ;
+        rml:path "input.json" ;
+    ] ;
+    rml:referenceFormulation rml:JSONPath ;
+    rml:iterator "$[*]" .
+
+:TriplesMap a rml:TriplesMap ;
+    rml:logicalSource :source ;
+    rml:subjectMap [ rml:template "http://example.com/{#}" ] ;
+    rml:predicateObjectMap [
+        rml:predicate :hasValue ;
+        rml:objectMap [ rml:functionExecution :Split ; rml:return exfn:integerArray ]
+    ] .
+
+:Split
+    rml:function exfn:splitNumber ;
+    rml:input
+        [ rml:parameter exfn:number ; rml:inputValueMap [ rml:reference "number" ] ] .
+
+exfn:customFunctions
+    a fnoi:JavaClass ;
+    fnoi:class-name "be.ugent.idlab.knows.mappingweaver.fno.NumericArrayFunctions" .
+
+exfn:splitNumberMapping
+    a fno:Mapping ;
+    fno:function exfn:splitNumber ;
+    fno:implementation exfn:customFunctions ;
+    fno:methodMapping [ a fnom:Function ; fnom:method-name "splitNumber" ] .
+
+exfn:splitNumber
+    a fno:Function ;
+    fno:expects ( exfn:number ) ;
+    fno:returns ( exfn:integerArray ) .
+
+exfn:number
+    a fno:Parameter ;
+    fno:type <http://www.w3.org/2001/XMLSchema#double> .
+
+# FnO can describe the array result, but not the integer subtype of its members.
+exfn:integerArray
+    a fno:Output ;
+    fno:type <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +14,16 @@ import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.operators.Operator;
 import be.ugent.idlab.knows.amo.operators.intermediate.unary.ExtendOperator;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.BlankTypeFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConcatenateFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConstantValueFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.EncodeUriFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.GenerateBlankNode;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.IriTypeFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.LiteralTypeFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.NopFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ReferenceFunction;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.TemplateValueFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOParameter;
 

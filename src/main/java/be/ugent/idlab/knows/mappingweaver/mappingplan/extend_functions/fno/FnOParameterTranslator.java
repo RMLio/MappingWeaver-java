@@ -1,11 +1,9 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
@@ -22,8 +20,8 @@ final class FnOParameterTranslator {
 
     private final Map<String, String> parameterToPredicate;
 
-    FnOParameterTranslator(String[] functionDescriptions) {
-        this.parameterToPredicate = loadTranslations(functionDescriptions);
+    FnOParameterTranslator(Model model) {
+        this.parameterToPredicate = loadTranslations(model);
     }
 
     /**
@@ -51,32 +49,20 @@ final class FnOParameterTranslator {
         return trimmed;
     }
 
-    private static Map<String, String> loadTranslations(String[] functionDescriptions) {
+    private static Map<String, String> loadTranslations(Model model) {
         Map<String, String> map = new HashMap<>();
-        for (String description : functionDescriptions) {
-            try (InputStream in = openResource(description)) {
-                if (in == null) {
-                    throw new IllegalStateException("FnO description '" + description + "' not found on the classpath.");
-                }
-                Model model = ModelFactory.createDefaultModel();
-                model.read(in, null, "TURTLE");
+        Resource parameterType = model.createResource(FNO_NAMESPACE + "Parameter");
+        Property predicateProperty = model.createProperty(FNO_NAMESPACE + "predicate");
 
-                Resource parameterType = model.createResource(FNO_NAMESPACE + "Parameter");
-                Property predicateProperty = model.createProperty(FNO_NAMESPACE + "predicate");
-
-                ResIterator parameters = model.listResourcesWithProperty(RDF.type, parameterType);
-                while (parameters.hasNext()) {
-                    Resource parameter = parameters.next();
-                    Statement predicateStmt = parameter.getProperty(predicateProperty);
-                    if (predicateStmt == null || !predicateStmt.getObject().isResource()) {
-                        continue;
-                    }
-                    String predicateUri = predicateStmt.getResource().getURI();
-                    registerKeys(map, model, parameter, predicateUri);
-                }
-            } catch (Exception e) {
-                throw new IllegalStateException("Failed to load FnO description '" + description + "'", e);
+        ResIterator parameters = model.listResourcesWithProperty(RDF.type, parameterType);
+        while (parameters.hasNext()) {
+            Resource parameter = parameters.next();
+            Statement predicateStmt = parameter.getProperty(predicateProperty);
+            if (predicateStmt == null || !predicateStmt.getObject().isResource()) {
+                continue;
             }
+            String predicateUri = predicateStmt.getResource().getURI();
+            registerKeys(map, model, parameter, predicateUri);
         }
         return map;
     }
@@ -105,14 +91,6 @@ final class FnOParameterTranslator {
         map.putIfAbsent(key, value);
     }
 
-    private static InputStream openResource(String name) {
-        ClassLoader loader = FnOParameterTranslator.class.getClassLoader();
-        InputStream in = loader.getResourceAsStream(name);
-        if (in != null) {
-            return in;
-        }
-        return loader.getResourceAsStream("/" + name);
-    }
-
 }
+
 

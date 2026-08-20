@@ -1,12 +1,6 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.WebSocket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,33 +9,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
 
-import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.StringSerializer;
-import org.eclipse.paho.mqttv5.client.MqttClient;
-import org.eclipse.paho.mqttv5.common.MqttException;
-import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.json.JSONObject;
 import org.jspecify.annotations.Nullable;
 
 import be.ugent.idlab.knows.amo.functions.TargetSink;
-import be.ugent.idlab.knows.amo.operators.Operator;
-import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
 import be.ugent.idlab.knows.mappingLoom.ITranslator;
-import be.ugent.idlab.knows.mappingweaver.flink.sinks.STDSink;
-import be.ugent.idlab.knows.mappingweaver.flink.sinks.SolMapValueToStringExtractor;
 import be.ugent.idlab.knows.mappingweaver.flink.sinks.WeaverSinkFactory;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
 import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
 import picocli.CommandLine;
@@ -65,6 +43,7 @@ public class Main {
         CommandLine commandLine = new CommandLine(root);
 
         ParseResult options = commandLine.parseArgs(args);
+        applyVerbosity(options);
 
         try {
             boolean isAlgeMapLoomPlan = false;
@@ -124,6 +103,13 @@ public class Main {
                 context.put("function-descriptions", descriptions);
             }
 
+            // configure FnO function descriptions before the plan is parsed (constructors read them)
+            List<String> customDescriptions = options.hasMatchedOption("-f")
+                    ? options.matchedOptionValue("-f", List.of())
+                    : List.of();
+            boolean customFunctionsOnly = options.hasMatchedOption("--custom-functions-only");
+            FnOFunction.configure(customDescriptions, customFunctionsOnly);
+
             final String jsonPlan;
             if (isAlgeMapLoomPlan) {
                 jsonPlan = document;
@@ -166,8 +152,6 @@ public class Main {
         } catch (MissingParameterException e) {
             commandLine.usage(System.out);
             System.exit(1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -184,6 +168,16 @@ public class Main {
         } else {
             throw new IllegalArgumentException("No output file specified");
         }
+    }
+
+    static void applyVerbosity(ParseResult options) {
+        String level;
+        if (options.hasMatchedOption("-vvv")) level = "DEBUG";
+        else if (options.hasMatchedOption("-vv")) level = "INFO";
+        else if (options.hasMatchedOption("-v")) level = "WARN";
+        else level = "ERROR";
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error");
+        System.setProperty("org.slf4j.simpleLogger.log.be.ugent.idlab.knows.mappingweaver", level.toLowerCase());
     }
 
     public static class CommonSink implements TargetSink<String> {
