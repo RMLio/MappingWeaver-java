@@ -211,7 +211,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>function-agent-java</artifactId>
-            <version>1.4.0</version>
+            <version>1.5.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.jena</groupId>
