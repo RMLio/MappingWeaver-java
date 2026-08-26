@@ -1,18 +1,15 @@
 package be.ugent.idlab.knows.mappingweaver.filetests;
 
-import java.util.List;
-import java.util.stream.Stream;
-
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import be.ugent.idlab.knows.mappingweaver.utilities.SimpleWebSocketServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
-import be.ugent.idlab.knows.mappingweaver.utilities.SimpleWebSocketServer;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class WebSocketTest extends TestCore {
 
@@ -54,7 +51,7 @@ public class WebSocketTest extends TestCore {
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveTests")
     public void positiveTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/test-cases/websocket/", directory + '/');
+        super.positiveTest("src/test/resources/test-cases/websocket/", directory + '/', false);
     }
 
 }

@@ -1,21 +1,19 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan;
 
-import java.io.IOException;
+import be.ugent.idlab.knows.amo.operators.Operator;
+import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
+import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
+import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
+import org.apache.flink.api.common.JobExecutionResult;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
-
-import org.apache.flink.api.common.JobExecutionResult;
-import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-
-import be.ugent.idlab.knows.amo.operators.Operator;
-import be.ugent.idlab.knows.amo.operators.intermediate.unary.SerializeOperator;
-import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
-import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
 
 /**
  * Mapping plan for execution on the input files
@@ -47,15 +45,40 @@ public class MappingPlan {
      * The JSON description should be as specified by the AlgeMapLoom-rs. See
      * test/resources directory for examples
      *
-     * @param path path to the JSON file
-     * @return a MappingPlan representing the instance
+     * @param env  The Flink execution environment to use for the mapping plan.
+     * @param path path to the JSON file.
+     * @param defaultBaseIRI The default base IRI.
+     * @param bestEffort     If <code>true</code> an empty value (null) is returned at data errors.
+     *                       If <code>false</code>, an exception will be thrown.
+     * @return a MappingPlan representing the instance.
      */
-    public static MappingPlan fromFile(StreamExecutionEnvironment env, String path, String defaultBaseIRI) throws IOException {
-        return JSONPlanParser.fromFile(env, path, defaultBaseIRI);
+    public static MappingPlan fromFile(StreamExecutionEnvironment env, String path, String defaultBaseIRI, boolean bestEffort) {
+        try {
+            return JSONPlanParser.fromFile(env, path, defaultBaseIRI, bestEffort);
+        } catch (Throwable t) {
+            throw new MappingException(t);
+        }
     }
 
-    public static MappingPlan fromString(StreamExecutionEnvironment env, String json, String basePath, String defaultBaseIRI) {
-        return JSONPlanParser.fromString(env, json, basePath, defaultBaseIRI);
+    /**
+     * Constructs a mapping plan based on the JSON description found in the file
+     * The JSON description should be as specified by the AlgeMapLoom-rs. See
+     * test/resources directory for examples
+     *
+     * @param env  The Flink execution environment to use for the mapping plan.
+     * @param json The mapping plan in JSON format.
+     * @param basePath The base path for resolving relative paths in the mapping plan.
+     * @param defaultBaseIRI The default base IRI.
+     * @param bestEffort     If <code>true</code> an empty value (null) is returned at data errors.
+     *                       If <code>false</code>, an exception will be thrown.
+     * @return a MappingPlan representing the instance.
+     */
+    public static MappingPlan fromString(StreamExecutionEnvironment env, String json, String basePath, String defaultBaseIRI, boolean bestEffort) {
+        try {
+            return JSONPlanParser.fromString(env, json, basePath, defaultBaseIRI, bestEffort);
+        } catch (Throwable t) {
+            throw new MappingException(t);
+        }
     }
 
     public JobExecutionResult execute(String jobname, Map<String, Object> extraOptions) throws Exception {

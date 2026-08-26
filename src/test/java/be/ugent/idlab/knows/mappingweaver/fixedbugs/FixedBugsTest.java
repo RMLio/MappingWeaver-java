@@ -7,7 +7,7 @@ public class FixedBugsTest extends TestCore {
 
     @Test
     public void skipRowWithEmptyValue() throws Exception {
-        positiveTest("src/test/resources/fixed_bugs", "skip-row-with-empty-value");
+        positiveTest("src/test/resources/fixed_bugs", "skip-row-with-empty-value", false);
     }
 
 }

@@ -1,10 +1,8 @@
 package be.ugent.idlab.knows.mappingweaver.filetests;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -76,13 +74,13 @@ public class XMLTest extends TestCore {
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveTests")
     public void positiveTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/test-cases/xml/", directory);
+        super.positiveTest("src/test/resources/test-cases/xml/", directory, false);
     }
 
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativeTests")
     public void negativeTest(String directory) throws Exception {
-        super.negativeTest("src/test/resources/test-cases/xml/", directory);
+        super.negativeTest("src/test/resources/test-cases/xml/", directory, false);
     }
 
     @Test
@@ -90,7 +88,7 @@ public class XMLTest extends TestCore {
         String basePath = "src/test/resources/test-cases/xml/";
         String directory = "RMLTC0009a-XML/";
         String mappingPlan = Files.readString(Paths.get(basePath, directory, "mapping.json"));
-        this.positiveTest(basePath, directory, mappingPlan);
+        this.positiveTest(basePath, directory, mappingPlan, false);
     }
 
     @Test
@@ -98,6 +96,6 @@ public class XMLTest extends TestCore {
         String basePath = "src/test/resources/test-cases/xml/";
         String directory = "RMLTC0009b-XML/";
         String mappingPlan = Files.readString(Paths.get(basePath, directory, "mapping.json"));
-        this.positiveTest(basePath, directory, mappingPlan);
+        this.positiveTest(basePath, directory, mappingPlan, false);
     }
 }

@@ -26,11 +26,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An empty value is a value, and no longer reported as an absent attribute
 - Git ignore `pom.xml.versionsBackup`
 - Remove reference to non-existing branch in GitLab CI script
+- Updated dependency on Function Agent to 1.5.1, which fixes a bug in calculating parameter arity for functions.
 
 ### Added
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view
 - GitLab CI: added Javadoc check in linting phase
 - Debug logging now reports the discovered/loaded FnO function IRIs when the FnO agent is initialized
+- A parameter `--custom-functions-only` to disable loading of built-in FnO descriptions, so only the custom ones are used
+- A parameter `--best-effort` to continue mapping even when encountering data errors.
 
 ## [0.3.0] - 2026-07-30
 

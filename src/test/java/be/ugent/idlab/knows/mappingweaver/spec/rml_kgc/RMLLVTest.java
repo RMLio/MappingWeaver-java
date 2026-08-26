@@ -1,9 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.spec.rml_kgc;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -84,26 +82,26 @@ public class RMLLVTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positiveTests")
     public void positiveTest(String directory) throws Exception {
-        this.positiveTest("src/test/resources/spec/rml_kgc/rml-lv", directory);
+        this.positiveTest("src/test/resources/spec/rml_kgc/rml-lv", directory, false);
     }
 
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("negativeTests")
     public void negativeTest(String directory) throws Exception {
-        this.negativeTest("src/test/resources/spec/rml_kgc/rml-lv", directory);
+        this.negativeTest("src/test/resources/spec/rml_kgc/rml-lv", directory, false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTests(String directory) throws Exception {
-        this.positiveTest("src/test/resources/spec/rml_kgc/rml-lv", directory);
+        this.positiveTest("src/test/resources/spec/rml_kgc/rml-lv", directory, false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("negativeFailing")
     public void negativeFailingTests(String directory) throws Exception {
-        this.negativeTest("src/test/resources/spec/rml_kgc/rml-lv", directory);
+        this.negativeTest("src/test/resources/spec/rml_kgc/rml-lv", directory, false);
     }
 }

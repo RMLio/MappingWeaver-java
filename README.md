@@ -80,60 +80,64 @@ java -jar MappingWeaver-0.3.0.jar --help
 ```
 
 ```
-Usage: AlgeMapLoom [-hV] [--bulk] [--custom-functions-only]             
+Usage: AlgeMapLoom [-hV] [--best-effort] [--custom-functions-only]
                    [--disable-local-parallel] [--json-ld]
                    [--auto-watermark-interval=<time (ms)>]
-                   [--checkpoint-interval=<time (ms)>] [-i=<base IRI>] [-j=<job
+                   [--checkpoint-interval=<time (ms)>] [-i=<base IRI>] [-j=<job 
                    name>] [-p=<task slots>] [-f=<function descriptions>]...
                    [-m=<RML mapping file> | -l=<AlgeMapLoom mapping plan file>]
                    [-v | -vv | -vvv] [COMMAND]
       --auto-watermark-interval=<time (ms)>
-                  If given, Flink's watermarking will be generated periodically
-                    with the given interval. If not given, a default value of
-                    50ms will be used.This option is only valid for DataStreams.
-      --bulk      Write all triples generated from one input record at once,
-                    instead of writing triples the moment they are generated.
+                      If given, Flink's watermarking will be generated
+                        periodically with the given interval. If not given, a
+                        default value of 50ms will be used.This option is only
+                        valid for DataStreams.
+      --best-effort   If set, data errors yield no records instead of throwing
+                        an exception.
       --checkpoint-interval=<time (ms)>
-                  If given, Flink's checkpointing is enabled with the given
-                    interval. If not given, checkpointing is enabled when
-                    writing to a file (this is required to use the flink
-                    StreamingFileSink). Otherwise, checkpointing is disabled.
+                      If given, Flink's checkpointing is enabled with the given
+                        interval. If not given, checkpointing is enabled when
+                        writing to a file (this is required to use the flink
+                        StreamingFileSink). Otherwise, checkpointing is
+                        disabled.
 
       --custom-functions-only
-                  When set, only the descriptions provided via -f are used; the
-                    built-in GREL/IDLab descriptions are excluded.
+                      When set, only the descriptions provided via -f are used;
+                        the built-in GREL/IDLab descriptions are excluded.
       --disable-local-parallel
-                  By default input records are spread over the available task
-                    slots within a task manager to optimise parallel
-                    processing, at the cost of losing the order of the records
-                    throughout the process. This option disables this behaviour
-                    to guarantee that the output order is the same as the input
-                    order.
+                      By default input records are spread over the available
+                        task slots within a task manager to optimise parallel
+                        processing, at the cost of losing the order of the
+                        records throughout the process. This option disables
+                        this behaviour to guarantee that the output order is
+                        the same as the input order.
   -f, --function-descriptions=<function descriptions>
-                  An optional comma-separated list of paths to function
-                    description files (in RDF using FnO). A path can be a file
-                    location or a URL.
-  -h, --help      Show this help message and exit.
+                      An optional comma-separated list of paths to function
+                        description files (in RDF using FnO). A path can be a
+                        file location or a URL.
+  -h, --help          Show this help message and exit.
   -i, --base-iri=<base IRI>
-                  The base IRI as defined in the R2RML spec.
+                      The base IRI as defined in the R2RML spec.
   -j, --job-name=<job name>
-                  The name to assign to the job on the Flink cluster. Put some
-                    semantics in here ;)
-      --json-ld   Write the output as JSON-LD instead of N-Quads. An object
-                    contains all RDF generated from one input record. Note:
-                    this is slower than using the default N-Quads format.
+                      The name to assign to the job on the Flink cluster. Put
+                        some semantics in here ;)
+      --json-ld       Write the output as JSON-LD instead of N-Quads. An object
+                        contains all RDF generated from one input record. Note:
+                        this is slower than using the default N-Quads format.
   -l, --loom-file=<AlgeMapLoom mapping plan file>
-                  The path to an AlgeMapLoom mapping plan file, in JSON format.
-                    The path must be accessible on the Flink cluster.
+                      The path to an AlgeMapLoom mapping plan file, in JSON
+                        format. The path must be accessible on the Flink
+                        cluster.
   -m, --mapping-file=<RML mapping file>
-                  The path to an RML mapping file. The path must be accessible
-                    on the Flink cluster.
+                      The path to an RML mapping file. The path must be
+                        accessible on the Flink cluster.
   -p, --parallelism=<task slots>
-                  Sets the maximum operator parallelism (~nr of task slots used)
-  -v              Set log level to WARN
-  -V, --version   Print version information and exit.
-      -vv         Set log level to INFO
-      -vvv        Set log level to DEBUG
+                      Sets the maximum operator parallelism (~nr of task slots
+                        used)
+  -v                  Set log level to WARN
+  -V, --version       Print version information and exit.
+  -vv                 Set log level to INFO
+  -vvv                Set log level to DEBUG
 Commands:
   toFile       Write output to file
   toKafka      Write output to a Kafka topic

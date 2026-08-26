@@ -1,9 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.spec.rmlio;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -107,13 +105,13 @@ public class RMLIOFNOTest extends TestCore {
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positive")
     public void positiveTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/spec/rmlio/fno/", directory + '/');
+        super.positiveTest("src/test/resources/spec/rmlio/fno/", directory + '/', false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/spec/rmlio/fno/", directory + '/');
+        super.positiveTest("src/test/resources/spec/rmlio/fno/", directory + '/', false);
     }
 }

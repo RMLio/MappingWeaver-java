@@ -39,13 +39,13 @@ public class FnOTest extends TestCore {
     @ParameterizedTest
     @MethodSource("positiveTests")
     public void runPositive(String directory) throws Exception {
-        this.positiveTest("src/test/resources/test-cases/fno/", directory);
+        this.positiveTest("src/test/resources/test-cases/fno/", directory, false);
     }
 
     @ParameterizedTest
     @MethodSource("negativeTests")
     public void runNegative(String directory) throws Exception {
-        this.negativeTest("src/test/resources/test-cases/fno/", directory);
+        this.negativeTest("src/test/resources/test-cases/fno/", directory, false);
     }
 
 }

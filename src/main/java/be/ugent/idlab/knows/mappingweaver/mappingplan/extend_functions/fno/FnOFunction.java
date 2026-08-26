@@ -11,6 +11,7 @@ import be.ugent.idlab.knows.functions.agent.Arguments;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FunctionNotFoundException;
 import be.ugent.idlab.knows.functions.agent.model.Function;
+import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -172,7 +173,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
             return getAgent().execute(this.identifier, arguments);
         } catch (FnOException e) {
             // Function could not be resolved (e.g. function not found): a real mapping error.
-            throw new RuntimeException(e);
+            throw new MappingException(e);
         } catch (Exception e) {
             // The function executed but could not produce a value (e.g. substring index out
             // of range). This is a data error: no triple is generated for this value, but the

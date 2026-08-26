@@ -1,9 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.spec.rmlio;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -197,33 +195,33 @@ public class RMLIOCoreFileTest extends TestCore {
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveTests")
     public void positiveTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/spec/rmlio/core/", directory + '/');
+        super.positiveTest("src/test/resources/spec/rmlio/core/", directory + '/', false);
     }
 
 //    @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTests(String directory) throws Exception {
-        super.positiveTest("src/test/resources/spec/rmlio/core/", directory + '/');
+        super.positiveTest("src/test/resources/spec/rmlio/core/", directory + '/', false);
     }
 
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativeTests")
     public void negativeTest(String directory) throws Exception {
-        super.negativeTest("src/test/resources/spec/rmlio/core/", directory + '/');
+        super.negativeTest("src/test/resources/spec/rmlio/core/", directory + '/', false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativeFailing")
     public void negativeFailingTest(String directory) throws Exception {
-        super.negativeTest("src/test/resources/spec/rmlio/core/", directory + '/');
+        super.negativeTest("src/test/resources/spec/rmlio/core/", directory + '/', false);
     }
 
     @Disabled("These tests cause panics in the thread, stopping the entire process")
     @ParameterizedTest
     @MethodSource("unfixable")
     public void unfixableTests(String directory) throws Exception {
-        super.positiveTest("src/test/resources/spec/rmlio/core/", directory + '/');
+        super.positiveTest("src/test/resources/spec/rmlio/core/", directory + '/', false);
     }
 }

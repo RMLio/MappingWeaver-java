@@ -1,11 +1,11 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
-import java.util.List;
-
 import picocli.CommandLine;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Model.OptionSpec;
 import picocli.CommandLine.Model.UsageMessageSpec;
+
+import java.util.List;
 
 public final class CliCommand {
 
@@ -112,7 +112,7 @@ public final class CliCommand {
 
                 .build();
 
-        CommandSpec root = CommandSpec.create()
+        return CommandSpec.create()
                 .mixinStandardHelpOptions(true)
                 .exitCodeOnInvalidInput(1)
                 .name("AlgeMapLoom")
@@ -146,9 +146,6 @@ public final class CliCommand {
                 .addOption(OptionSpec.builder("--json-ld")
                         .description("Write the output as JSON-LD instead of N-Quads. An object contains all RDF generated from one input record. Note: this is slower than using the default N-Quads format.")
                         .build())
-                .addOption(OptionSpec.builder("--bulk")
-                        .description("Write all triples generated from one input record at once, instead of writing triples the moment they are generated.")
-                        .build())
                 .addOption(OptionSpec.builder("--checkpoint-interval")
                         .description("If given, Flink's checkpointing is enabled with the given interval. If not given, checkpointing is enabled when writing to a file (this is required to use the flink StreamingFileSink). Otherwise, checkpointing is disabled.\n")
                         .paramLabel("<time (ms)>")
@@ -169,7 +166,11 @@ public final class CliCommand {
                         .arity("0")
                         .type(boolean.class)
                         .description("When set, only the descriptions provided via -f are used; the built-in GREL/IDLab descriptions are excluded.")
+                        .build())
+                .addOption(OptionSpec.builder( "--best-effort")
+                        .arity("0")
+                        .type(boolean.class)
+                        .description("If set, data errors yield no records instead of throwing an exception.")
                         .build());
-        return root;
     }
 }
