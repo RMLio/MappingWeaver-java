@@ -110,10 +110,12 @@ Utility Tests:
   parallel:
     matrix:
       - TEST: [
+                # CLI tests
+                CliOutputTest, CliVerbosityTest,
                 # file tests
                 CSVTest, JSONTest, XMLTest, WebSocketTest,
                 # FnO
-                FnOTest, FnOParameterTranslatorTest,
+                FnOTest, FnOSplitTest,
                 # Remote
                 PostgresTest,
                 # Fixed bugs
@@ -122,6 +124,8 @@ Utility Tests:
                 ExtendParserTest, MappingPlanTest,
                 # omitted — class @Disabled and/or Docker-only, run no tests:
                 # CliOutputTest, WebSocketCliTest, KafkaTest, RDBSourceTest
+                # Bugfixes
+                FixedBugsTest, LogicalViewFieldsTest
       ]
   except:
     - main
