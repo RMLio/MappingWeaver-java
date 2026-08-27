@@ -113,7 +113,7 @@ Utility Tests:
                 # CLI tests
                 CliOutputTest, CliVerbosityTest,
                 # file tests
-                CSVTest, JSONTest, XMLTest, WebSocketTest, CSVWSourceTest
+                CSVTest, JSONTest, XMLTest, WebSocketTest, CSVWSourceTest,
                 # FnO
                 FnOTest, FnOSplitTest, ExternalFunctionTests,
                 # Remote
