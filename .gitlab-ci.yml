@@ -115,7 +115,7 @@ Utility Tests:
                 # file tests
                 CSVTest, JSONTest, XMLTest, WebSocketTest,
                 # FnO
-                FnOTest, FnOSplitTest,
+                FnOTest, FnOSplitTest, ExternalFunctionTests,
                 # Remote
                 PostgresTest,
                 # Fixed bugs

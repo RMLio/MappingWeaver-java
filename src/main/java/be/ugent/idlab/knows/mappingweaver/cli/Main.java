@@ -90,11 +90,6 @@ public class Main {
                 context.put(MappingPlan.CONFIG_WATERMARK_INTERVAL, interval);
             }
 
-            if (options.hasMatchedOption("--function-descriptions")) {
-                List<String> descriptions = options.matchedOptionValue("--function-descriptions", List.of());
-                context.put("function-descriptions", descriptions);
-            }
-
             // configure FnO function descriptions before the plan is parsed (constructors read them)
             List<String> customDescriptions = options.hasMatchedOption("-f")
                     ? options.matchedOptionValue("-f", List.of())

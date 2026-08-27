@@ -147,13 +147,87 @@ Commands:
   noOutput     Do everything, but discard output
 ```
 
-### Custom FnO function descriptions
+## Including functions
 
-MappingWeaver ships four built-in FnO description files (GREL and IDLab functions).
-Additional descriptions can be provided with the `-f` flag:
+The processor comes with [GREL](https://github.com/FnOio/grel-functions-java) and
+[IDLab](https://github.com/FnOio/idlab-functions-java) functions built-in. 
+Custom functions are
+added by describing them in [FnO](https://fno.io/) and pointing the processor at that
+description with `-f`, which takes a comma-separated list of file locations or URLs. The
+description says which Java class and method implement the function, and the jar holding
+that class is named by `doap:download-page`.
+
+> Note: The mapping file can specify an absolute path to the jar, or path relative to the working directory.
+
+The example below adds a function that upper-cases a value and appends an exclamation mark.
+
+`myfunctions.ttl` describes the function and links it to the class implementing it:
+
+```turtle
+@prefix fno:  <https://w3id.org/function/ontology#> .
+@prefix fnoi: <https://w3id.org/function/vocabulary/implementation#> .
+@prefix fnom: <https://w3id.org/function/vocabulary/mapping#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix ex:   <http://example.com/myfunctions#> .
+
+ex:shout a fno:Function ;
+  fno:name "shout" ;
+  fno:expects ( grel:valueParam ) ;
+  fno:returns ( grel:stringOut ) .
+
+ex:javaShout a fnoi:JavaClass ;
+  doap:download-page "CustomFunctions.jar" ;
+  fnoi:class-name "CustomFunctions" .
+
+ex:shoutMapping a fno:Mapping ;
+  fno:function ex:shout ;
+  fno:implementation ex:javaShout ;
+  fno:methodMapping [ a fnom:StringMethodMapping ; fnom:method-name "shout" ] .
+```
+
+The accompanying `CustomFunctions.java`:
+
+```java
+public class CustomFunctions {
+  public static String shout(String s) {
+    return s == null ? null : s.toUpperCase() + "!";
+  }
+}
+```
+
+The mapping calls the function by its IRI, the same way it would call a bundled one:
+
+```turtle
+@prefix rml:  <http://w3id.org/rml/> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix ex:   <http://example.com/myfunctions#> .
+@prefix :     <urn:example:> .
+
+:TriplesMap a rml:TriplesMap ;
+    rml:logicalSource :source ;
+    rml:subjectMap [ rml:template "urn:example:{name}" ] ;
+    rml:predicateObjectMap [
+        rml:predicate :shouted ;
+        rml:objectMap [ rml:functionExecution :Shout ; rml:return grel:stringOut ]
+    ] .
+
+:Shout rml:function ex:shout ;
+    rml:input [ rml:parameter grel:valueParam ; rml:inputValueMap [ rml:reference "name" ] ] .
+```
+
+Compile the class into a jar and give the description to the processor:
 
 ```
-java -jar MappingWeaver-0.3.0.jar -m mapping.ttl -f my-functions.ttl -f my-java-mapping.ttl
+javac CustomFunctions.java && jar cf CustomFunctions.jar CustomFunctions.class
+java -jar MappingWeaver-0.3.0.jar -m mapping.ttl -f myfunctions.ttl
+```
+
+Several descriptions are given at once by repeating the option or separating them with
+commas:
+
+```
+java -jar MappingWeaver-0.3.0.jar -m mapping.ttl -f myfunctions.ttl,https://example.com/morefunctions.ttl
 ```
 
 A custom description whose filename matches a built-in's name replaces that built-in.
