@@ -119,13 +119,11 @@ Utility Tests:
                 # Remote
                 PostgresTest,
                 # Fixed bugs
-                FixedBugsTest,
+                FixedBugsTest, MultipleFunctionExecutionsTest, LogicalViewFieldsTest
                 # Miscellaneous
                 ExtendParserTest, MappingPlanTest,
                 # omitted — class @Disabled and/or Docker-only, run no tests:
                 # CliOutputTest, WebSocketCliTest, KafkaTest, RDBSourceTest
-                # Bugfixes
-                FixedBugsTest, LogicalViewFieldsTest
       ]
   except:
     - main
