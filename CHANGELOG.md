@@ -12,10 +12,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A file source may say where its data is with `url` instead of `path`, which is what a CSV on the Web table says.
 
 ### Changed
-- Updated Algebraic Mapping Operators to 4.1.0
+- Updated dependency on Algebraic Mapping Operators to 4.2.0
+- Updated dependency on MappingLoom to 0.8.0
+- Updated dependency on idlab-functions-java to 1.5.1
+- Updated dependencies on other libraries to latest stable release versions
+- Declared `slf4j-simple` as a runtime dependency, so the CLI has a concrete logging backend on its runtime classpath
+- FnO descriptions are parsed into a single merged Jena `Model` once and reused across translators and the FnO agent (see HANDBOOK: FnO function descriptions)
+- Built-in FnO descriptions use a `classpath://` prefix; custom descriptions can override them by filename (see README: Custom FnO function descriptions)
 
 ### Fixed
+- `lookupWithDelimiter` calls using different input files no longer reuse each other's results
 - A function producing several values is applied to every one of them, wherever it is used
+- FnO return datatypes now follow the selected resource in the function's ordered `fno:returns` list, with warnings and first-return fallback for invalid `rml:return` values
 - A value from a multi-valued function no longer carries the datatype of the collection the function returns
 - A source field is read once per name, so a logical view read by several triples maps no longer exhausts the heap
 - A function returning its values as an array, as the GREL functions do, no longer ends up as the array itself
@@ -23,10 +31,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An empty value is a value, and no longer reported as an absent attribute
 - Git ignore `pom.xml.versionsBackup`
 - Remove reference to non-existing branch in GitLab CI script
+- Updated dependency on Function Agent to 1.5.1, which fixes a bug in calculating parameter arity for functions.
+- Merged `--function-descriptions` and `-f` parameters.
 
 ### Added
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view
 - GitLab CI: added Javadoc check in linting phase
+- Debug logging now reports the discovered/loaded FnO function IRIs when the FnO agent is initialized
+- A parameter `--custom-functions-only` to disable loading of built-in FnO descriptions, so only the custom ones are used
+- A parameter `--best-effort` to continue mapping even when encountering data errors.
+- A test for loading and executing a RML mapping with a custom external function.
 
 ## [0.3.0] - 2026-07-30
 

@@ -1,0 +1,50 @@
+@prefix rml:      <http://w3id.org/rml/> .
+@prefix grel:     <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix idlab-fn: <https://w3id.org/imec/idlab/function#> .
+@prefix :         <urn:example:> .
+
+# It's like RMLFNOTC1002, but the return type of the Split function is string instead of array. This means that the output of the function will be a string instead of an array.
+
+:source a rml:LogicalSource ;
+    rml:source [
+        a rml:RelativePathSource , rml:Source ;
+        rml:root rml:MappingDirectory ;
+        rml:path "input.json" ;
+    ] ;
+    rml:referenceFormulation rml:JSONPath ;
+    rml:iterator "$[*]" .
+
+:view a rml:LogicalView ;
+    rml:viewOn :source ;
+    rml:field [
+        a rml:ExpressionField ;
+        rml:fieldName "scope" ;
+        rml:reference "scope" ;
+    ] .
+
+:TriplesMap a rml:TriplesMap ;
+    rml:logicalSource :view ;
+    rml:subjectMap [ rml:template "{#}" ] ;
+    rml:predicateObjectMap [
+        rml:predicate :hasValue ;
+        rml:objectMap [ rml:functionExecution :Split ; rml:return grel:stringOut ]
+    ] .
+
+:Split
+    rml:function grel:string_split ;
+    rml:input
+        [ rml:parameter grel:valueParam ;
+          rml:inputValueMap [ rml:functionExecution :EmptyIfNull ; rml:return grel:output_any ] ] ,
+        [ rml:parameter grel:param_string_sep ; rml:inputValueMap [ rml:constant " " ] ] .
+
+:EmptyIfNull
+    rml:function grel:controls_if ;
+    rml:input
+        [ rml:parameter grel:param_b ;
+          rml:inputValueMap [ rml:functionExecution :IsNull ; rml:return idlab-fn:_boolOut ] ] ,
+        [ rml:parameter grel:param_true ; rml:inputValueMap [ rml:constant "" ] ] ,
+        [ rml:parameter grel:param_false ; rml:inputValueMap [ rml:reference "scope" ] ] .
+
+:IsNull
+    rml:function idlab-fn:isNull ;
+    rml:input [ rml:parameter idlab-fn:_str ; rml:inputValueMap [ rml:reference "scope" ] ] .

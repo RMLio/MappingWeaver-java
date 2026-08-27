@@ -9,58 +9,98 @@ import be.ugent.idlab.knows.functions.agent.Agent;
 import be.ugent.idlab.knows.functions.agent.AgentFactory;
 import be.ugent.idlab.knows.functions.agent.Arguments;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
+import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FunctionNotFoundException;
+import be.ugent.idlab.knows.functions.agent.model.Function;
+import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Function that applies the specified FnO function to the input
  */
 public class FnOFunction implements ExtendFunction, Serializable {
 
-    private static final String[] FUNCTION_DESCRIPTIONS = new String[]{
+    private static final String[] DEFAULT_FUNCTION_DESCRIPTIONS = new String[]{
             "functions_grel.ttl",
             "grel_java_mapping.ttl",
-            "functions_idlab.ttl",
-            "functions_idlab_classes_java_mapping.ttl",
+            "fno/functions_idlab.ttl",
+            "fno/functions_idlab_classes_java_mapping.ttl",
     };
 
-    private static final FnOParameterTranslator PARAMETER_TRANSLATOR =
-            new FnOParameterTranslator(FUNCTION_DESCRIPTIONS);
-    
-    private static final FnOReturnTypeTranslator RETURN_TYPE_TRANSLATOR =
-            new FnOReturnTypeTranslator(FUNCTION_DESCRIPTIONS);
+    // mutable only via configure(); volatile for safe cross-thread reads
+    private static volatile String[] effectiveDescriptions = DEFAULT_FUNCTION_DESCRIPTIONS;
 
     private static final Logger LOG = LoggerFactory.getLogger(FnOFunction.class);
 
     private static final String XSD_STRING = "http://www.w3.org/2001/XMLSchema#string";
+    private static final String RDF_LIST = "http://www.w3.org/1999/02/22-rdf-syntax-ns#List";
 
-    // Lazy initialization of the Agent (not serialized, created per JVM instance)
+    // not serialized; recreated per JVM instance
     private static volatile Agent cachedAgent = null;
     private static final Object agentLock = new Object();
+
+    /**
+     * Configures the set of FnO function descriptions used by all FnOFunction instances.
+     * Must be called before the mapping plan is parsed.
+     *
+     * @param customDescriptions  additional description paths (file path or URL)
+     * @param customFunctionsOnly when true, only the provided descriptions are used;
+     *                            when false (default), they are appended to the built-ins
+     */
+    public static void configure(List<String> customDescriptions, boolean customFunctionsOnly) {
+        synchronized (agentLock) {
+            String[] custom = customDescriptions.toArray(new String[0]);
+            java.util.Set<String> customSet = new java.util.HashSet<>(customDescriptions);
+            effectiveDescriptions = customFunctionsOnly
+                    ? custom
+                    : Stream.concat(
+                        Arrays.stream(DEFAULT_FUNCTION_DESCRIPTIONS).filter(defaultDescription -> !customSet.contains(defaultDescription)),
+                        Arrays.stream(custom))
+                            .toArray(String[]::new);
+            cachedAgent = null;
+        }
+    }
 
     private final String identifier;
     private final List<FnOParameter> parameters;
     private final String datatypeIRI;
     private final String returnType;
     
-    public FnOFunction(String identifier, List<FnOParameter> parameters) throws FnOException {
-        this(identifier, parameters, null);
-    }
-    
     public FnOFunction(String identifier, List<FnOParameter> parameters, String returnType) throws FnOException {
         this.identifier = identifier;
         this.parameters = parameters;
         this.returnType = returnType;
-        this.datatypeIRI = RETURN_TYPE_TRANSLATOR.getDatatype(identifier);
+
+        // get the return datatype from the function
+        final Function function = getFunction(identifier);
+        if (function.getReturnParameters().isEmpty()) {
+            LOG.warn("FnO function '{}' has no declared fno:returns list; assuming the default (String).",
+                    identifier);
+            datatypeIRI = XSD_STRING;
+        } else {
+            be.ugent.idlab.knows.functions.agent.model.fno.FnOParameter returnParam = (be.ugent.idlab.knows.functions.agent.model.fno.FnOParameter) function.getReturnParameters().getFirst();  // Java FnO functions should have only one return parameter
+            datatypeIRI = returnParam.getDataTypeUri();
+        }
+    }
+
+    private static @NonNull Function getFunction(String identifier) throws FunctionNotFoundException {
+        String normalizedIdentifier = identifier.trim();
+        normalizedIdentifier = normalizedIdentifier.startsWith("<") && normalizedIdentifier.endsWith(">")
+                ? normalizedIdentifier.substring(1, identifier.length() - 1)
+                : normalizedIdentifier;
+        final Map<String, Function> functions = getAgent().getFunctions();
+        final Function function = functions.get(normalizedIdentifier);
+        if (function == null) {
+            throw new FunctionNotFoundException("FnO function '" + normalizedIdentifier + "' not found.");
+        }
+        return function;
     }
 
     /**
@@ -72,7 +112,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
             synchronized (agentLock) {
                 if (cachedAgent == null) {
                     try {
-                        cachedAgent = AgentFactory.createFromFnO(FUNCTION_DESCRIPTIONS);
+                        cachedAgent = AgentFactory.createFromFnO(effectiveDescriptions);
                     } catch (Exception e) {
                         throw new RuntimeException("Failed to create FnO Agent", e);
                     }
@@ -82,13 +122,6 @@ public class FnOFunction implements ExtendFunction, Serializable {
         return cachedAgent;
     }
 
-    /**
-     * Runs the function through the FnO Agent and returns its raw result, which may be a
-     * single value or a collection of them.
-     *
-     * @param solutionMapping the solution mapping to read the arguments from
-     * @return the Agent's result, or null if the function produced no value
-     */
     /**
      * Runs the function once for every combination of its parameters' values and returns
      * everything the runs produced.
@@ -106,7 +139,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
         List<List<String>> valuesPerParameter = new ArrayList<>(this.parameters.size());
 
         for (FnOParameter parameter : this.parameters) {
-            predicates.add(PARAMETER_TRANSLATOR.translate(parameter.getIdentifier()));
+            predicates.add(parameter.getIdentifier());
             valuesPerParameter.add(parameter.getParameters(solutionMapping));
         }
 
@@ -135,12 +168,12 @@ public class FnOFunction implements ExtendFunction, Serializable {
 
     private @Nullable Object execute(Arguments arguments) {
         // TODO: what is the expected behaviour? RMLFNML test cases expect errors to be thrown...
-                try {
+        try {
             // extract the value from the Agent
             return getAgent().execute(this.identifier, arguments);
         } catch (FnOException e) {
             // Function could not be resolved (e.g. function not found): a real mapping error.
-            throw new RuntimeException(e);
+            throw new MappingException(e);
         } catch (Exception e) {
             // The function executed but could not produce a value (e.g. substring index out
             // of range). This is a data error: no triple is generated for this value, but the
@@ -161,7 +194,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
         // Only one value fits where a single value is expected. A function producing
         // several of them belongs in a place that can carry them all, which is what
         // applyMulti() is for; taking the first is the best that can be done here.
-        return values.get(0);
+        return values.getFirst();
     }
 
     @Override
@@ -209,7 +242,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
     public @Nullable RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
         List<RDFNode> nodes = applyMultiToNode(solutionMapping);
 
-        return nodes.isEmpty() ? null : nodes.get(0);
+        return nodes.isEmpty() ? null : nodes.getFirst();
     }
 
     @Override
@@ -220,15 +253,9 @@ public class FnOFunction implements ExtendFunction, Serializable {
         }
 
         List<String> values = allValues(solutionMapping);
-        if (values.size() == 1) {
-            return List.of(new LiteralNode(values.get(0), datatypeIRI, ""));
-        }
-
-        // The declared datatype describes what the function returns as a whole, which for
-        // a function producing several values is the collection (rdf:List) and not the
-        // values in it. Each of them is a string.
+        String valueDatatype = RDF_LIST.equals(datatypeIRI) ? XSD_STRING : datatypeIRI;
         return values.stream()
-                .map(value -> (RDFNode) new LiteralNode(value, XSD_STRING, ""))
+            .map(value -> (RDFNode) new LiteralNode(value, valueDatatype, ""))
                 .toList();
     }
     

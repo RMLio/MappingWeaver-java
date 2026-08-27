@@ -1,0 +1,20 @@
+@prefix fno:  <https://w3id.org/function/ontology#> .
+@prefix fnoi: <https://w3id.org/function/vocabulary/implementation#> .
+@prefix fnom: <https://w3id.org/function/vocabulary/mapping#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix ex:   <http://example.com/myfunctions#> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+
+ex:shout a fno:Function ;
+  fno:name "shout" ;
+  fno:expects ( grel:valueParam ) ;
+  fno:returns ( grel:stringOut ) .
+
+ex:javaShout a fnoi:JavaClass ;
+  doap:download-page "src/test/resources/custom/fno/external-function-test/CustomFunctions.jar" ;
+  fnoi:class-name "CustomFunctions" .
+
+ex:shoutMapping a fno:Mapping ;
+  fno:function ex:shout ;
+  fno:implementation ex:javaShout ;
+  fno:methodMapping [ a fnom:StringMethodMapping ; fnom:method-name "shout" ] .

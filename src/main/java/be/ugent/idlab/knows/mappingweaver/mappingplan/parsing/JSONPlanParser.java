@@ -1,30 +1,6 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.parsing;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
-import java.nio.charset.Charset;
-import java.nio.file.Paths;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.jspecify.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.functions.JoinCondition;
 import be.ugent.idlab.knows.amo.operators.Operator;
@@ -45,11 +21,7 @@ import be.ugent.idlab.knows.amo.operators.source.dataio.fields.Field;
 import be.ugent.idlab.knows.amo.operators.source.dataio.fields.FieldBuilder;
 import be.ugent.idlab.knows.amo.operators.source.dataio.fields.ReferenceFormulation;
 import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
-import be.ugent.idlab.knows.dataio.access.Access;
-import be.ugent.idlab.knows.dataio.access.DatabaseType;
-import be.ugent.idlab.knows.dataio.access.LocalFileAccess;
-import be.ugent.idlab.knows.dataio.access.RDBAccess;
-import be.ugent.idlab.knows.dataio.access.WebSocketAccess;
+import be.ugent.idlab.knows.dataio.access.*;
 import be.ugent.idlab.knows.dataio.compression.Compression;
 import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import be.ugent.idlab.knows.mappingweaver.flink.operators.FlinkTargetOperator;
@@ -60,6 +32,23 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.fragment_functions.CopyFragmentFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.join_conditions.EqualityJoinCondition;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.Adjacency.Fragment;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.charset.Charset;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Class for parsing the JSON descriptions of the operators
@@ -73,7 +62,6 @@ public class JSONPlanParser implements Serializable {
     public static final Pattern allowedLanguagesPattern = Pattern.compile("^((?:(en-GB-oed|i-ami|i-bnn|i-default|i-enochian|i-hak|i-klingon|i-lux|i-mingo|i-navajo|i-pwn|i-tao|i-tay|i-tsu|sgn-BE-FR|sgn-BE-NL|sgn-CH-DE)|(art-lojban|cel-gaulish|no-bok|no-nyn|zh-guoyu|zh-hakka|zh-min|zh-min-nan|zh-xiang))|((?:([A-Za-z]{2,3}(-(?:[A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4})(-(?:[A-Za-z]{4}))?(-(?:[A-Za-z]{2}|[0-9]{3}))?(-(?:[A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-(?:[0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(?:x(-[A-Za-z0-9]{1,8})+))?)|(?:x(-[A-Za-z0-9]{1,8})+))$");
 
     private final String basePath;
-    private final String defaultBaseIRI;
     private final ExtendOperatorParser extendParser;
 
 
@@ -83,11 +71,12 @@ public class JSONPlanParser implements Serializable {
      *
      * @param basePath base path for resolving the local paths
      * @param defaultBaseIRI The default base IRI
+     * @param bestEffort     If <code>true</code> an empty value (null) is returned at data errors.
+     *                       If <code>false</code>, an exception will be thrown.
      */
-    private JSONPlanParser(String basePath, String defaultBaseIRI) {
+    private JSONPlanParser(String basePath, String defaultBaseIRI, boolean bestEffort) {
         this.basePath = basePath;
-        this.defaultBaseIRI = defaultBaseIRI;
-        this.extendParser = new ExtendOperatorParser(defaultBaseIRI);
+        this.extendParser = new ExtendOperatorParser(defaultBaseIRI, bestEffort);
     }
 
     /**
@@ -97,14 +86,15 @@ public class JSONPlanParser implements Serializable {
      * @param env  environment to build the operators under
      * @param path path to the description file
      * @param defaultBaseIRI The default base IRI
-     * @return a MappingPlan
+     * @param bestEffort     If <code>true</code> an empty value (null) is returned at data errors.
+     *                       If <code>false</code>, an exception will be thrown.     * @return a MappingPlan
      * @throws IOException when an IO error occurs while reading the file
      */
-    public static MappingPlan fromFile(StreamExecutionEnvironment env, String path, String defaultBaseIRI) throws IOException {
+    public static MappingPlan fromFile(StreamExecutionEnvironment env, String path, String defaultBaseIRI, boolean bestEffort) throws IOException {
         File file = new File(path);
         try (FileInputStream fis = new FileInputStream(path)) {
             String json = new String(fis.readAllBytes());
-            return new JSONPlanParser(file.getParent() + "/", defaultBaseIRI).parse(env, json);
+            return new JSONPlanParser(file.getParent() + "/", defaultBaseIRI, bestEffort).parse(env, json);
         }
     }
 
@@ -115,10 +105,13 @@ public class JSONPlanParser implements Serializable {
      * @param env      environment to create operators under
      * @param json     JSON string with the description of the operators
      * @param basePath base path for file resolution
+     * @param defaultBaseIRI The default base IRI
+     * @param bestEffort     If <code>true</code> an empty value (null) is returned at data errors.
+     *                       If <code>false</code>, an exception will be thrown.
      * @return a MappingPlan
      */
-    public static MappingPlan fromString(StreamExecutionEnvironment env, String json, String basePath, String defaultBaseIRI) {
-        return new JSONPlanParser(basePath, defaultBaseIRI).parse(env, json);
+    public static MappingPlan fromString(StreamExecutionEnvironment env, String json, String basePath, String defaultBaseIRI, boolean bestEffort) {
+        return new JSONPlanParser(basePath, defaultBaseIRI, bestEffort).parse(env, json);
     }
 
     /**
@@ -630,17 +623,6 @@ public class JSONPlanParser implements Serializable {
     // TODO: does this work??
     private KafkaSourceOperator parseKafkaSource(final String id, final JSONObject config, final Set<String> outputFragments, final JSONObject rootIteratorObj) {
         String referenceFormulation = rootIteratorObj.getString("reference_formulation");
-
-        List<JSONPlanField> JSONPlanFields = parseFields(rootIteratorObj.getJSONArray("JSONPlanFields"));
-
-//        List<String> JSONPlanFields = new ArrayList<>();
-//        if (referenceFormulation.equals("JSONPath") || referenceFormulation.equals("XMLPath")) {
-//            for (Object obj : rootIteratorObj.getJSONArray("JSONPlanFields")) {
-//                JSONObject field = (JSONObject) obj;
-//                JSONPlanFields.add(field.getString("reference"));
-//            }
-//        }
-
         String rootIterator = parseRootIterator(rootIteratorObj);
 
         // Access JSONPlanFields will be filled in as records come in

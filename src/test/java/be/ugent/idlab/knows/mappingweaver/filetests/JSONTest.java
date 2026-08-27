@@ -1,9 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.filetests;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -74,13 +72,13 @@ public class JSONTest extends TestCore {
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveTests")
     public void positiveTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/test-cases/json/", directory + '/');
+        super.positiveTest("src/test/resources/test-cases/json/", directory + '/', false);
     }
 
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativeTests")
     public void negativeTest(String directory) throws Exception {
-        super.negativeTest("src/test/resources/test-cases/json/", directory + '/');
+        super.negativeTest("src/test/resources/test-cases/json/", directory + '/', false);
     }
 
 //    @Test

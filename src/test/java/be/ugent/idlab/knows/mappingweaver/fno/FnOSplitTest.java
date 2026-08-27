@@ -20,33 +20,27 @@ public class FnOSplitTest extends TestCore {
     /**
      * A split in an object map, which should map every value it produces.
      */
-    private static Stream<Arguments> multiValuedObjectMap() {
+    private static Stream<Arguments> positivePassing() {
         return Stream.of(
                 // splitting the field directly
                 "RMLFNOTC1001-JSON",
                 // nulls turned into an empty string before splitting
                 "RMLFNOTC1002-JSON",
                 // empty strings filtered out after splitting, with idlab-fn:trueCondition
-                "RMLFNOTC1003-JSON"
+                "RMLFNOTC1003-JSON",
+                // the same split as a logical-view field
+                "RMLFNOTC1004-JSON",
+                // an invalid return resource falls back to the function's first return
+                "RMLFNOTC1005-JSON"
+                // false negative: FnO cannot describe the datatype of array members
+                // "RMLFNOTC1006-JSON"
         ).map(Arguments::of);
     }
 
-    /**
-     * The same split, as a field of the logical view.
-     */
-    private static Stream<Arguments> multiValuedField() {
-        return Stream.of("RMLFNOTC1004-JSON").map(Arguments::of);
+    @ParameterizedTest(name = "Index: {index} Filename: {0}")
+    @MethodSource("positivePassing")
+    public void positivePassingTest(String directory) throws Exception {
+        this.positiveTest(BASE, directory, true);
     }
 
-    @ParameterizedTest(name = "Index: {index} Filename: {0}")
-    @MethodSource("multiValuedObjectMap")
-    public void multiValuedFunctionInAnObjectMap(String directory) throws Exception {
-        this.positiveTest(BASE, directory);
-    }
-
-    @ParameterizedTest(name = "Index: {index} Filename: {0}")
-    @MethodSource("multiValuedField")
-    public void multiValuedFunctionInAField(String directory) throws Exception {
-        this.positiveTest(BASE, directory);
-    }
 }

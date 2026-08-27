@@ -25,21 +25,21 @@
     rml:subjectMap [ rml:template "{#}" ] ;
     rml:predicateObjectMap [
         rml:predicate :hasValue ;
-        rml:objectMap [ rml:functionExecution :Split ; rml:return grel:stringOut ]
+        rml:objectMap [ rml:functionExecution :Split ; rml:return grel:output_array ]
     ] .
 
 :Split
     rml:function grel:string_split ;
     rml:input
         [ rml:parameter grel:valueParam ;
-          rml:inputValueMap [ rml:functionExecution :EmptyIfNull ; rml:return grel:stringOut ] ] ,
+          rml:inputValueMap [ rml:functionExecution :EmptyIfNull ; rml:return grel:output_any ] ] ,
         [ rml:parameter grel:param_string_sep ; rml:inputValueMap [ rml:constant " " ] ] .
 
 :EmptyIfNull
     rml:function grel:controls_if ;
     rml:input
         [ rml:parameter grel:param_b ;
-          rml:inputValueMap [ rml:functionExecution :IsNull ; rml:return grel:stringOut ] ] ,
+          rml:inputValueMap [ rml:functionExecution :IsNull ; rml:return idlab-fn:_boolOut ] ] ,
         [ rml:parameter grel:param_true ; rml:inputValueMap [ rml:constant "" ] ] ,
         [ rml:parameter grel:param_false ; rml:inputValueMap [ rml:reference "scope" ] ] .
 

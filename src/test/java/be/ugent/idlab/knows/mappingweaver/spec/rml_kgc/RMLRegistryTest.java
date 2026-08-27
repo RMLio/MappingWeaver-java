@@ -1,8 +1,6 @@
 package be.ugent.idlab.knows.mappingweaver.spec.rml_kgc;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -132,12 +130,12 @@ public class RMLRegistryTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positive")
     public void positiveTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/spec/rmlio/registry/", directory);
+        super.positiveTest("src/test/resources/spec/rmlio/registry/", directory, false);
     }
 
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("negative")
     public void negativeTest(String directory) throws Exception {
-        super.negativeTest("src/test/resources/spec/rmlio/registry/", directory);
+        super.negativeTest("src/test/resources/spec/rmlio/registry/", directory, false);
     }
 }

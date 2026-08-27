@@ -1,0 +1,2 @@
+<http://example.com/0> <urn:example:hasValue> "12"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.com/0> <urn:example:hasValue> "75"^^<http://www.w3.org/2001/XMLSchema#integer> .

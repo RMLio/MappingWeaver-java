@@ -391,23 +391,7 @@ grel:prob_strlen
     fno:name            "The strlen problem"^^xsd:string ;
     dcterms:description "Computing the length of a given input string."^^xsd:string .
 
-grel:length
-    a                   fno:Function ;
-    fno:name            "length" ;
-    dcterms:description "length" ;
-    fno:solves          grel:prob_strlen ;
-    fno:expects         ( grel:valueParam ) ;
-    fno:returns         ( grel:output_number ) .
-
 grel:string_length
-    a                   fno:Function ;
-    fno:name            "length" ;
-    dcterms:description "length" ;
-    fno:solves          grel:prob_strlen ;
-    fno:expects         ( grel:valueParam ) ;
-    fno:returns         ( grel:output_number ) .
-
-grel:length
     a                   fno:Function ;
     fno:name            "length" ;
     dcterms:description "length" ;
