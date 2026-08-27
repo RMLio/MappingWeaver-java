@@ -119,7 +119,7 @@ Utility Tests:
                 # Remote
                 PostgresTest,
                 # Fixed bugs
-                FixedBugsTest, MultipleFunctionExecutionsTest, LogicalViewFieldsTest
+                FixedBugsTest, MultipleFunctionExecutionsTest, LogicalViewFieldsTest,
                 # Miscellaneous
                 ExtendParserTest, MappingPlanTest,
                 # omitted — class @Disabled and/or Docker-only, run no tests:
