@@ -24,7 +24,7 @@ public class CSVWSourceTest extends TestCore {
     private void testWithStoredPlan(String directory) throws Exception {
         String plan = Files.readString(Paths.get(BASE, directory, "plan.json"), StandardCharsets.UTF_8);
 
-        this.positiveTest(BASE, directory + '/', plan);
+        this.positiveTest(BASE, directory + '/', plan, false);
     }
 
     /**

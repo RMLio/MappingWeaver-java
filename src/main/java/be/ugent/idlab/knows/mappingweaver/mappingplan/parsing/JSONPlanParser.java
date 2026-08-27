@@ -1,6 +1,5 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.parsing;
 
-import org.jspecify.annotations.Nullable;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.functions.JoinCondition;
 import be.ugent.idlab.knows.amo.operators.Operator;
@@ -12,8 +11,6 @@ import be.ugent.idlab.knows.amo.operators.intermediate.unary.RenameOperator;
 import be.ugent.idlab.knows.amo.operators.intermediate.unary.TemplateSerializer;
 import be.ugent.idlab.knows.amo.operators.source.SourceOperator;
 import be.ugent.idlab.knows.amo.operators.source.dataio.CSVSourceOperator;
-import be.ugent.idlab.knows.dataio.iterators.csvw.CSVWConfiguration;
-import be.ugent.idlab.knows.dataio.iterators.csvw.CSVWConfigurationBuilder;
 import be.ugent.idlab.knows.amo.operators.source.dataio.DataIOSourceOperator;
 import be.ugent.idlab.knows.amo.operators.source.dataio.JSONSourceOperator;
 import be.ugent.idlab.knows.amo.operators.source.dataio.XMLSourceOperator;
@@ -23,6 +20,8 @@ import be.ugent.idlab.knows.amo.operators.source.dataio.fields.ReferenceFormulat
 import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
 import be.ugent.idlab.knows.dataio.access.*;
 import be.ugent.idlab.knows.dataio.compression.Compression;
+import be.ugent.idlab.knows.dataio.iterators.csvw.CSVWConfiguration;
+import be.ugent.idlab.knows.dataio.iterators.csvw.CSVWConfigurationBuilder;
 import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import be.ugent.idlab.knows.mappingweaver.flink.operators.FlinkTargetOperator;
 import be.ugent.idlab.knows.mappingweaver.flink.source.KafkaSourceOperator;
@@ -35,8 +34,7 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.Adjacency.Fragment
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.jspecify.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,8 +52,6 @@ import java.util.stream.Collectors;
  * Class for parsing the JSON descriptions of the operators
  */
 public class JSONPlanParser implements Serializable {
-
-    private static final Logger LOG = LoggerFactory.getLogger(JSONPlanParser.class);
 
     public static final Pattern languagePattern = Pattern.compile("\\?.*?@(.*)");
     // pattern straight from Mapper
@@ -272,10 +268,10 @@ public class JSONPlanParser implements Serializable {
             String object = parts.get(2);
 
             // extract the language tag
-            Matcher m = this.languagePattern.matcher(object);
+            Matcher m = languagePattern.matcher(object);
             if (m.find()) {
                 String languageTag = m.group(1);
-                Matcher allowedLanguageMatcher = this.allowedLanguagesPattern.matcher(languageTag);
+                Matcher allowedLanguageMatcher = allowedLanguagesPattern.matcher(languageTag);
                 if (!allowedLanguageMatcher.find()) {
                     throw new MappingException("Forbidden language tag '" + languageTag + "'!");
                 }
