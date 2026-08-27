@@ -80,60 +80,64 @@ java -jar MappingWeaver-0.3.0.jar --help
 ```
 
 ```
-Usage: AlgeMapLoom [-hV] [--bulk] [--custom-functions-only]             
+Usage: AlgeMapLoom [-hV] [--best-effort] [--custom-functions-only]
                    [--disable-local-parallel] [--json-ld]
                    [--auto-watermark-interval=<time (ms)>]
-                   [--checkpoint-interval=<time (ms)>] [-i=<base IRI>] [-j=<job
+                   [--checkpoint-interval=<time (ms)>] [-i=<base IRI>] [-j=<job 
                    name>] [-p=<task slots>] [-f=<function descriptions>]...
                    [-m=<RML mapping file> | -l=<AlgeMapLoom mapping plan file>]
                    [-v | -vv | -vvv] [COMMAND]
       --auto-watermark-interval=<time (ms)>
-                  If given, Flink's watermarking will be generated periodically
-                    with the given interval. If not given, a default value of
-                    50ms will be used.This option is only valid for DataStreams.
-      --bulk      Write all triples generated from one input record at once,
-                    instead of writing triples the moment they are generated.
+                      If given, Flink's watermarking will be generated
+                        periodically with the given interval. If not given, a
+                        default value of 50ms will be used.This option is only
+                        valid for DataStreams.
+      --best-effort   If set, data errors yield no records instead of throwing
+                        an exception.
       --checkpoint-interval=<time (ms)>
-                  If given, Flink's checkpointing is enabled with the given
-                    interval. If not given, checkpointing is enabled when
-                    writing to a file (this is required to use the flink
-                    StreamingFileSink). Otherwise, checkpointing is disabled.
+                      If given, Flink's checkpointing is enabled with the given
+                        interval. If not given, checkpointing is enabled when
+                        writing to a file (this is required to use the flink
+                        StreamingFileSink). Otherwise, checkpointing is
+                        disabled.
 
       --custom-functions-only
-                  When set, only the descriptions provided via -f are used; the
-                    built-in GREL/IDLab descriptions are excluded.
+                      When set, only the descriptions provided via -f are used;
+                        the built-in GREL/IDLab descriptions are excluded.
       --disable-local-parallel
-                  By default input records are spread over the available task
-                    slots within a task manager to optimise parallel
-                    processing, at the cost of losing the order of the records
-                    throughout the process. This option disables this behaviour
-                    to guarantee that the output order is the same as the input
-                    order.
+                      By default input records are spread over the available
+                        task slots within a task manager to optimise parallel
+                        processing, at the cost of losing the order of the
+                        records throughout the process. This option disables
+                        this behaviour to guarantee that the output order is
+                        the same as the input order.
   -f, --function-descriptions=<function descriptions>
-                  An optional comma-separated list of paths to function
-                    description files (in RDF using FnO). A path can be a file
-                    location or a URL.
-  -h, --help      Show this help message and exit.
+                      An optional comma-separated list of paths to function
+                        description files (in RDF using FnO). A path can be a
+                        file location or a URL.
+  -h, --help          Show this help message and exit.
   -i, --base-iri=<base IRI>
-                  The base IRI as defined in the R2RML spec.
+                      The base IRI as defined in the R2RML spec.
   -j, --job-name=<job name>
-                  The name to assign to the job on the Flink cluster. Put some
-                    semantics in here ;)
-      --json-ld   Write the output as JSON-LD instead of N-Quads. An object
-                    contains all RDF generated from one input record. Note:
-                    this is slower than using the default N-Quads format.
+                      The name to assign to the job on the Flink cluster. Put
+                        some semantics in here ;)
+      --json-ld       Write the output as JSON-LD instead of N-Quads. An object
+                        contains all RDF generated from one input record. Note:
+                        this is slower than using the default N-Quads format.
   -l, --loom-file=<AlgeMapLoom mapping plan file>
-                  The path to an AlgeMapLoom mapping plan file, in JSON format.
-                    The path must be accessible on the Flink cluster.
+                      The path to an AlgeMapLoom mapping plan file, in JSON
+                        format. The path must be accessible on the Flink
+                        cluster.
   -m, --mapping-file=<RML mapping file>
-                  The path to an RML mapping file. The path must be accessible
-                    on the Flink cluster.
+                      The path to an RML mapping file. The path must be
+                        accessible on the Flink cluster.
   -p, --parallelism=<task slots>
-                  Sets the maximum operator parallelism (~nr of task slots used)
-  -v              Set log level to WARN
-  -V, --version   Print version information and exit.
-      -vv         Set log level to INFO
-      -vvv        Set log level to DEBUG
+                      Sets the maximum operator parallelism (~nr of task slots
+                        used)
+  -v                  Set log level to WARN
+  -V, --version       Print version information and exit.
+  -vv                 Set log level to INFO
+  -vvv                Set log level to DEBUG
 Commands:
   toFile       Write output to file
   toKafka      Write output to a Kafka topic
@@ -143,13 +147,87 @@ Commands:
   noOutput     Do everything, but discard output
 ```
 
-### Custom FnO function descriptions
+## Including functions
 
-MappingWeaver ships four built-in FnO description files (GREL and IDLab functions).
-Additional descriptions can be provided with the `-f` flag:
+The processor comes with [GREL](https://github.com/FnOio/grel-functions-java) and
+[IDLab](https://github.com/FnOio/idlab-functions-java) functions built-in. 
+Custom functions are
+added by describing them in [FnO](https://fno.io/) and pointing the processor at that
+description with `-f`, which takes a comma-separated list of file locations or URLs. The
+description says which Java class and method implement the function, and the jar holding
+that class is named by `doap:download-page`.
+
+> Note: The mapping file can specify an absolute path to the jar, or path relative to the working directory.
+
+The example below adds a function that upper-cases a value and appends an exclamation mark.
+
+`myfunctions.ttl` describes the function and links it to the class implementing it:
+
+```turtle
+@prefix fno:  <https://w3id.org/function/ontology#> .
+@prefix fnoi: <https://w3id.org/function/vocabulary/implementation#> .
+@prefix fnom: <https://w3id.org/function/vocabulary/mapping#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix ex:   <http://example.com/myfunctions#> .
+
+ex:shout a fno:Function ;
+  fno:name "shout" ;
+  fno:expects ( grel:valueParam ) ;
+  fno:returns ( grel:stringOut ) .
+
+ex:javaShout a fnoi:JavaClass ;
+  doap:download-page "CustomFunctions.jar" ;
+  fnoi:class-name "CustomFunctions" .
+
+ex:shoutMapping a fno:Mapping ;
+  fno:function ex:shout ;
+  fno:implementation ex:javaShout ;
+  fno:methodMapping [ a fnom:StringMethodMapping ; fnom:method-name "shout" ] .
+```
+
+The accompanying `CustomFunctions.java`:
+
+```java
+public class CustomFunctions {
+  public static String shout(String s) {
+    return s == null ? null : s.toUpperCase() + "!";
+  }
+}
+```
+
+The mapping calls the function by its IRI, the same way it would call a bundled one:
+
+```turtle
+@prefix rml:  <http://w3id.org/rml/> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix ex:   <http://example.com/myfunctions#> .
+@prefix :     <urn:example:> .
+
+:TriplesMap a rml:TriplesMap ;
+    rml:logicalSource :source ;
+    rml:subjectMap [ rml:template "urn:example:{name}" ] ;
+    rml:predicateObjectMap [
+        rml:predicate :shouted ;
+        rml:objectMap [ rml:functionExecution :Shout ; rml:return grel:stringOut ]
+    ] .
+
+:Shout rml:function ex:shout ;
+    rml:input [ rml:parameter grel:valueParam ; rml:inputValueMap [ rml:reference "name" ] ] .
+```
+
+Compile the class into a jar and give the description to the processor:
 
 ```
-java -jar MappingWeaver-0.3.0.jar -m mapping.ttl -f my-functions.ttl -f my-java-mapping.ttl
+javac CustomFunctions.java && jar cf CustomFunctions.jar CustomFunctions.class
+java -jar MappingWeaver-0.3.0.jar -m mapping.ttl -f myfunctions.ttl
+```
+
+Several descriptions are given at once by repeating the option or separating them with
+commas:
+
+```
+java -jar MappingWeaver-0.3.0.jar -m mapping.ttl -f myfunctions.ttl,https://example.com/morefunctions.ttl
 ```
 
 A custom description whose filename matches a built-in's name replaces that built-in.

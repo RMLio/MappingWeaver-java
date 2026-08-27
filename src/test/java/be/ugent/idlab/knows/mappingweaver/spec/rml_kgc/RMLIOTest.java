@@ -1,14 +1,13 @@
 package be.ugent.idlab.knows.mappingweaver.spec.rml_kgc;
 
-import java.util.List;
-import java.util.stream.Stream;
-
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class RMLIOTest extends TestCore {
     // Positive tests that crash while translating: the source needs a reference
@@ -139,34 +138,34 @@ public class RMLIOTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positive")
     public void positiveTest(String directory) throws Exception {
-        this.positiveTest("src/test/resources/spec/rml_kgc/rml-io/", directory);
+        this.positiveTest("src/test/resources/spec/rml_kgc/rml-io/", directory, false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTest(String directory) throws Exception {
-        this.positiveTest("src/test/resources/spec/rml_kgc/rml-io/", directory);
+        this.positiveTest("src/test/resources/spec/rml_kgc/rml-io/", directory, false);
     }
 
     @Disabled("These tests panic the Rust thread")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("unfixableTests")
     public void unfixableTest(String directory) throws Exception {
-        this.positiveTest("src/test/resources/spec/rml_kgc/rml-io/", directory);
+        this.positiveTest("src/test/resources/spec/rml_kgc/rml-io/", directory, false);
     }
 
     @Disabled("No passing negative testcases to run")
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negative")
     public void negativeTest(String directory) throws Exception {
-        this.negativeTest("src/test/resources/spec/rml_kgc/rml-io/", directory);
+        this.negativeTest("src/test/resources/spec/rml_kgc/rml-io/", directory, false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativeFailing")
     public void negativeFailingTest(String directory) throws Exception {
-        this.negativeTest("src/test/resources/spec/rml_kgc/rml-io/", directory);
+        this.negativeTest("src/test/resources/spec/rml_kgc/rml-io/", directory, false);
     }
 }

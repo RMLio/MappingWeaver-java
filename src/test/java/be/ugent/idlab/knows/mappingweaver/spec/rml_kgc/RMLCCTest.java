@@ -66,6 +66,6 @@ public class RMLCCTest extends TestCore {
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/spec/rml_kgc/rml-cc/", directory + '/');
+        super.positiveTest("src/test/resources/spec/rml_kgc/rml-cc/", directory + '/', false);
     }
 }

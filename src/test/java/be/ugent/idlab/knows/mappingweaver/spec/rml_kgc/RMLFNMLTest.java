@@ -1,19 +1,19 @@
 package be.ugent.idlab.knows.mappingweaver.spec.rml_kgc;
 
-import java.util.stream.Stream;
-
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import java.util.stream.Stream;
 
 public class RMLFNMLTest extends TestCore {
 
 
     private static Stream<Arguments> positivePassing() {
         return Stream.of(
+                "RMLFNMLTC0001-CSV",
                 "RMLFNMLTC0002-CSV",
                 "RMLFNMLTC0003-CSV",
                 "RMLFNMLTC0004-CSV",
@@ -33,7 +33,6 @@ public class RMLFNMLTest extends TestCore {
 
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
-                "RMLFNMLTC0001-CSV", // Function not found (HTTPS://W3ID.ORG/IMEC/IDLAB/FUNCTION#ALWAYSRETURNSABC)
                 "RMLFNMLTC0032-CSV" // condition doesn't work
         ).map(Arguments::of);
     }
@@ -50,19 +49,19 @@ public class RMLFNMLTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positivePassing")
     public void positivePassingTest(String directory) throws Exception {
-        this.positiveTest("src/test/resources/spec/rml_kgc/rml-fnml/", directory);
+        this.positiveTest("src/test/resources/spec/rml_kgc/rml-fnml/", directory, false);
     }
 
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativeTests")
     public void negativeTest(String directory) throws Exception {
-        this.negativeTest("src/test/resources/spec/rml_kgc/rml-fnml/", directory);
+        this.negativeTest("src/test/resources/spec/rml_kgc/rml-fnml/", directory, false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/spec/rml_kgc/rml-fnml/", directory + '/');
+        super.positiveTest("src/test/resources/spec/rml_kgc/rml-fnml/", directory + '/', false);
     }
 }

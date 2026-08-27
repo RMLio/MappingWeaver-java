@@ -1,31 +1,18 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.parsing;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import be.ugent.idlab.knows.amo.blocks.Pair;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.operators.Operator;
 import be.ugent.idlab.knows.amo.operators.intermediate.unary.ExtendOperator;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.BlankTypeFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConcatenateFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ConstantValueFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.EncodeUriFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.GenerateBlankNode;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.IriTypeFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.LiteralTypeFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.NopFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ReferenceFunction;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.TemplateValueFunction;
+import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.*;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOParameter;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.*;
 
 /**
  * Parser for construction of the Extend operator
@@ -33,9 +20,16 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOPa
  */
 public class ExtendOperatorParser {
     private final String defaultBaseIRI;
+    private final boolean bestEffort;
 
-    public ExtendOperatorParser(String defaultBaseIRI) {
+    /**
+     * Constructor for the ExtendOperatorParser
+     * @param defaultBaseIRI the default base IRI to use for IriTypeFunction if no base IRI is provided in the function description
+     * @param bestEffort     If <code>true</code> the Extend Operator will not throw an exception if a reference attribute is missing in the input data, but will instead return null for that attribute. If <code>false</code>, an exception will be thrown.
+     */
+    public ExtendOperatorParser(String defaultBaseIRI, boolean bestEffort) {
         this.defaultBaseIRI = defaultBaseIRI;
+        this.bestEffort = bestEffort;
     }
 
     /**
@@ -98,7 +92,7 @@ public class ExtendOperatorParser {
                 yield new LiteralTypeFunction(parseExtendFunction(innerFunc), languageFunction, datatypeFunction);
 
             }
-            case "Reference" -> new ReferenceFunction(functionDescription.getString("value"));
+            case "Reference" -> new ReferenceFunction(functionDescription.getString("value"), bestEffort);
             case "UriEncode" -> new EncodeUriFunction(parseExtendFunction(innerFunc));
             case "TemplateFunctionValue" -> {
                 String template = functionDescription.getString("template");
@@ -148,7 +142,7 @@ public class ExtendOperatorParser {
         try {
             return new FnOFunction(identifier, fnOParameters, returnType);
         } catch (FnOException e) {
-            throw new RuntimeException(e);
+            throw new MappingException(e);
         }
     }
 }

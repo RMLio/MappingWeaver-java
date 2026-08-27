@@ -1,16 +1,10 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions;
 
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
-import be.ugent.idlab.knows.amo.blocks.nodes.BlankNode;
-import be.ugent.idlab.knows.amo.blocks.nodes.IRINode;
-import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
-import be.ugent.idlab.knows.amo.blocks.nodes.NullNode;
-import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
+import be.ugent.idlab.knows.amo.blocks.nodes.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Reading an attribute of the record.
@@ -36,7 +30,7 @@ public class ReferenceFunctionTest {
         // IRI into a string
         SolutionMapping mapping = mappingWith("scope", new IRINode("http://example.com/read"));
 
-        RDFNode node = new ReferenceFunction("scope").applyToNode(mapping);
+        RDFNode node = new ReferenceFunction("scope", false).applyToNode(mapping);
 
         assertInstanceOf(IRINode.class, node);
         assertEquals("http://example.com/read", node.getValue().toString());
@@ -46,29 +40,29 @@ public class ReferenceFunctionTest {
     public void aBlankNodeStaysABlankNode() {
         SolutionMapping mapping = mappingWith("scope", new BlankNode("b1"));
 
-        assertInstanceOf(BlankNode.class, new ReferenceFunction("scope").applyToNode(mapping));
+        assertInstanceOf(BlankNode.class, new ReferenceFunction("scope", false).applyToNode(mapping));
     }
 
     @Test
     public void anAttributeTheRecordDoesNotHaveIsNull() {
         SolutionMapping mapping = mappingWith("name", new LiteralNode("alice"));
 
-        assertNull(new ReferenceFunction("scope").applyToNode(mapping));
-        assertNull(new ReferenceFunction("scope").apply(mapping));
+        assertNull(new ReferenceFunction("scope", true).applyToNode(mapping));
+        assertNull(new ReferenceFunction("scope", true).apply(mapping));
     }
 
     @Test
     public void anAttributeBoundToNullIsNull() {
         SolutionMapping mapping = mappingWith("scope", new NullNode());
 
-        assertNull(new ReferenceFunction("scope").applyToNode(mapping));
-        assertNull(new ReferenceFunction("scope").apply(mapping));
+        assertNull(new ReferenceFunction("scope", false).applyToNode(mapping));
+        assertNull(new ReferenceFunction("scope", false).apply(mapping));
     }
 
     @Test
     public void thereIsNothingToReadWithoutASolutionMapping() {
-        assertNull(new ReferenceFunction("scope").applyToNode(null));
-        assertNull(new ReferenceFunction("scope").apply(null));
+        assertNull(new ReferenceFunction("scope", false).applyToNode(null));
+        assertNull(new ReferenceFunction("scope", false).apply(null));
     }
 
     @Test
@@ -76,13 +70,13 @@ public class ReferenceFunctionTest {
         // an empty string is data, not an absent attribute
         SolutionMapping mapping = mappingWith("scope", new LiteralNode(""));
 
-        assertEquals("", new ReferenceFunction("scope").apply(mapping));
+        assertEquals("", new ReferenceFunction("scope", false).apply(mapping));
     }
 
     @Test
     public void aBoundAttributeIsReadAsAString() {
         SolutionMapping mapping = mappingWith("scope", new LiteralNode("read write"));
 
-        assertEquals("read write", new ReferenceFunction("scope").apply(mapping));
+        assertEquals("read write", new ReferenceFunction("scope", false).apply(mapping));
     }
 }
