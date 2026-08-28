@@ -26,6 +26,6 @@ public class RMLLVFNMLTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positive")
     public void positiveTest(String directory) throws Exception {
-        this.positiveTest("src/test/resources/rml_kgc/test-cases/spec-adaptations/rml-lv/", directory);
+        this.positiveTest("src/test/resources/rml_kgc/test-cases/spec-adaptations/rml-lv/", directory, false);
     }
 }

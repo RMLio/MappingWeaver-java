@@ -4,8 +4,8 @@ import be.ugent.idlab.knows.amo.blocks.MappingTuple;
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.operators.source.SourceOperator;
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import be.ugent.idlab.knows.mappingLoom.ITranslator;
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph;
@@ -52,7 +52,7 @@ public class KafkaTest extends TestCore {
         String planJson = ITranslator.getInstance().translate_to_document(planTTL);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/rmlio/test-cases/integrations/kafka/csv", "http://example.com/");
+        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/rmlio/test-cases/integrations/kafka/csv", "http://example.com/", false);
         SourceOperator op = (SourceOperator) plan.getOperatorGraph().getOperators().getFirst();
         runKafkaTest(op);
     }
@@ -70,7 +70,7 @@ public class KafkaTest extends TestCore {
         String planJson = ITranslator.getInstance().translate_to_document(planTTL);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/rmlio/test-cases/integrations/kafka/json", "http://example.com/");
+        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/rmlio/test-cases/integrations/kafka/json", "http://example.com/", false);
         SourceOperator op = (SourceOperator) plan.getOperatorGraph().getOperators().getFirst();
         runKafkaTest(op);
     }
@@ -87,7 +87,7 @@ public class KafkaTest extends TestCore {
         String planJson = ITranslator.getInstance().translate_to_document(planTTL);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/rmlio/test-cases/integrations/kafka/xml", "http://example.com/");
+        MappingPlan plan = MappingPlan.fromString(env, planJson, "src/test/resources/rmlio/test-cases/integrations/kafka/xml", "http://example.com/", false);
         SourceOperator op = (SourceOperator) plan.getOperatorGraph().getOperators().getFirst();
         runKafkaTest(op);
     }

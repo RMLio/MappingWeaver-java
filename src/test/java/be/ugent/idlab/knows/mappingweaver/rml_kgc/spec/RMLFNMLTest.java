@@ -1,19 +1,19 @@
 package be.ugent.idlab.knows.mappingweaver.rml_kgc.spec;
 
-import java.util.stream.Stream;
-
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import java.util.stream.Stream;
 
 public class RMLFNMLTest extends TestCore {
 
 
     private static Stream<Arguments> positivePassing() {
         return Stream.of(
+                "RMLFNMLTC0001-CSV",
                 "RMLFNMLTC0002-CSV",
                 "RMLFNMLTC0003-CSV",
                 "RMLFNMLTC0004-CSV",
@@ -37,10 +37,6 @@ public class RMLFNMLTest extends TestCore {
         ).map(Arguments::of);
     }
 
-    private static Stream<Arguments> adaptedPositiveFailing() {
-        return Stream.of("RMLFNMLTC0001-CSV").map(Arguments::of);
-    }
-
     private static Stream<Arguments> negativeTests() {
         return Stream.of(
                 "RMLFNMLTC0101-CSV",
@@ -53,26 +49,26 @@ public class RMLFNMLTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positivePassing")
     public void positivePassingTest(String directory) throws Exception {
-        this.positiveTest("src/test/resources/rml_kgc/spec/rml-fnml/", directory);
+        this.positiveTest("src/test/resources/rml_kgc/spec/rml-fnml/", directory, false);
     }
 
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativeTests")
     public void negativeTest(String directory) throws Exception {
-        this.negativeTest("src/test/resources/rml_kgc/spec/rml-fnml/", directory);
+        this.negativeTest("src/test/resources/rml_kgc/spec/rml-fnml/", directory, false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/rml_kgc/spec/rml-fnml/", directory + '/');
+        super.positiveTest("src/test/resources/rml_kgc/spec/rml-fnml/", directory + '/', false);
     }
 
     @Disabled("Locally modified adaptation retained for provenance")
     @ParameterizedTest(name = "Adaptation index: {index} Filename: {0}")
     @MethodSource("adaptedPositiveFailing")
     public void adaptedPositiveFailingTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/rml_kgc/test-cases/spec-adaptations/rml-fnml/", directory + '/');
+        super.positiveTest("src/test/resources/rml_kgc/test-cases/spec-adaptations/rml-fnml/", directory + '/', false);
     }
 }

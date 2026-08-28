@@ -22,6 +22,6 @@ public class LogicalViewFieldsTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positiveTests")
     public void positiveTest(String directory) throws Exception {
-        this.positiveTest(BASE, directory);
+        this.positiveTest(BASE, directory, false);
     }
 }

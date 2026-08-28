@@ -7,7 +7,7 @@ public class FixedBugsTest extends TestCore {
 
     @Test
     public void skipRowWithEmptyValue() throws Exception {
-        positiveTest("src/test/resources/rml_kgc/test-cases/regressions/fixed-bugs", "skip-row-with-empty-value");
+        positiveTest("src/test/resources/rml_kgc/test-cases/regressions/fixed-bugs", "skip-row-with-empty-value", false);
     }
 
 }

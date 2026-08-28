@@ -47,13 +47,13 @@ public class RMLSTARTest extends TestCore {
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativePassing")
     public void negativePassingTest(String directory) throws Exception {
-        this.negativeTest("src/test/resources/rml_kgc/spec/rml-star/", directory);
+        this.negativeTest("src/test/resources/rml_kgc/spec/rml-star/", directory, false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTest(String directory) throws Exception {
-        this.positiveTest("src/test/resources/rml_kgc/spec/rml-star/", directory);
+        this.positiveTest("src/test/resources/rml_kgc/spec/rml-star/", directory, false);
     }
 }

@@ -3,6 +3,7 @@ package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions;
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
+import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +15,11 @@ import java.util.Optional;
  *
  * @param referenceAttribute a String containing the JSON description of the
  *                           inner function
+ * @param bestEffort         If <code>true</code> the Extend Function will not throw an exception if a
+ *                           reference attribute is missing in the input data, but will instead return null for
+ *                           that attribute. If <code>false</code>, an exception will be thrown.
  */
-public record ReferenceFunction(String referenceAttribute) implements ExtendFunction {
+public record ReferenceFunction(String referenceAttribute, boolean bestEffort) implements ExtendFunction {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReferenceFunction.class);
 
@@ -34,14 +38,28 @@ public record ReferenceFunction(String referenceAttribute) implements ExtendFunc
             return null;
         }
 
-        RDFNode value = solutionMapping.get(this.referenceAttribute);
-        if (value == null || value.isNull()) {
-            LOG.debug("Reference '{}' has no value in this record, so no term is generated for it. "
-                    + "The record holds: {}", this.referenceAttribute, solutionMapping.keySet());
+        if (solutionMapping.containsKey(this.referenceAttribute)) {
+            RDFNode value = solutionMapping.get(this.referenceAttribute);
+            if (value == null || value.isNull()) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Reference '{}' has no value in this record, so no term is generated for it. "
+                            + "The record holds: {}", this.referenceAttribute, solutionMapping.keySet());
+                }
+                return null;
+            } else {
+                return value;
+            }
+        } else if (bestEffort) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Reference '{}' not present in this record, but best-effort mode is enabled. "
+                        + "The record holds: {}", this.referenceAttribute, solutionMapping.keySet());
+            }
             return null;
+        } else {
+            // If not best-effort, throw an exception to indicate that the reference attribute is missing. The story mapping ends here :)
+            throw new MappingException("Specified reference attribute '" + this.referenceAttribute + "' not present in the input data. \n" +
+                    "Only these attributes are present in the in solution mapping: \n" + solutionMapping.keySet() );
         }
-
-        return value;
     }
 
     @Override

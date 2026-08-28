@@ -1,7 +1,6 @@
 package be.ugent.idlab.knows.mappingweaver.rml_kgc.spec;
 
-import java.util.stream.Stream;
-
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -9,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import java.util.stream.Stream;
 
 @Execution(ExecutionMode.CONCURRENT)
 public class RMLCoreTest extends TestCore {
@@ -127,34 +126,34 @@ public class RMLCoreTest extends TestCore {
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positivePassing")
     public void positivePassingTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/');
+        super.positiveTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/', false);
     }
 
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativePassing")
     public void negativePassingTest(String directory) throws Exception {
-        super.negativeTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/');
+        super.negativeTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/', false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Positive test index: {index} Filename: {0}")
     @MethodSource("positiveFailing")
     public void positiveFailingTest(String directory) throws Exception {
-        super.positiveTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/');
+        super.positiveTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/', false);
     }
 
     @Disabled("Not running known failing test cases in CI")
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
     @MethodSource("negativeFailing")
     public void negativeFailingTest(String directory) throws Exception {
-        super.negativeTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/');
+        super.negativeTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/', false);
     }
 
     @Disabled("These tests panic the Rust thread")
     @ParameterizedTest(name = "Unfixable test index: {index} Filename: {0}")
     @MethodSource("unfixable")
     public void unfixable(String directory) throws Exception {
-        super.positiveTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/');
+        super.positiveTest("src/test/resources/rml_kgc/spec/rml-core/", directory + '/', false);
 
     }
 }

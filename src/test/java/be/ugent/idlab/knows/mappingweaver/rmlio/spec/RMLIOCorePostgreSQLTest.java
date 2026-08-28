@@ -1,11 +1,9 @@
 package be.ugent.idlab.knows.mappingweaver.rmlio.spec;
 
 import be.ugent.idlab.knows.mappingweaver.cores.DBTestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -111,7 +109,7 @@ public class RMLIOCorePostgreSQLTest extends DBTestCore {
         // read in the plan
         String plan = Files.readString(Paths.get("src/test/resources/rmlio/spec/core/" + directory + "/mapping.ttl"));
         plan = plan.replace("CONNECTIONDSN", container.getJdbcUrl());
-        this.positiveTestTurtlePlan("src/test/resources/rmlio/spec/core/", directory, plan);
+        this.positiveTestTurtlePlan("src/test/resources/rmlio/spec/core/", directory, plan, false);
     }
 
     @ParameterizedTest(name = "Negative test index: {index} Filename: {0}")
@@ -126,7 +124,7 @@ public class RMLIOCorePostgreSQLTest extends DBTestCore {
         // read in the plan
         String plan = Files.readString(Paths.get("src/test/resources/rmlio/spec/core/" + directory + "/mapping.ttl"));
         plan = plan.replace("CONNECTIONDSN", container.getJdbcUrl());
-        this.negativeTestTurtlePlan("src/test/resources/rmlio/spec/core/", directory, plan);
+        this.negativeTestTurtlePlan("src/test/resources/rmlio/spec/core/", directory, plan, false);
 
     }
 }

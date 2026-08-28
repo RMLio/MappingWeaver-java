@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ExtendParserTest {
-    ExtendOperatorParser parser = new ExtendOperatorParser("http://example.com/");
+    ExtendOperatorParser parser = new ExtendOperatorParser("http://example.com/", false);
 
     @SuppressWarnings("null")
     @Test

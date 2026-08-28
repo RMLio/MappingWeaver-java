@@ -1,12 +1,11 @@
 package be.ugent.idlab.knows.mappingweaver.rml_kgc.fno;
 
-import java.util.stream.Stream;
-
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import java.util.stream.Stream;
 
 /**
  * A function that produces several values, such as a split, inside a logical view.
@@ -41,7 +40,7 @@ public class FnOSplitTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positivePassing")
     public void positivePassingTest(String directory) throws Exception {
-        this.positiveTest(BASE, directory);
+        this.positiveTest(BASE, directory, true);
     }
 
 }

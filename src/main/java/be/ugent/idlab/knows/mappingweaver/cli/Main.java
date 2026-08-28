@@ -1,20 +1,5 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.json.JSONObject;
-import org.jspecify.annotations.Nullable;
-
 import be.ugent.idlab.knows.amo.functions.TargetSink;
 import be.ugent.idlab.knows.mappingLoom.ITranslator;
 import be.ugent.idlab.knows.mappingweaver.flink.sinks.WeaverSinkFactory;
@@ -22,15 +7,24 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
 import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.json.JSONObject;
+import org.jspecify.annotations.Nullable;
 import picocli.CommandLine;
 import picocli.CommandLine.MissingParameterException;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.ParseResult;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+
 public class Main {
     private final List<String> subcommands = List.of("toFile", "toKafka", "toMQTT", "toTCPSocket", "toWebSocket",
             "noOutput");
-    private boolean doOutputBulk = false;
 
     public static void main(String[] args) {
         new Main().parseAndRun(args);
@@ -82,8 +76,6 @@ public class Main {
                 env.setParallelism(parallelism);
             }
 
-            this.doOutputBulk = options.matchedOptionValue("--bulk", "false").equalsIgnoreCase("true");
-
             if (options.hasMatchedOption("--disable-local-parallel")) {
                 context.put(MappingPlan.CONFIG_LOCAL_PARALLEL, false);
             }
@@ -96,11 +88,6 @@ public class Main {
             if (options.hasMatchedOption("--auto-watermark-interval")) {
                 long interval = options.matchedOptionValue("--auto-watermark-interval", null);
                 context.put(MappingPlan.CONFIG_WATERMARK_INTERVAL, interval);
-            }
-
-            if (options.hasMatchedOption("--function-descriptions")) {
-                List<String> descriptions = options.matchedOptionValue("--function-descriptions", List.of());
-                context.put("function-descriptions", descriptions);
             }
 
             // configure FnO function descriptions before the plan is parsed (constructors read them)
@@ -127,7 +114,9 @@ public class Main {
 
             final String baseIRI = options.hasMatchedOption("-i")? options.matchedOptionValue("-i", null) : "";
 
-            MappingPlan p = JSONPlanParser.fromString(env, jsonPlan, basePath, baseIRI);
+            final boolean bestEffort = options.hasMatchedOption("--best-effort");
+
+            MappingPlan p = JSONPlanParser.fromString(env, jsonPlan, basePath, baseIRI, bestEffort);
 
             if (options.hasSubcommand() && this.subcommands.contains(options.subcommand().commandSpec().name())) {
                 p.initializeFlinkTopology(false);
@@ -137,12 +126,11 @@ public class Main {
                         .union(serializedDataStreams.toArray(new DataStream[0]));
 
                 ParseResult subcommand = options.subcommand();
-                switch (subcommand.commandSpec().name()) {
-                    case "toFile" -> handleToFile(subcommand, unionStream, env.getParallelism());
-                    default ->
-                        throw new IllegalArgumentException("Invalid subcommand: " + subcommand.commandSpec().name());
+                if (subcommand.commandSpec().name().equals("toFile")) {
+                    handleToFile(subcommand, unionStream, env.getParallelism());
+                } else {
+                    throw new IllegalArgumentException("Invalid subcommand: " + subcommand.commandSpec().name());
                 }
-                ;
 
             }
 
@@ -182,10 +170,6 @@ public class Main {
 
     public static class CommonSink implements TargetSink<String> {
         public static final List<String> output = Collections.synchronizedList(new ArrayList<>());
-
-        public static String getBulkOutput() {
-            return String.join("\n", output);
-        }
 
         @Override
         public void sink(@Nullable String serializedOutput) {

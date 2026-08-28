@@ -1,14 +1,9 @@
 package be.ugent.idlab.knows.mappingweaver.rmlio.spec;
 
-import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
+import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
+import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
+import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTargetDebugger;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.ibatis.jdbc.ScriptRunner;
@@ -23,10 +18,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
-import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
-import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 @Disabled("Old RML is not supported in MappingLoom-rs, there are some issues to be fixed...")
 public class RMLIOCoreMySQLTest {
@@ -207,7 +209,7 @@ public class RMLIOCoreMySQLTest {
             return; // Skip faulty tests
         }
 
-        MappingPlan plan = MappingPlan.fromFile(env, basePath + planPath, "http://example.com/");
+        MappingPlan plan = MappingPlan.fromFile(env, basePath + planPath, "http://example.com/", false);
         GraphVisitorCustomTargetDebugger visitor = new GraphVisitorCustomTargetDebugger(env, plan.getOperatorGraph(), TargetOperator.TARGET_VARIABLE);
         visitor.activateDebugging();
         plan.setVisitor(visitor);

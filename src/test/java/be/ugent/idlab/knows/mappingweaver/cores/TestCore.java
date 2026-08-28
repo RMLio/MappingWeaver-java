@@ -1,19 +1,12 @@
 package be.ugent.idlab.knows.mappingweaver.cores;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
+import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
+import be.ugent.idlab.knows.dataio.utils.NAMESPACES;
+import be.ugent.idlab.knows.mappingLoom.ITranslator;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
+import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
+import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.SerializedThrowable;
 import org.apache.jena.riot.Lang;
@@ -23,16 +16,18 @@ import org.apache.jena.riot.system.FactoryRDFStd;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Quad;
 import org.junit.jupiter.api.Assertions;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
-import be.ugent.idlab.knows.dataio.utils.NAMESPACES;
-import be.ugent.idlab.knows.mappingLoom.ITranslator;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
-import be.ugent.idlab.knows.mappingweaver.utilities.FlinkMiniClusterExtension;
-import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 @ExtendWith(FlinkMiniClusterExtension.class)
 public abstract class TestCore {
@@ -66,31 +61,31 @@ public abstract class TestCore {
                 .toDatasetGraph();
     }
 
-    public void positiveTest(String basePath, String directory) throws Exception {
-        this.runTest(basePath, directory, true);
+    public void positiveTest(String basePath, String directory, boolean bestEffort) throws Exception {
+        this.runTest(basePath, directory, true, bestEffort);
     }
 
-    public void positiveTest(String basePath, String directory, String mappingPlan) throws FileNotFoundException {
-        this.runTestWithMappingPlan(basePath, directory, mappingPlan, true);
+    public void positiveTest(String basePath, String directory, String mappingPlan, boolean bestEffort) throws FileNotFoundException {
+        this.runTestWithMappingPlan(basePath, directory, mappingPlan, true, bestEffort);
     }
 
-    public void positiveTestTurtlePlan(String basePath, String directory, String turtlePlan) throws FileNotFoundException {
+    public void positiveTestTurtlePlan(String basePath, String directory, String turtlePlan, boolean bestEffort) throws FileNotFoundException {
         String mappingPlan = ITranslator.getInstance().translate_to_document(turtlePlan);
 
-        this.runTestWithMappingPlan(basePath, directory, mappingPlan, true);
+        this.runTestWithMappingPlan(basePath, directory, mappingPlan, true, bestEffort);
     }
 
-    public void negativeTest(String basePath, String directory) throws Exception {
-        this.runTest(basePath, directory, false);
+    public void negativeTest(String basePath, String directory, boolean bestEffort) throws Exception {
+        this.runTest(basePath, directory, false, bestEffort);
     }
 
-    public void negativeTestTurtlePlan(String basePath, String directory, String turtlePlan) throws FileNotFoundException {
+    public void negativeTestTurtlePlan(String basePath, String directory, String turtlePlan, boolean bestEffort) throws FileNotFoundException {
         String mappingPlan = ITranslator.getInstance().translate_to_document(turtlePlan);
 
-        this.runTestWithMappingPlan(basePath, directory, mappingPlan, false);
+        this.runTestWithMappingPlan(basePath, directory, mappingPlan, false, bestEffort);
     }
 
-    private void runTest(String basePath, String directory, boolean positive) throws IOException {
+    private void runTest(String basePath, String directory, boolean positive, boolean bestEffort) throws IOException {
         String plan = null;
         try {
             plan = this.getMappingPlan(basePath, directory);
@@ -104,7 +99,7 @@ public abstract class TestCore {
                 return;
             }
         }
-        runTestWithMappingPlan(basePath, directory, plan, positive);
+        runTestWithMappingPlan(basePath, directory, plan, positive, bestEffort);
     }
 
     private String getMappingPlan(String basePath, String directory) throws IOException {
@@ -117,7 +112,7 @@ public abstract class TestCore {
     }
 
 
-    private void runTestWithMappingPlan(String basePath, String directory, String mappingPlan, boolean positive) throws FileNotFoundException {
+    private void runTestWithMappingPlan(String basePath, String directory, String mappingPlan, boolean positive, boolean bestEffort) throws FileNotFoundException {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(2);
         String resultSetId = UUID.randomUUID().toString();
@@ -126,7 +121,7 @@ public abstract class TestCore {
 
         System.out.printf("Testing test case: %s%n", directory);
         try {
-            MappingPlan plan = MappingPlan.fromString(env, mappingPlan, Paths.get(basePath, directory).toString(), "http://example.com/");
+            MappingPlan plan = MappingPlan.fromString(env, mappingPlan, Paths.get(basePath, directory).toString(), "http://example.com/", bestEffort);
 //            System.out.println(plan.getOperatorGraph().getOperators());
             GraphOpVisitor visitor = new GraphVisitorCustomTarget(env, plan.getOperatorGraph(),
                     TargetOperator.TARGET_VARIABLE, resultSetId);

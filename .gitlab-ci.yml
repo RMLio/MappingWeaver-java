@@ -110,14 +110,16 @@ Utility Tests:
   parallel:
     matrix:
       - TEST: [
+                # CLI tests
+                CliOutputTest, CliVerbosityTest,
                 # file tests
-                CSVTest, JSONTest, XMLTest, WebSocketTest,
+                CSVTest, JSONTest, XMLTest, WebSocketTest, CSVWSourceTest,
                 # FnO
-                FnOTest, FnOParameterTranslatorTest,
+                FnOTest, FnOSplitTest, ExternalFunctionTests,
                 # Remote
                 PostgresTest,
                 # Fixed bugs
-                FixedBugsTest,
+                FixedBugsTest, MultipleFunctionExecutionsTest, LogicalViewFieldsTest,
                 # Miscellaneous
                 ExtendParserTest, MappingPlanTest,
                 # omitted — class @Disabled and/or Docker-only, run no tests:
