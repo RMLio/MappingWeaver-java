@@ -2,6 +2,7 @@ package be.ugent.idlab.knows.mappingweaver.components.mappingplan.extend_functio
 
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.*;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.ReferenceFunction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

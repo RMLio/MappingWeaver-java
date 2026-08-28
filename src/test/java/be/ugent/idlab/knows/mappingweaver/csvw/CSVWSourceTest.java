@@ -16,7 +16,7 @@ import java.nio.file.Paths;
  */
 public class CSVWSourceTest extends TestCore {
 
-    private static final String BASE = "src/test/resources/spec/rmlio/registry/";
+    private static final String BASE = "src/test/resources/rml_kgc/spec/rml-io-registry/";
 
     /**
      * Runs the case against the plan stored next to it.
