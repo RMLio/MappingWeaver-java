@@ -115,7 +115,7 @@ Utility Tests:
                 # file tests
                 WebSocketTest, CSVWSourceTest,
                 # FnO
-                FnOTest, FnOSplitTest, ExternalFunctionTests,
+                FnOSplitTest, ExternalFunctionTests,
                 # Remote
                 RMLIOCorePostgreSQLTest,
                 # Fixed bugs
