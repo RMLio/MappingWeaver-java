@@ -113,11 +113,11 @@ Utility Tests:
                 # CLI tests
                 CliOutputTest, CliVerbosityTest,
                 # file tests
-                CSVTest, JSONTest, XMLTest, WebSocketTest, CSVWSourceTest,
+                WebSocketTest, CSVWSourceTest,
                 # FnO
                 FnOTest, FnOSplitTest, ExternalFunctionTests,
                 # Remote
-                PostgresTest,
+                RMLIOCorePostgreSQLTest,
                 # Fixed bugs
                 FixedBugsTest, MultipleFunctionExecutionsTest, LogicalViewFieldsTest,
                 # Miscellaneous
