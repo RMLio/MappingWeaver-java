@@ -7,7 +7,17 @@
 **Error expected?** No
 
 **Input**
- [http://w3id.org/rml/resources/rml-io/RMLIOREGTC0004n/Friends.json](http://w3id.org/rml/resources/rml-io/RMLIOREGTC0004n/Friends.json)
+```
+USE test;
+DROP TABLE IF EXISTS test.student;
+CREATE TABLE student (
+  ID INTEGER,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50)
+);
+INSERT INTO student values ('10', 'Venus', 'Williams');
+
+```
 
 **Mapping**
 ```

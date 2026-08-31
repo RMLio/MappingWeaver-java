@@ -7,7 +7,17 @@
 **Error expected?** Yes
 
 **Input**
- [http://w3id.org/rml/resources/rml-io/RMLIOREGTC0006j/Friends.json](http://w3id.org/rml/resources/rml-io/RMLIOREGTC0006j/Friends.json)
+```
+USE TestDB;
+EXEC sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT all'
+EXEC sp_msforeachtable 'DROP TABLE ?'
+CREATE TABLE student (
+  "ID" INTEGER,
+  "Name" VARCHAR(50)
+);
+INSERT INTO student values ('10', 'Venus');
+
+```
 
 **Mapping**
 ```

@@ -50,8 +50,10 @@ public class RMLIOFNOTest extends TestCore {
         List<String> directories = List.of(
                 "RMLFNOTC0001-CSV",
                 "RMLFNOTC0002-CSV",
+                "RMLFNOTC0007-CSV",
                 "RMLFNOTC0003-CSV",
                 "RMLFNOTC0008-CSV",
+                "RMLFNOTC0021-JSON",
                 "RMLFNOTC0013-CSV",
                 "RMLFNOTC0018-CSV",
 
@@ -69,7 +71,6 @@ public class RMLIOFNOTest extends TestCore {
                 "RMLFNOTC0004-CSV",
                 "RMLFNOTC0005-CSV",
                 "RMLFNOTC0006-CSV",
-                "RMLFNOTC0007-CSV",
 
 
                 "RMLFNOTC0009-CSV",
@@ -85,7 +86,6 @@ public class RMLIOFNOTest extends TestCore {
 
                 "RMLFNOTC0019-CSV",
                 "RMLFNOTC0020-JSON",
-                "RMLFNOTC0021-JSON",
 
                 "RMLFNOTC0022-CSV",
                 "RMLFNOTC0023-CSV",

@@ -19,10 +19,10 @@ public class RMLSTARTest extends TestCore {
         ).map(Arguments::of);
     }
 
-    // Positive tests (README: "**Error expected?** No") that don't pass: RDF-star plan
-    // generation (quoted / asserted triples) is not supported, so translation throws
-    // before any output is produced. (Additionally, the expected outputs use output.nt,
-    // which TestCore does not currently recognize.)
+    // Positive tests (README: "**Error expected?** No") that fail with the observed
+    // Rust panic "No Triples were matched" while translating quoted/asserted triples.
+    // The underlying cause is not yet established; output.nt recognition is a
+    // secondary harness limitation for these cases.
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
                 "RMLSTARTC001a",

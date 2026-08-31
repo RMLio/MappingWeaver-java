@@ -45,8 +45,6 @@ public class RMLCoreTest extends TestCore {
                 "RMLTC0007g-JSON",
                 "RMLTC0008a-JSON",
                 "RMLTC0008b-JSON",
-                "RMLTC0008b-multidata-JSON",
-                "RMLTC0008b-multidata-one-source-JSON",
                 "RMLTC0008c-JSON",
                 "RMLTC0009a-JSON",
                 "RMLTC0009b-JSON",

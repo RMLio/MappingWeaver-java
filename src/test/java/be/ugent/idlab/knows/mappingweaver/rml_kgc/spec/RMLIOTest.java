@@ -14,16 +14,15 @@ public class RMLIOTest extends TestCore {
     // formulation / access description that isn't supported and panics in Rust.
     private static Stream<Arguments> unfixableTests() {
         return Stream.of(
-                // Unsupported reference formulation: http://www.w3.org/ns/formats/SPARQL_Results_CSV
+                // SPARQL query source is not supported:
+                // http://www.w3.org/ns/formats/SPARQL_Results_CSV
                 // waiting for https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/18
                 "RMLSTC0003",
 
-                // Unsupported reference formulation: http://w3id.org/rml/SQL2008Table && rust panic
+                // SQL database source is not supported:
+                // http://w3id.org/rml/SQL2008Table; the current implementation also panics.
                 // waiting for https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/18
                 "RMLSTC0006a"
-
-                // Complex reference formulation unsupported: ReferenceFormulation { iri: BlankNode(BnodeId("riog00000003")), kind: CustomReferenceFormulation { meta_data_graph: "_:riog00000003 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://w3id.org/rml/XPathReferenceFormulation>.\n_:riog00000003 <http://w3id.org/rml/namespace> _:riog00000004.\n_:riog00000004 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://w3id.org/rml/Namespace>.\n_:riog00000004 <http://w3id.org/rml/namespacePrefix> \"ex\".\n_:riog00000004 <http://w3id.org/rml/namespaceURL> \"http://example.org\".\n" } }
-                // waiting for https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/18
         ).map(Arguments::of);
     }
 
@@ -63,22 +62,23 @@ public class RMLIOTest extends TestCore {
     // Positive tests (README: "**Error expected?** No") that currently don't pass.
     private static Stream<Arguments> positiveFailing() {
         return Stream.of(
-                // Crash: compressed source (GZip/Zip/TarXz/TarGzip) not supported, Flink job fails
+                // Sources with GZip/Zip/TarXz/TarGzip compression are not supported.
                 "RMLSTC0002b",
                 "RMLSTC0002c",
                 "RMLSTC0002d",
                 "RMLSTC0002e",
 
-                // Wrong output: runs, but the result does not match the expected output.
-                // Default NULL values (RMLSTC0004a) are dropped instead of emitting empty
-                // literals; complex XML source (RMLSTC0012*) and Logical Target handling
-                // (RMLTTC*) are not (fully) implemented, so only part of the triples is produced.
+                // Runs, but the result does not match the expected output because of
+                // the specific unsupported behavior below.
+                // Default NULL values are dropped instead of emitting empty literals.
                 "RMLSTC0004a",
 
+                // Complex XPath queries are not supported.
                 "RMLSTC0012b",
                 "RMLSTC0012c",
                 "RMLSTC0012d",
 
+                // Logical Targets are not supported yet.
                 "RMLTTC0001a",
                 "RMLTTC0001b",
                 "RMLTTC0001c",
@@ -123,7 +123,8 @@ public class RMLIOTest extends TestCore {
     }
 
     // Negative tests (README: "**Error expected?** Yes") that don't yet fail as expected:
-    // the invalid CSV source is not detected, so no MappingException is thrown.
+    // short CSV records create null values in extra cells instead of raising a
+    // MappingException.
     private static Stream<Arguments> negativeFailing() {
         return Stream.of("RMLSTC0010a",
                 "RMLSTC0010b"
