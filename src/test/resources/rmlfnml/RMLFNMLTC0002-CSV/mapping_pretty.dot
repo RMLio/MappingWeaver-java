@@ -1,9 +1,0 @@
-digraph {
-    0 [ label = "id:Source_0 \lSource Operator\ltype: File \lreference iterator: Iterator {\l    reference: None,\l    reference_formulation: CSVRows,\l    fields: [\l        Field {\l            alias: \"Name\",\l            reference: Some(\l                \"Name\",\l            ),\l            constant: None,\l            iterator: None,\l            reference_formulation: CSVRows,\l            inner_fields: [],\l        },\l    ],\l    alias: None,\l} \lconfig: {\l  \"path\": \"student.csv\",\l  \"root\": \"http://w3id.org/rml/MappingDirectory\"\l}\l             " ]
-    1 [ label = "id:ExtendOperator_1 \lExtension Operator\lExtended pairs: \l sm_0 -> Iri { base_iri: Some(\"http://example.com/base/ .\"), inner_function: Concatenate { left_value: Concatenate { left_value: Nop, separator: \"\", right_value: Constant { value: \"http://example.com/\" } }, separator: \"\", right_value: UriEncode { inner_function: Reference { value: \"Name\" } } } }\lpom_0_0_om_0 -> Iri { base_iri: Some(\"http://example.com/base/ .\"), inner_function: FnO { fno_identifier: \"<http://users.ugent.be/~bjdmeest/function/grel.ttl#toUpperCase>\", parameters: {\"<http://users.ugent.be/~bjdmeest/function/grel.ttl#valueParam>\": UriEncode { inner_function: Reference { value: \"Name\" } }} } }" ]
-    2 [ label = "id:Serialize_2 \lSerializer Operator\lFormat type: NQuads\lTemplate: ?sm_0 <http://xmlns.com/foaf/0.1/name> ?pom_0_0_om_0 ." ]
-    3 [ label = "id:Sink_3 \lTarget Operator\ltype: StdOut \ldata format: NQuads \lconfig: {}\l             " ]
-    0 -> 1 [ label = "Fragment:default" ]
-    1 -> 2 [ label = "Fragment:default" ]
-    2 -> 3 [ label = "Fragment:default" ]
-}

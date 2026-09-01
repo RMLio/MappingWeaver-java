@@ -6,194 +6,98 @@
 
 **Differences Detected!**
 ```diff
-2d1
+1d0
 < ./remote_tests_log.txt
-1001c1000,1162
+226,233d224
+< ./rml-core/RMLTC0008b-multidata-JSON/mapping.ttl
+< ./rml-core/RMLTC0008b-multidata-JSON/output.nq
+< ./rml-core/RMLTC0008b-multidata-JSON/README.md
+< ./rml-core/RMLTC0008b-multidata-JSON/student.json
+< ./rml-core/RMLTC0008b-multidata-one-source-JSON/mapping.ttl
+< ./rml-core/RMLTC0008b-multidata-one-source-JSON/output.nq
+< ./rml-core/RMLTC0008b-multidata-one-source-JSON/README.md
+< ./rml-core/RMLTC0008b-multidata-one-source-JSON/student.json
+1257d1247
 < ./rml-lv/.gitkeep
----
-> ./rml-lv/RMLLVTC0000a
-> ./rml-lv/RMLLVTC0000a/README.md
-> ./rml-lv/RMLLVTC0000a/mapping.ttl
-> ./rml-lv/RMLLVTC0000a/output.nq
-> ./rml-lv/RMLLVTC0000a/people.json
-> ./rml-lv/RMLLVTC0000b
-> ./rml-lv/RMLLVTC0000b/README.md
-> ./rml-lv/RMLLVTC0000b/mapping.ttl
-> ./rml-lv/RMLLVTC0000b/output.nq
-> ./rml-lv/RMLLVTC0000b/people.csv
-> ./rml-lv/RMLLVTC0000c
-> ./rml-lv/RMLLVTC0000c/README.md
-> ./rml-lv/RMLLVTC0000c/mapping.ttl
-> ./rml-lv/RMLLVTC0000c/output.nq
-> ./rml-lv/RMLLVTC0000c/people.json
-> ./rml-lv/RMLLVTC0001a
-> ./rml-lv/RMLLVTC0001a/README.md
-> ./rml-lv/RMLLVTC0001a/mapping.ttl
-> ./rml-lv/RMLLVTC0001a/output.nq
-> ./rml-lv/RMLLVTC0001a/people.json
-> ./rml-lv/RMLLVTC0001b
-> ./rml-lv/RMLLVTC0001b/README.md
-> ./rml-lv/RMLLVTC0001b/mapping.ttl
-> ./rml-lv/RMLLVTC0001b/output.nq
-> ./rml-lv/RMLLVTC0001b/people.json
-> ./rml-lv/RMLLVTC0001c
-> ./rml-lv/RMLLVTC0001c/README.md
-> ./rml-lv/RMLLVTC0001c/mapping.ttl
-> ./rml-lv/RMLLVTC0001c/output.nq
-> ./rml-lv/RMLLVTC0001c/people.json
-> ./rml-lv/RMLLVTC0001d
-> ./rml-lv/RMLLVTC0001d/README.md
-> ./rml-lv/RMLLVTC0001d/mapping.ttl
-> ./rml-lv/RMLLVTC0001d/output.nq
-> ./rml-lv/RMLLVTC0001d/people.json
-> ./rml-lv/RMLLVTC0002a
-> ./rml-lv/RMLLVTC0002a/README.md
-> ./rml-lv/RMLLVTC0002a/mapping.ttl
-> ./rml-lv/RMLLVTC0002a/output.nq
-> ./rml-lv/RMLLVTC0002a/people.json
-> ./rml-lv/RMLLVTC0002b
-> ./rml-lv/RMLLVTC0002b/README.md
-> ./rml-lv/RMLLVTC0002b/mapping.ttl
-> ./rml-lv/RMLLVTC0002b/output.nq
-> ./rml-lv/RMLLVTC0002b/people.json
-> ./rml-lv/RMLLVTC0002c
-> ./rml-lv/RMLLVTC0002c/README.md
-> ./rml-lv/RMLLVTC0002c/mapping.ttl
-> ./rml-lv/RMLLVTC0002c/output.nq
-> ./rml-lv/RMLLVTC0002c/people.json
-> ./rml-lv/RMLLVTC0003a
-> ./rml-lv/RMLLVTC0003a/README.md
-> ./rml-lv/RMLLVTC0003a/mapping.ttl
-> ./rml-lv/RMLLVTC0003a/output.nq
-> ./rml-lv/RMLLVTC0003a/people.json
-> ./rml-lv/RMLLVTC0003b
-> ./rml-lv/RMLLVTC0003b/README.md
-> ./rml-lv/RMLLVTC0003b/mapping.ttl
-> ./rml-lv/RMLLVTC0003b/output.nq
-> ./rml-lv/RMLLVTC0003b/people.json
-> ./rml-lv/RMLLVTC0003c
-> ./rml-lv/RMLLVTC0003c/README.md
-> ./rml-lv/RMLLVTC0003c/mapping.ttl
-> ./rml-lv/RMLLVTC0003c/output.nq
-> ./rml-lv/RMLLVTC0003c/people.json
-> ./rml-lv/RMLLVTC0004a
-> ./rml-lv/RMLLVTC0004a/README.md
-> ./rml-lv/RMLLVTC0004a/mapping.ttl
-> ./rml-lv/RMLLVTC0004a/output.nq
-> ./rml-lv/RMLLVTC0004a/people.json
-> ./rml-lv/RMLLVTC0004b
-> ./rml-lv/RMLLVTC0004b/README.md
-> ./rml-lv/RMLLVTC0004b/mapping.ttl
-> ./rml-lv/RMLLVTC0004b/output.nq
-> ./rml-lv/RMLLVTC0004b/people.json
-> ./rml-lv/RMLLVTC0004c
-> ./rml-lv/RMLLVTC0004c/README.md
-> ./rml-lv/RMLLVTC0004c/mapping.ttl
-> ./rml-lv/RMLLVTC0004c/output.nq
-> ./rml-lv/RMLLVTC0004c/people.json
-> ./rml-lv/RMLLVTC0004d
-> ./rml-lv/RMLLVTC0004d/README.md
-> ./rml-lv/RMLLVTC0004d/mapping.ttl
-> ./rml-lv/RMLLVTC0004d/output.nq
-> ./rml-lv/RMLLVTC0004d/people.json
-> ./rml-lv/RMLLVTC0005a
-> ./rml-lv/RMLLVTC0005a/README.md
-> ./rml-lv/RMLLVTC0005a/mapping.ttl
-> ./rml-lv/RMLLVTC0005a/people.json
-> ./rml-lv/RMLLVTC0005b
-> ./rml-lv/RMLLVTC0005b/README.md
-> ./rml-lv/RMLLVTC0005b/mapping.ttl
-> ./rml-lv/RMLLVTC0005b/people.json
-> ./rml-lv/RMLLVTC0005c
-> ./rml-lv/RMLLVTC0005c/README.md
-> ./rml-lv/RMLLVTC0005c/mapping.ttl
-> ./rml-lv/RMLLVTC0005c/people.json
-> ./rml-lv/RMLLVTC0006a
-> ./rml-lv/RMLLVTC0006a/README.md
-> ./rml-lv/RMLLVTC0006a/mapping.ttl
-> ./rml-lv/RMLLVTC0006a/output.nq
-> ./rml-lv/RMLLVTC0006a/people.csv
-> ./rml-lv/RMLLVTC0006a/people.json
-> ./rml-lv/RMLLVTC0006b
-> ./rml-lv/RMLLVTC0006b/README.md
-> ./rml-lv/RMLLVTC0006b/mapping.ttl
-> ./rml-lv/RMLLVTC0006b/output.nq
-> ./rml-lv/RMLLVTC0006b/people.csv
-> ./rml-lv/RMLLVTC0006b/people.json
-> ./rml-lv/RMLLVTC0006c
-> ./rml-lv/RMLLVTC0006c/README.md
-> ./rml-lv/RMLLVTC0006c/mapping.ttl
-> ./rml-lv/RMLLVTC0006c/output.nq
-> ./rml-lv/RMLLVTC0006c/people.csv
-> ./rml-lv/RMLLVTC0006c/people.json
-> ./rml-lv/RMLLVTC0006c/people2.csv
-> ./rml-lv/RMLLVTC0006d
-> ./rml-lv/RMLLVTC0006d/README.md
-> ./rml-lv/RMLLVTC0006d/mapping.ttl
-> ./rml-lv/RMLLVTC0006d/output.nq
-> ./rml-lv/RMLLVTC0006d/people.csv
-> ./rml-lv/RMLLVTC0006d/people.json
-> ./rml-lv/RMLLVTC0006d/people2.csv
-> ./rml-lv/RMLLVTC0006e
-> ./rml-lv/RMLLVTC0006e/README.md
-> ./rml-lv/RMLLVTC0006e/mapping.ttl
-> ./rml-lv/RMLLVTC0006e/output.nq
-> ./rml-lv/RMLLVTC0006e/people.csv
-> ./rml-lv/RMLLVTC0006e/people.json
-> ./rml-lv/RMLLVTC0006e/people2.csv
-> ./rml-lv/RMLLVTC0006f
-> ./rml-lv/RMLLVTC0006f/README.md
-> ./rml-lv/RMLLVTC0006f/mapping.ttl
-> ./rml-lv/RMLLVTC0006f/output.nq
-> ./rml-lv/RMLLVTC0006f/people.csv
-> ./rml-lv/RMLLVTC0006f/people.json
-> ./rml-lv/RMLLVTC0007a
-> ./rml-lv/RMLLVTC0007a/README.md
-> ./rml-lv/RMLLVTC0007a/mapping.ttl
-> ./rml-lv/RMLLVTC0007a/output.nq
-> ./rml-lv/RMLLVTC0007a/people.csv
-> ./rml-lv/RMLLVTC0007b
-> ./rml-lv/RMLLVTC0007b/README.md
-> ./rml-lv/RMLLVTC0007b/mapping.ttl
-> ./rml-lv/RMLLVTC0007b/output.nq
-> ./rml-lv/RMLLVTC0007b/people.csv
-> ./rml-lv/RMLLVTC0007c
-> ./rml-lv/RMLLVTC0007c/README.md
-> ./rml-lv/RMLLVTC0007c/mapping.ttl
-> ./rml-lv/RMLLVTC0007c/output.nq
-> ./rml-lv/RMLLVTC0007c/people.json
-> ./rml-lv/RMLLVTC0008a
-> ./rml-lv/RMLLVTC0008a/README.md
-> ./rml-lv/RMLLVTC0008a/mapping.ttl
-> ./rml-lv/RMLLVTC0008b
-> ./rml-lv/RMLLVTC0008b/README.md
-> ./rml-lv/RMLLVTC0008b/mapping.ttl
-> ./rml-lv/RMLLVTC0008b/people.csv
-> ./rml-lv/RMLLVTC0008b/people.json
-> ./rml-lv/RMLLVTC0008c
-> ./rml-lv/RMLLVTC0008c/README.md
-> ./rml-lv/RMLLVTC0008c/mapping.ttl
-> ./rml-lv/RMLLVTC0008c/people.json
 ```
 
+**Local-only tests detected: move these to src/test/resources/rml_kgc/test-cases/spec-adaptations:**
+```text
+./remote_tests_log.txt
+./rml-core/RMLTC0008b-multidata-JSON/mapping.ttl
+./rml-core/RMLTC0008b-multidata-JSON/output.nq
+./rml-core/RMLTC0008b-multidata-JSON/README.md
+./rml-core/RMLTC0008b-multidata-JSON/student.json
+./rml-core/RMLTC0008b-multidata-one-source-JSON/mapping.ttl
+./rml-core/RMLTC0008b-multidata-one-source-JSON/output.nq
+./rml-core/RMLTC0008b-multidata-one-source-JSON/README.md
+./rml-core/RMLTC0008b-multidata-one-source-JSON/student.json
+./rml-lv/.gitkeep
+```
 ## Differences (low-level) between current tests and remote tests: 
 
-**Differences Detected: rml-io - RMLSTC0001b**
+**Differences Detected: rml-star - RMLSTARTC001b**
 
 ```diff
-Binary files test/resources/spec/rml_kgc/rml-io/RMLSTC0001b/README.md and remote_tests/resources/spec/rml_kgc/rml-io/RMLSTC0001b/README.md differ
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rml_kgc/spec/rml-star/RMLSTARTC001b/data2.csv remote_tests/resources/rml_kgc/spec/rml-star/RMLSTARTC001b/data2.csv
+1d0
+< **Input 1**
 ```
 
-**Differences Detected: rml-io - RMLTTC0005b**
+**Differences Detected: rml-star - RMLSTARTC002b**
 
 ```diff
-Binary files test/resources/spec/rml_kgc/rml-io/RMLTTC0005b/README.md and remote_tests/resources/spec/rml_kgc/rml-io/RMLTTC0005b/README.md differ
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rml_kgc/spec/rml-star/RMLSTARTC002b/data2.csv remote_tests/resources/rml_kgc/spec/rml-star/RMLSTARTC002b/data2.csv
+1d0
+< **Input 1**
 ```
 
-**Differences Detected: rml-io - RMLTTC0006e**
+**Differences Detected: rml-star - RMLSTARTC003b**
 
 ```diff
-Binary files test/resources/spec/rml_kgc/rml-io/RMLTTC0006e/README.md and remote_tests/resources/spec/rml_kgc/rml-io/RMLTTC0006e/README.md differ
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rml_kgc/spec/rml-star/RMLSTARTC003b/data2.csv remote_tests/resources/rml_kgc/spec/rml-star/RMLSTARTC003b/data2.csv
+1d0
+< **Input 1**
+```
+
+**Differences Detected: rml-star - RMLSTARTC004b**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rml_kgc/spec/rml-star/RMLSTARTC004b/data2.csv remote_tests/resources/rml_kgc/spec/rml-star/RMLSTARTC004b/data2.csv
+1d0
+< **Input 1**
+```
+
+**Differences Detected: rml-star - RMLSTARTC005b**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rml_kgc/spec/rml-star/RMLSTARTC005b/data2.csv remote_tests/resources/rml_kgc/spec/rml-star/RMLSTARTC005b/data2.csv
+1d0
+< **Input 1**
+```
+
+**Differences Detected: rml-star - RMLSTARTC006b**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rml_kgc/spec/rml-star/RMLSTARTC006b/data2.csv remote_tests/resources/rml_kgc/spec/rml-star/RMLSTARTC006b/data2.csv
+1d0
+< **Input 1**
+```
+
+**Differences Detected: rml-star - RMLSTARTC007b**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rml_kgc/spec/rml-star/RMLSTARTC007b/data2.csv remote_tests/resources/rml_kgc/spec/rml-star/RMLSTARTC007b/data2.csv
+1d0
+< **Input 1**
+```
+
+**Differences Detected: rml-star - RMLSTARTC008b**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rml_kgc/spec/rml-star/RMLSTARTC008b/data2.csv remote_tests/resources/rml_kgc/spec/rml-star/RMLSTARTC008b/data2.csv
+1d0
+< **Input 1**
 ```
 
 _Removing remote rml_kgc tests..._
@@ -204,43 +108,173 @@ _Removing remote rml_kgc tests..._
 **Repository/commit of module rml-cc:**
 https://github.com/kg-construct/rml-cc
  & 
-2025-07-09 16:06:53: https://github.com/kg-construct/rml-cc/commit/bf508a29b3060104ca16dcd434e496bbf1954827
+2026-08-17 19:29:12: https://github.com/kg-construct/rml-cc/commit/d97fddf0f769f352d256a96b93544f3dfd192ffc
 
 **Repository/commit of module rml-star:**
 https://github.com/kg-construct/rml-star
  & 
-2025-07-09 16:06:56: https://github.com/kg-construct/rml-star/commit/64d5ca8e73e952999a4c1838a4ad647e9649a2dc
+2026-08-17 19:29:35: https://github.com/kg-construct/rml-star/commit/711f72efe10f7a38b6d058a837dafe3455ad93d3
 
 **Repository/commit of module rml-io:**
 https://github.com/kg-construct/rml-io
  & 
-2025-07-09 16:06:51: https://github.com/kg-construct/rml-io/commit/7986475765b64aa3b133025077e0bc85ff50410b
+2026-08-17 19:28:44: https://github.com/kg-construct/rml-io/commit/980b90626d86394af91ed606f8493927d59d5e67
 
 **Repository/commit of module rml-lv:**
 https://github.com/kg-construct/rml-lv
  & 
-2025-07-09 16:06:58: https://github.com/kg-construct/rml-lv/commit/196ebe9f791bc93f86372881a054490a2fab6a94
+2026-08-17 19:29:48: https://github.com/kg-construct/rml-lv/commit/e3aa626b0fed4c7c0068908533b7da4712d44bd3
 
 **Repository/commit of module rml-fnml:**
 https://github.com/kg-construct/rml-fnml
  & 
-2025-07-09 16:06:55: https://github.com/kg-construct/rml-fnml/commit/2d22eef0aec15c29a42ac3f21117b32c068d2554
+2026-08-17 19:29:25: https://github.com/kg-construct/rml-fnml/commit/dc9ac9acdafb01c3edfc119a6cdcd2706f768662
+
+**Repository/commit of module rml-io-registry:**
+https://github.com/kg-construct/rml-io-registry
+ & 
+2026-08-17 19:30:00: https://github.com/kg-construct/rml-io-registry/commit/3bb0c3ce7ada75d053d584faa58361ab74b6fdbd
 
 **Repository/commit of module rml-core:**
 https://github.com/kg-construct/rml-core
  & 
-2025-07-09 16:06:50: https://github.com/kg-construct/rml-core/commit/37da6c1f2ce474c0c31e5b26b2eddfefb58e8a5e
+2026-08-17 19:28:08: https://github.com/kg-construct/rml-core/commit/82ab28d46803ba66a83c133f1db371a60116f84d
 
 ## Differences (high-level) between current rmlio tests and remote rmlio tests: 
 
 
 **Differences Detected!**
 ```diff
-2d1
-< ./.gitkeep
+988,989d987
+< ./fno/class.csv
+< ./fno/function_tests.ttl
+1076d1073
+< ./fno/student.csv
 ```
 
+**Local-only tests detected: move these to src/test/resources/rmlio/test-cases/spec-adaptations:**
+```text
+./fno/class.csv
+./fno/function_tests.ttl
+./fno/student.csv
+```
 ## Differences (low-level) between current rmlio tests and remote rmlio tests: 
+
+**Differences Detected: core - RMLTC0002a-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0002a-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0002a-JSON/output.nq
+2c2
+< <http://example.com/10/Venus> <http://example.com/id> "10"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> <http://example.com/10/Venus> <http://example.com/id> "10" .
+```
+
+**Differences Detected: core - RMLTC0002g-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0002g-JSON/mapping.ttl remote_tests/resources/rmlio/spec/core/RMLTC0002g-JSON/mapping.ttl
+12c12
+<     rml:source "student.json";
+---
+>     rml:source "student2.json";
+14c14
+<     rml:iterator "$.students[*]"
+---
+>     rml:iterator "$.students[*]]"
+```
+
+**Differences Detected: core - RMLTC0007c-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0007c-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0007c-JSON/output.nq
+2c2
+< <http://example.com/Student/10/Venus> <http://example.com/id> "10"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> <http://example.com/Student/10/Venus> <http://example.com/id> "10" . 
+```
+
+**Differences Detected: core - RMLTC0007d-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0007d-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0007d-JSON/output.nq
+2c2
+< <http://example.com/Student/10/Venus> <http://example.com/id> "10"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> <http://example.com/Student/10/Venus> <http://example.com/id> "10" .
+```
+
+**Differences Detected: core - RMLTC0007e-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0007e-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0007e-JSON/output.nq
+1c1
+< <http://example.com/Student/10/Venus> <http://example.com/id> "10"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.com/PersonGraph> .
+---
+> <http://example.com/Student/10/Venus> <http://example.com/id> "10" <http://example.com/PersonGraph> .
+```
+
+**Differences Detected: core - RMLTC0007f-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0007f-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0007f-JSON/output.nq
+3c3
+< <http://example.com/Student/10/Venus> <http://example.com/id> "10"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.com/PersonGraph> .
+---
+> <http://example.com/Student/10/Venus> <http://example.com/id> "10" <http://example.com/PersonGraph> .
+```
+
+**Differences Detected: core - RMLTC0008a-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0008a-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0008a-JSON/output.nq
+3c3
+< <http://example.com/Student/10/Venus%20Williams> <http://example.com/id> "10"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.com/graph/Student/10/Venus%20Williams> .
+---
+> <http://example.com/Student/10/Venus%20Williams> <http://example.com/id> "10" <http://example.com/graph/Student/10/Venus%20Williams> . 
+```
+
+**Differences Detected: core - RMLTC0008b-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0008b-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0008b-JSON/output.nq
+3c3
+< <http://example.com/Student/10/Venus%20Williams> <http://example.com/id> "10"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> <http://example.com/Student/10/Venus%20Williams> <http://example.com/id> "10" . 
+```
+
+**Differences Detected: core - RMLTC0011b-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0011b-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0011b-JSON/output.nq
+8c8
+< <http://example.com/sport/110> <http://example.com/id> "110"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> <http://example.com/sport/110> <http://example.com/id> "110" .
+10c10
+< <http://example.com/sport/111> <http://example.com/id> "111"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> <http://example.com/sport/111> <http://example.com/id> "111" .
+12c12
+< <http://example.com/sport/112> <http://example.com/id> "112"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> <http://example.com/sport/112> <http://example.com/id> "112" .
+```
+
+**Differences Detected: core - RMLTC0012a-JSON**
+
+```diff
+diff -rwB -X /tmp/tmp.k7HxSdaf4D src/test/resources/rmlio/spec/core/RMLTC0012a-JSON/output.nq remote_tests/resources/rmlio/spec/core/RMLTC0012a-JSON/output.nq
+1c1
+< _:BobSmith30 <http://example.com/amount> "30"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> _:BobSmith30 <http://example.com/amount> "30" .
+3c3
+< _:SueJones20 <http://example.com/amount> "20"^^<http://www.w3.org/2001/XMLSchema#integer> .
+---
+> _:SueJones20 <http://example.com/amount> "20" .
+```
 
 _Removing remote rmlio tests..._
 
@@ -250,10 +284,10 @@ _Removing remote rmlio tests..._
 **Repository/commit of module fno:**
 https://github.com/RMLio/rml-fno-test-cases
  & 
-2025-07-09 16:07:01: https://github.com/RMLio/rml-fno-test-cases/commit/7474c6596f4d821996b46b74d837bec611a6ad8f
+2026-08-17 19:33:07: https://github.com/RMLio/rml-fno-test-cases/commit/7474c6596f4d821996b46b74d837bec611a6ad8f
 
 **Repository/commit of module core:**
 https://github.com/kg-construct/rml-test-cases
  & 
-2025-07-09 16:07:00: https://github.com/kg-construct/rml-test-cases/commit/d9854d073119afd044034d6334013f614fa70b39
+2026-08-17 19:32:36: https://github.com/kg-construct/rml-test-cases/commit/803dd3ec6b7185801cf19ebecaa18513baf78613
 

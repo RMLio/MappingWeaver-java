@@ -1,0 +1,103 @@
+@prefix rml: <http://w3id.org/rml/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix idlab-fn: <https://w3id.org/imec/idlab/function#> .
+@prefix ex: <http://example.com/> .
+@base <http://example.com/>.
+
+<http://example.com/json> a rml:LogicalSource;
+  rml:source [
+    a rml:RelativePathSource, rml:Source;
+    rml:path "bug-test-data.json";
+    rml:root rml:MappingDirectory;
+  ];
+  rml:iterator "$.[*]";
+  rml:referenceFormulation rml:JSONPath.
+
+<http://example.com/testView> a rml:LogicalView;
+  rml:viewOn <http://example.com/json>;
+  rml:field [
+    rml:fieldName "id";
+    rml:reference "$.id";
+  ];
+  rml:field [
+    rml:fieldName "gender";
+    rml:reference "$.gender";
+  ];
+  rml:field [
+    rml:fieldName "genderLookup";
+    rml:functionExecution <http://example.com/GenderExecution>;
+    rml:return idlab-fn:_stringOut;
+  ];
+  rml:field [
+    rml:fieldName "sexLookup";
+    rml:functionExecution <http://example.com/SexExecution>;
+    rml:return idlab-fn:_stringOut;
+  ];
+  .
+
+<http://example.com/GenderExecution>
+  rml:function idlab-fn:lookupWithDelimiter ;
+  rml:input
+    [
+      rml:parameter idlab-fn:_str ;
+      rml:inputValueMap [ rml:reference "gender" ] ;
+    ] ,
+    [
+      rml:parameter idlab-fn:_inputFile ;
+      rml:inputValue "src/test/resources/test-cases/engines/rml-mapper/custom/moveup/bug-test-gender.csv" ;
+    ] ,
+    [
+      rml:parameter idlab-fn:_fromColumn ;
+      rml:inputValue "0"^^xsd:integer ;
+    ] ,
+    [
+      rml:parameter idlab-fn:_toColumn ;
+      rml:inputValue "1"^^xsd:integer ;
+    ] ,
+    [
+      rml:parameter idlab-fn:_delimiter ;
+      rml:inputValue ";" ;
+    ] ;
+  .
+
+<http://example.com/SexExecution>
+  rml:function idlab-fn:lookupWithDelimiter ;
+  rml:input
+    [
+      rml:parameter idlab-fn:_str ;
+      rml:inputValueMap [ rml:reference "gender" ] ;
+    ] ,
+    [
+      rml:parameter idlab-fn:_inputFile ;
+      rml:inputValue "src/test/resources/test-cases/engines/rml-mapper/custom/moveup/bug-test-sex.csv" ;
+    ] ,
+    [
+      rml:parameter idlab-fn:_fromColumn ;
+      rml:inputValue "0"^^xsd:integer ;
+    ] ,
+    [
+      rml:parameter idlab-fn:_toColumn ;
+      rml:inputValue "1"^^xsd:integer ;
+    ] ,
+    [
+      rml:parameter idlab-fn:_delimiter ;
+      rml:inputValue ";" ;
+    ] ;
+  .
+
+<http://example.com/TestTriplesMap> a rml:TriplesMap;
+  rml:logicalSource <http://example.com/testView>;
+  rml:subjectMap [
+    rml:template "http://example.com/patient/{id}";
+  ] ;
+  rml:predicateObjectMap [
+    rml:predicate ex:genderCode ;
+    rml:objectMap [ rml:reference "genderLookup" ; rml:termType rml:IRI ] ;
+  ] ;
+  rml:predicateObjectMap [
+    rml:predicate ex:sexCode ;
+    rml:objectMap [ rml:reference "sexLookup" ; rml:termType rml:IRI ] ;
+  ] ;
+  .
+

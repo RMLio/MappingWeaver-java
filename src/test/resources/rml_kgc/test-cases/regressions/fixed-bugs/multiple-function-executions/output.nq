@@ -1,0 +1,4 @@
+<http://example.com/patient/patient1> <http://example.com/genderCode> <http://snomed.info/id/446151000124109> .
+<http://example.com/patient/patient1> <http://example.com/sexCode> <http://snomed.info/id/248153007> .
+<http://example.com/patient/patient2> <http://example.com/genderCode> <http://snomed.info/id/446141000124107> .
+<http://example.com/patient/patient2> <http://example.com/sexCode> <http://snomed.info/id/248152002> .

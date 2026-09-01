@@ -83,6 +83,16 @@ public final class CliCommand {
                 .usageMessage(new UsageMessageSpec().description("Do everything, but discard output"));
 
 
+        CommandLine.Model.ArgGroupSpec verbosity = CommandLine.Model.ArgGroupSpec.builder()
+                .exclusive(true)
+                .addArg(OptionSpec.builder("-v").arity("0").type(boolean.class)
+                        .description("Set log level to WARN").build())
+                .addArg(OptionSpec.builder("-vv").arity("0").type(boolean.class)
+                        .description("Set log level to INFO").build())
+                .addArg(OptionSpec.builder("-vvv").arity("0").type(boolean.class)
+                        .description("Set log level to DEBUG").build())
+                .build();
+
         CommandLine.Model.ArgGroupSpec mappingKind = CommandLine.Model.ArgGroupSpec.builder()
                 .exclusive(true)
                 .addArg(
@@ -102,7 +112,7 @@ public final class CliCommand {
 
                 .build();
 
-        CommandSpec root = CommandSpec.create()
+        return CommandSpec.create()
                 .mixinStandardHelpOptions(true)
                 .exitCodeOnInvalidInput(1)
                 .name("AlgeMapLoom")
@@ -114,6 +124,7 @@ public final class CliCommand {
                 .addSubcommand("toWebSocket", toWebSocket)
                 .addSubcommand("noOutput", noOutput)
                 .addArgGroup(mappingKind)
+                .addArgGroup(verbosity)
                 .addOption(OptionSpec.builder("-j", "--job-name")
                         .paramLabel("<job name>")
                         .type(String.class)
@@ -135,9 +146,6 @@ public final class CliCommand {
                 .addOption(OptionSpec.builder("--json-ld")
                         .description("Write the output as JSON-LD instead of N-Quads. An object contains all RDF generated from one input record. Note: this is slower than using the default N-Quads format.")
                         .build())
-                .addOption(OptionSpec.builder("--bulk")
-                        .description("Write all triples generated from one input record at once, instead of writing triples the moment they are generated.")
-                        .build())
                 .addOption(OptionSpec.builder("--checkpoint-interval")
                         .description("If given, Flink's checkpointing is enabled with the given interval. If not given, checkpointing is enabled when writing to a file (this is required to use the flink StreamingFileSink). Otherwise, checkpointing is disabled.\n")
                         .paramLabel("<time (ms)>")
@@ -153,7 +161,16 @@ public final class CliCommand {
                         .paramLabel("<function descriptions>")
                         .type(List.class).auxiliaryTypes(String.class) // List<String>
                         .description("An optional comma-separated list of paths to function description files (in RDF using FnO). A path can be a file location or a URL.")
+                        .build())
+                .addOption(OptionSpec.builder("--custom-functions-only")
+                        .arity("0")
+                        .type(boolean.class)
+                        .description("When set, only the descriptions provided via -f are used; the built-in GREL/IDLab descriptions are excluded.")
+                        .build())
+                .addOption(OptionSpec.builder( "--best-effort")
+                        .arity("0")
+                        .type(boolean.class)
+                        .description("If set, data errors yield no records instead of throwing an exception.")
                         .build());
-        return root;
     }
 }

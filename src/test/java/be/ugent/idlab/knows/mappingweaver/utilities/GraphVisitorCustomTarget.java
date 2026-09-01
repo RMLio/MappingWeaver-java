@@ -1,16 +1,13 @@
 package be.ugent.idlab.knows.mappingweaver.utilities;
 
-import be.ugent.idlab.knows.amo.blocks.MappingTuple;
-import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
-import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
-import be.ugent.idlab.knows.amo.operators.Operator;
-import be.ugent.idlab.knows.amo.operators.source.SourceOperator;
-import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
-import be.ugent.idlab.knows.mappingweaver.flink.source.KafkaSourceOperator;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph;
-import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph.FragmentOperatorPair;
-import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.connector.sink2.Sink;
@@ -22,11 +19,17 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.jspecify.annotations.NonNull;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import be.ugent.idlab.knows.amo.blocks.MappingTuple;
+import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
+import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
+import be.ugent.idlab.knows.amo.operators.Operator;
+import be.ugent.idlab.knows.amo.operators.source.SourceOperator;
+import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
+import be.ugent.idlab.knows.mappingweaver.flink.source.KafkaSourceOperator;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.OperatorGraph.FragmentOperatorPair;
+import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
 
 /**
  * Class mocking the GraphOpVisitor with a custom target
@@ -34,10 +37,17 @@ import java.util.Set;
 public class GraphVisitorCustomTarget extends GraphOpVisitor {
 
     private final String targetVariable;
+    private final String resultSetId;
 
     public GraphVisitorCustomTarget(StreamExecutionEnvironment env, OperatorGraph graph, String targetVariable) {
+        this(env, graph, targetVariable, ResultCollector.DEFAULT_RESULT_SET);
+    }
+
+    public GraphVisitorCustomTarget(StreamExecutionEnvironment env, OperatorGraph graph, String targetVariable,
+                                    String resultSetId) {
         super(env, graph);
         this.targetVariable = targetVariable;
+        this.resultSetId = resultSetId;
     }
 
     @Override
@@ -45,7 +55,8 @@ public class GraphVisitorCustomTarget extends GraphOpVisitor {
         List<FragmentOperatorPair> parents = this.operatorGraph.getParents(targetOperator);
         Operator parent = parents.getFirst().operator();
         DataStream<MapTupValue> parentStream = this.streamCache.get(parent);
-        parentStream.sinkTo(new ResultCollector(targetOperator.getInputFragments(), this.targetVariable));
+        parentStream.sinkTo(new ResultCollector(targetOperator.getInputFragments(), this.targetVariable,
+            this.resultSetId));
 
         return null;
     }
@@ -81,14 +92,36 @@ public class GraphVisitorCustomTarget extends GraphOpVisitor {
     }
 
     public static class ResultCollector implements Sink<MapTupValue> {
-        public static final List<String> values = Collections.synchronizedList(new ArrayList<>());
+        private static final String DEFAULT_RESULT_SET = "default";
+        private static final Map<String, List<String>> RESULT_SETS = new ConcurrentHashMap<>();
+        public static final List<String> values = resultSet(DEFAULT_RESULT_SET);
 
         private final Set<String> targetFragments;
         private final String targetVariable;
+        private final String resultSetId;
 
         public ResultCollector(Set<String> targetFragments, String targetVariable) {
+            this(targetFragments, targetVariable, DEFAULT_RESULT_SET);
+        }
+
+        public ResultCollector(Set<String> targetFragments, String targetVariable, String resultSetId) {
             this.targetFragments = targetFragments;
             this.targetVariable = targetVariable;
+            this.resultSetId = resultSetId;
+        }
+
+        public static void initialize(String resultSetId) {
+            RESULT_SETS.put(resultSetId, Collections.synchronizedList(new ArrayList<>()));
+        }
+
+        public static List<String> remove(String resultSetId) {
+            List<String> result = RESULT_SETS.remove(resultSetId);
+            return result == null ? List.of() : List.copyOf(result);
+        }
+
+        private static List<String> resultSet(String resultSetId) {
+            return RESULT_SETS.computeIfAbsent(resultSetId,
+                    ignored -> Collections.synchronizedList(new ArrayList<>()));
         }
 
         @Override
@@ -115,7 +148,7 @@ public class GraphVisitorCustomTarget extends GraphOpVisitor {
                             if (sm != null) {
                                 RDFNode solution = sm.get(targetVariable);
                                 if (solution != null && !solution.isNull() && solution instanceof LiteralNode) {
-                                    values.add(solution.getValue().toString());
+                                    resultSet(resultSetId).add(solution.getValue().toString());
                                 }
                             }
                         });

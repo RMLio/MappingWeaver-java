@@ -1,58 +1,30 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.WebSocket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
-
-import org.apache.flink.api.connector.sink2.Sink;
-import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.StringSerializer;
-import org.eclipse.paho.mqttv5.client.MqttClient;
-import org.eclipse.paho.mqttv5.common.MqttException;
-import org.eclipse.paho.mqttv5.common.MqttMessage;
-import org.json.JSONObject;
-import org.jspecify.annotations.Nullable;
-
 import be.ugent.idlab.knows.amo.functions.TargetSink;
-import be.ugent.idlab.knows.amo.operators.Operator;
-import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
 import be.ugent.idlab.knows.mappingLoom.ITranslator;
-import be.ugent.idlab.knows.mappingweaver.flink.sinks.STDSink;
-import be.ugent.idlab.knows.mappingweaver.flink.sinks.SolMapValueToStringExtractor;
 import be.ugent.idlab.knows.mappingweaver.flink.sinks.WeaverSinkFactory;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.parsing.JSONPlanParser;
 import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.json.JSONObject;
+import org.jspecify.annotations.Nullable;
 import picocli.CommandLine;
 import picocli.CommandLine.MissingParameterException;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.ParseResult;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+
 public class Main {
     private final List<String> subcommands = List.of("toFile", "toKafka", "toMQTT", "toTCPSocket", "toWebSocket",
             "noOutput");
-    private boolean doOutputBulk = false;
 
     public static void main(String[] args) {
         new Main().parseAndRun(args);
@@ -65,6 +37,7 @@ public class Main {
         CommandLine commandLine = new CommandLine(root);
 
         ParseResult options = commandLine.parseArgs(args);
+        applyVerbosity(options);
 
         try {
             boolean isAlgeMapLoomPlan = false;
@@ -103,8 +76,6 @@ public class Main {
                 env.setParallelism(parallelism);
             }
 
-            this.doOutputBulk = options.matchedOptionValue("--bulk", "false").equalsIgnoreCase("true");
-
             if (options.hasMatchedOption("--disable-local-parallel")) {
                 context.put(MappingPlan.CONFIG_LOCAL_PARALLEL, false);
             }
@@ -119,10 +90,12 @@ public class Main {
                 context.put(MappingPlan.CONFIG_WATERMARK_INTERVAL, interval);
             }
 
-            if (options.hasMatchedOption("--function-descriptions")) {
-                List<String> descriptions = options.matchedOptionValue("--function-descriptions", List.of());
-                context.put("function-descriptions", descriptions);
-            }
+            // configure FnO function descriptions before the plan is parsed (constructors read them)
+            List<String> customDescriptions = options.hasMatchedOption("-f")
+                    ? options.matchedOptionValue("-f", List.of())
+                    : List.of();
+            boolean customFunctionsOnly = options.hasMatchedOption("--custom-functions-only");
+            FnOFunction.configure(customDescriptions, customFunctionsOnly);
 
             final String jsonPlan;
             if (isAlgeMapLoomPlan) {
@@ -141,7 +114,9 @@ public class Main {
 
             final String baseIRI = options.hasMatchedOption("-i")? options.matchedOptionValue("-i", null) : "";
 
-            MappingPlan p = JSONPlanParser.fromString(env, jsonPlan, basePath, baseIRI);
+            final boolean bestEffort = options.hasMatchedOption("--best-effort");
+
+            MappingPlan p = JSONPlanParser.fromString(env, jsonPlan, basePath, baseIRI, bestEffort);
 
             if (options.hasSubcommand() && this.subcommands.contains(options.subcommand().commandSpec().name())) {
                 p.initializeFlinkTopology(false);
@@ -151,12 +126,11 @@ public class Main {
                         .union(serializedDataStreams.toArray(new DataStream[0]));
 
                 ParseResult subcommand = options.subcommand();
-                switch (subcommand.commandSpec().name()) {
-                    case "toFile" -> handleToFile(subcommand, unionStream, env.getParallelism());
-                    default ->
-                        throw new IllegalArgumentException("Invalid subcommand: " + subcommand.commandSpec().name());
+                if (subcommand.commandSpec().name().equals("toFile")) {
+                    handleToFile(subcommand, unionStream, env.getParallelism());
+                } else {
+                    throw new IllegalArgumentException("Invalid subcommand: " + subcommand.commandSpec().name());
                 }
-                ;
 
             }
 
@@ -166,8 +140,6 @@ public class Main {
         } catch (MissingParameterException e) {
             commandLine.usage(System.out);
             System.exit(1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -186,12 +158,18 @@ public class Main {
         }
     }
 
+    static void applyVerbosity(ParseResult options) {
+        String level;
+        if (options.hasMatchedOption("-vvv")) level = "DEBUG";
+        else if (options.hasMatchedOption("-vv")) level = "INFO";
+        else if (options.hasMatchedOption("-v")) level = "WARN";
+        else level = "ERROR";
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error");
+        System.setProperty("org.slf4j.simpleLogger.log.be.ugent.idlab.knows.mappingweaver", level.toLowerCase());
+    }
+
     public static class CommonSink implements TargetSink<String> {
         public static final List<String> output = Collections.synchronizedList(new ArrayList<>());
-
-        public static String getBulkOutput() {
-            return String.join("\n", output);
-        }
 
         @Override
         public void sink(@Nullable String serializedOutput) {

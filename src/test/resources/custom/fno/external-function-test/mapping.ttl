@@ -1,0 +1,19 @@
+@prefix rml:  <http://w3id.org/rml/> .
+@prefix grel: <http://users.ugent.be/~bjdmeest/function/grel.ttl#> .
+@prefix ex:   <http://example.com/myfunctions#> .
+@prefix :     <urn:example:> .
+
+:source a rml:LogicalSource ;
+    rml:source [ a rml:RelativePathSource , rml:Source ; rml:root rml:MappingDirectory ; rml:path "input.csv" ] ;
+    rml:referenceFormulation rml:CSV .
+
+:TriplesMap a rml:TriplesMap ;
+    rml:logicalSource :source ;
+    rml:subjectMap [ rml:template "urn:example:{name}" ] ;
+    rml:predicateObjectMap [
+        rml:predicate :shouted ;
+        rml:objectMap [ rml:functionExecution :Shout ; rml:return grel:stringOut ]
+    ] .
+
+:Shout rml:function ex:shout ;
+    rml:input [ rml:parameter grel:valueParam ; rml:inputValueMap [ rml:reference "name" ] ] .
