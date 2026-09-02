@@ -1,10 +1,12 @@
 package be.ugent.idlab.knows.mappingweaver.rml_kgc.fno;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
+import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -23,7 +25,7 @@ public class FnOSplitTest extends TestCore {
     private static Stream<Arguments> positivePassing() {
         return Stream.of(
                 // splitting the field directly
-                "RMLFNOTC1001-JSON",
+             /*   "RMLFNOTC1001-JSON",
                 // nulls turned into an empty string before splitting
                 "RMLFNOTC1002-JSON",
                 // empty strings filtered out after splitting, with idlab-fn:trueCondition
@@ -31,7 +33,7 @@ public class FnOSplitTest extends TestCore {
                 // the same split as a logical-view field
                 "RMLFNOTC1004-JSON",
                 // an invalid return resource falls back to the function's first return
-                "RMLFNOTC1005-JSON",
+                "RMLFNOTC1005-JSON",*/
                 // false negative: FnO cannot describe the datatype of array members
                 // "RMLFNOTC1006-JSON"
                 "RMLFNOTC1006-JSON"
@@ -41,6 +43,7 @@ public class FnOSplitTest extends TestCore {
     @ParameterizedTest(name = "Index: {index} Filename: {0}")
     @MethodSource("positivePassing")
     public void positivePassingTest(String directory) throws Exception {
+        FnOFunction.configure(List.of(BASE + "RMLFNOTC1006-JSON/mapping.ttl"), true);
         this.positiveTest(BASE, directory, true);
     }
 

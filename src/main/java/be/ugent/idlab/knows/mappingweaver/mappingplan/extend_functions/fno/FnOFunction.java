@@ -269,13 +269,12 @@ public class FnOFunction implements ExtendFunction, Serializable {
             return List.of();
         }
         if (values.size() == 1) {
-            return List.of(new LiteralNode(values.get(0), datatypeIRI, ""));
+            return List.of(new LiteralNode(values.getFirst(), valueDatatype, ""));
         }
 
         // The declared datatype describes what the function returns as a whole, which for
         // a function producing several values is the collection (rdf:List) and not the
         // values in it. Each of them is a string.
-        final String valueDatatype = RDF_LIST.equals(datatypeIRI) ? XSD_STRING : datatypeIRI;
         return List.of(new CollectionNode(values.stream()
                 .map(value -> (RDFNode) new LiteralNode(value, valueDatatype, ""))
                 .toList()));
