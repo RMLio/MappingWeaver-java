@@ -1,5 +1,6 @@
 package be.ugent.idlab.knows.mappingweaver.flink.sinks;
 
+import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
 import org.apache.flink.api.common.serialization.SimpleStringEncoder;
 import org.apache.flink.api.connector.sink2.Sink;
 import org.apache.flink.configuration.MemorySize;
@@ -9,8 +10,6 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.functions.sink.filesystem.rollingpolicies.DefaultRollingPolicy;
 import org.json.JSONObject;
-
-import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
 
 public class WeaverSinkFactory {
     public enum TargetType {
@@ -40,9 +39,7 @@ public class WeaverSinkFactory {
 
     public Sink<String> createSink() {
         return switch (this.targetType) {
-            case StdOut -> {
-                yield new STDSink();
-            }
+            case StdOut -> new STDSink();
             case File -> {
                 String outputPath = this.config.getString("path");
                 FileSink<String> sink = FileSink.forRowFormat(new Path(outputPath),

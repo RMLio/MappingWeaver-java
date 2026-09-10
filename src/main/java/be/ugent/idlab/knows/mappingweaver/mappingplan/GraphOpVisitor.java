@@ -1,6 +1,5 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan;
 
-import be.ugent.idlab.knows.amo.blocks.MappingTuple;
 import be.ugent.idlab.knows.amo.operators.Operator;
 import be.ugent.idlab.knows.amo.operators.OperatorVisitor;
 import be.ugent.idlab.knows.amo.operators.intermediate.binary.BinaryOperator;
@@ -28,7 +27,6 @@ import org.apache.flink.streaming.api.datastream.ConnectedStreams;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.functions.sink.legacy.SinkFunction;
 import org.apache.flink.util.Collector;
 import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
@@ -160,19 +158,16 @@ public class GraphOpVisitor implements OperatorVisitor<Void> {
 
     @Override
     public Void visitTarget(@NonNull TargetOperator targetOperator) {
-        if (targetOperator instanceof FlinkTargetOperator) {
-            FlinkTargetOperator flinkTargetOperator = (FlinkTargetOperator) targetOperator;
-            List<FragmentOperatorPair> parents = this.operatorGraph.getParents(flinkTargetOperator);
-            Operator parent = parents.getFirst().operator();
-            DataStream<MapTupValue> parentStream = this.streamCache.get(parent);
-            WeaverSinkFactory factory = flinkTargetOperator.getSinkFactory();
-            factory.attachSink(parentStream);
-           // parentStream.sinkTo(factory.attachSink()).name(flinkTargetOperator.getOperatorName());
+        List<FragmentOperatorPair> parents = this.operatorGraph.getParents(targetOperator);
+        Operator parent = parents.getFirst().operator();
+        DataStream<MapTupValue> parentStream = this.streamCache.get(parent);
+        WeaverSinkFactory factory;
+        if (targetOperator instanceof FlinkTargetOperator flinkTargetOperator) {
+            factory = flinkTargetOperator.getSinkFactory();
         }else{
-            throw new IllegalArgumentException("Given TargetOperator MUST be an instance of FlinkTargetOperator!" + targetOperator.getClass());
+            factory = new WeaverSinkFactory(WeaverSinkFactory.TargetType.StdOut, targetOperator.getOperatorName(), targetOperator.getTargetVariable(), null);
         }
-
-
+        factory.attachSink(parentStream);
         return null;
     }
 

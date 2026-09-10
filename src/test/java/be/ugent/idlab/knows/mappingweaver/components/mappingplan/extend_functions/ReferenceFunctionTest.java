@@ -31,7 +31,7 @@ public class ReferenceFunctionTest {
         // IRI into a string
         SolutionMapping mapping = mappingWith("scope", new IRINode("http://example.com/read"));
 
-        RDFNode node = new ReferenceFunction("scope", false).applyToNode(mapping);
+        RDFNode node = new ReferenceFunction("scope", false).apply(mapping).getFirst();
 
         assertInstanceOf(IRINode.class, node);
         assertEquals("http://example.com/read", node.getValue().toString());
@@ -41,14 +41,13 @@ public class ReferenceFunctionTest {
     public void aBlankNodeStaysABlankNode() {
         SolutionMapping mapping = mappingWith("scope", new BlankNode("b1"));
 
-        assertInstanceOf(BlankNode.class, new ReferenceFunction("scope", false).applyToNode(mapping));
+        assertInstanceOf(BlankNode.class, new ReferenceFunction("scope", false).apply(mapping).getFirst());
     }
 
     @Test
     public void anAttributeTheRecordDoesNotHaveIsNull() {
         SolutionMapping mapping = mappingWith("name", new LiteralNode("alice"));
 
-        assertNull(new ReferenceFunction("scope", true).applyToNode(mapping));
         assertNull(new ReferenceFunction("scope", true).apply(mapping));
     }
 
@@ -56,13 +55,11 @@ public class ReferenceFunctionTest {
     public void anAttributeBoundToNullIsNull() {
         SolutionMapping mapping = mappingWith("scope", new NullNode());
 
-        assertNull(new ReferenceFunction("scope", false).applyToNode(mapping));
         assertNull(new ReferenceFunction("scope", false).apply(mapping));
     }
 
     @Test
     public void thereIsNothingToReadWithoutASolutionMapping() {
-        assertNull(new ReferenceFunction("scope", false).applyToNode(null));
         assertNull(new ReferenceFunction("scope", false).apply(null));
     }
 
@@ -71,13 +68,13 @@ public class ReferenceFunctionTest {
         // an empty string is data, not an absent attribute
         SolutionMapping mapping = mappingWith("scope", new LiteralNode(""));
 
-        assertEquals("", new ReferenceFunction("scope", false).apply(mapping));
+        assertEquals("", new ReferenceFunction("scope", false).apply(mapping).getFirst().getValue().toString());
     }
 
     @Test
     public void aBoundAttributeIsReadAsAString() {
         SolutionMapping mapping = mappingWith("scope", new LiteralNode("read write"));
 
-        assertEquals("read write", new ReferenceFunction("scope", false).apply(mapping));
+        assertEquals("read write", new ReferenceFunction("scope", false).apply(mapping).getFirst().getValue().toString());
     }
 }

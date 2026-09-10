@@ -8,6 +8,7 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,7 +34,7 @@ public record ReferenceFunction(String referenceAttribute, boolean bestEffort) i
      */
     @Override
     @Nullable
-    public RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
+    public List<RDFNode> apply(@Nullable SolutionMapping solutionMapping) {
         if (solutionMapping == null) {
             return null;
         }
@@ -47,7 +48,7 @@ public record ReferenceFunction(String referenceAttribute, boolean bestEffort) i
                 }
                 return null;
             } else {
-                return value;
+                return List.of(value);
             }
         } else if (bestEffort) {
             if (LOG.isDebugEnabled()) {
@@ -60,14 +61,6 @@ public record ReferenceFunction(String referenceAttribute, boolean bestEffort) i
             throw new MappingException("Specified reference attribute '" + this.referenceAttribute + "' not present in the input data. \n" +
                     "Only these attributes are present in the in solution mapping: \n" + solutionMapping.keySet() );
         }
-    }
-
-    @Override
-    @Nullable
-    public String apply(@Nullable SolutionMapping solutionMapping) {
-        RDFNode value = applyToNode(solutionMapping);
-
-        return value == null ? null : value.getValue().toString();
     }
 
     /**

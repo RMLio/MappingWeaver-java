@@ -1,14 +1,15 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions;
 
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
+import be.ugent.idlab.knows.amo.blocks.nodes.IRINode;
+import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
+import org.jspecify.annotations.Nullable;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
-import org.apache.commons.validator.routines.UrlValidator;
-import org.jspecify.annotations.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ExtendFunction that returns an IRI node containing the URL, as specified by
@@ -21,16 +22,15 @@ public record EncodeUriFunction(ExtendFunction uriEncodeInnerFuncJson) implement
 
     @Override
     @Nullable
-    public String apply(@Nullable SolutionMapping solutionMapping) {
-        String innerValue = this.uriEncodeInnerFuncJson.apply(solutionMapping);
-        //FIXME: Throwing an error instead, at the root(reference function) would be better.
-        //       But this doesn't conform to the current test-cases.
-        if(innerValue == null){
+    public List<RDFNode> apply(@Nullable SolutionMapping solutionMapping) {
+        List<RDFNode> innerValues = this.uriEncodeInnerFuncJson.apply(solutionMapping);
+        if (innerValues == null) {
             return null;
         }
-        //            if (!UrlValidator.getInstance().isValid(innerValue)) {
-        return URLEncoder.encode(innerValue, StandardCharsets.UTF_8);
-//            }
-//            return innerValue;
+        return new ArrayList<>(innerValues.stream().map(innerNode -> {
+            final String innerValue = innerNode.getValue().toString();
+            return new IRINode(URLEncoder.encode(innerValue, StandardCharsets.UTF_8));
+        }).toList());
+
     }
 }
