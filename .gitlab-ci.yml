@@ -145,7 +145,7 @@ Package:
     - 'mvn $MAVEN_CLI_OPTS -DskipTests package'
   artifacts:
     paths:
-      - target/original-*.jar
+      - target/MappingWeaver-*.jar
 
 ###############################
 #                             #
@@ -159,4 +159,4 @@ create-pages:
   image: alpine:latest
   pages: true
   script:
-    - cp target/original-*.jar public/MappingWeaver.jar
+    - cp target/MappingWeaver-*.jar public/MappingWeaver.jar
