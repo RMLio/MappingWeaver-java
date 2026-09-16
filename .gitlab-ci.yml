@@ -159,4 +159,4 @@ create-pages:
   image: alpine:latest
   pages: true
   script:
-    - cp original-*.jar public/MappingWeaver.jar
+    - cp target/original-*.jar public/MappingWeaver.jar
