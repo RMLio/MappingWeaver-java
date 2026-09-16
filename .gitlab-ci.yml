@@ -2,6 +2,7 @@ stages:
   - lint
   - unittests
   - deploy
+  - publish
 
 include:
   # Make sure the CHANGELOG is always updated
@@ -143,6 +144,19 @@ Package:
   script:
     - 'mvn $MAVEN_CLI_OPTS -DskipTests package'
   artifacts:
-    when: always
     paths:
-      - target/*.jar
+      - target/original-*.jar
+
+###############################
+#                             #
+#     Add page with latest    #
+#     release                 #
+#                             #
+###############################
+
+create-pages:
+  stage: publish
+  image: alpine:latest
+  pages: true
+  script:
+    - cp original-*.jar public/MappingWeaver.jar
