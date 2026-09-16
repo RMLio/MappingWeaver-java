@@ -128,3 +128,21 @@ Utility Tests:
   except:
     - main
     - development
+
+###############################
+#                             #
+#     Publish JAR artefact    #
+#                             #
+###############################
+
+Package:
+  stage: deploy
+  image:
+    name: maven:3-eclipse-temurin-21
+    pull_policy: if-not-present
+  script:
+    - 'mvn $MAVEN_CLI_OPTS -DskipTests package'
+  artifacts:
+    when: always
+    paths:
+      - target/*.jar
