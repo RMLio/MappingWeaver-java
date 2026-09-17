@@ -157,6 +157,7 @@ Package:
 create-pages:
   stage: publish
   image: alpine:latest
-  pages: true
+  pages:  # specifies that this is a Pages job and publishes the default public directory
+    path_prefix: "$CI_COMMIT_BRANCH"
   script:
     - cp target/MappingWeaver-*.jar public/MappingWeaver.jar
