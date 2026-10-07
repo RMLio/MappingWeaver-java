@@ -2,6 +2,7 @@ package be.ugent.idlab.knows.mappingweaver.rml_kgc.fno;
 
 import be.ugent.idlab.knows.mappingweaver.cores.TestCore;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -45,6 +46,12 @@ public class FnOSplitTest extends TestCore {
     public void positivePassingTest(String directory) throws Exception {
         FnOFunction.configure(List.of(BASE + "RMLFNOTC1006-JSON/mapping.ttl"), true);
         this.positiveTest(BASE, directory, true);
+    }
+
+    // the FnO configuration is JVM-wide; later test classes need the built-in functions back
+    @AfterEach
+    public void restoreFunctionDescriptions() {
+        FnOFunction.configure(List.of(), false);
     }
 
 }

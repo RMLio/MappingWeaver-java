@@ -51,7 +51,7 @@ Custom descriptions without a `classpath://` prefix are resolved in this order:
 1. Filesystem path (absolute, or relative to the JVM working directory).
 2. Classpath fallback.
 
-All descriptions are merged into a single Jena `Model` once (`effectiveModel`) and reused for both the parameter/return-type translators and the FnO `Agent` (which receives the model serialized back to Turtle to avoid re-reading the original files).
+The effective descriptions are handed to `AgentFactory.createFromFnO` as they are. The resulting FnO `Agent` is created once per JVM, cached, and rebuilt after the next `configure()` call. The configuration is static and JVM-wide, so a test that calls `configure()` restores the default afterwards (`configure(List.of(), false)`); otherwise every test class that runs after it in the same JVM sees its descriptions.
 
 For an FnO execution, `rml:return` is validated against that function's ordered `fno:returns` RDF list. A missing or invalid return resource falls back to the first list member; invalid or unverifiable declarations emit a warning, while a missing `rml:return` on a known function is logged at debug level.
 

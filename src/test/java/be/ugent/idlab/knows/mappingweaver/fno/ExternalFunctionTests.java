@@ -6,6 +6,7 @@ import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
 import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
@@ -17,6 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExternalFunctionTests {
     private static final String DIR = "src/test/resources/custom/fno/external-function-test";
+
+    // the FnO configuration is JVM-wide; later test classes need the built-in functions back
+    @AfterEach
+    public void restoreFunctionDescriptions() {
+        FnOFunction.configure(List.of(), false);
+    }
 
     @Test
     public void aFunctionFromAGivenDescriptionIsUsed() throws Exception {

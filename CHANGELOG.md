@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - `lookupWithDelimiter` calls using different input files no longer reuse each other's results
+- Tests that change the FnO function descriptions restore the defaults afterwards, so the test classes that run after them in the same JVM find the built-in functions again
 - An IRI or blank node object map fed by a function producing several values yields a term per value, instead of keeping only the first
 - A function producing several values is applied to every one of them, wherever it is used
 - FnO return datatypes now follow the selected resource in the function's ordered `fno:returns` list, with warnings and first-return fallback for invalid `rml:return` values
