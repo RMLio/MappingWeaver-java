@@ -28,7 +28,7 @@ Every implementation request handled by an AI agent/LLM follows these constraint
   - This contract holds only general rules for handling a request; project-specific guidance goes in the chapter on that topic.
 - Do not stop at making tests green; align the implementation with the specification or intended design, and document the semantic reason in this handbook.
 - Never remove or change existing tests (code or fixtures) without explicit permission. A change to an existing fixture (expected output, input, or data) is validated by the maintainer before it is kept, also when a tool writes it: propose the change with its reason, and keep it only after approval.
-- Update `CHANGELOG.md` for implementation changes: keep `## Unreleased` a short summary of what changed since the last release. A feature that is new since the last release is one Added line, which later fixes update instead of getting lines of their own; lines are for what a user of the last release notices.
+- Update `CHANGELOG.md` for every change, internal ones included (tests, CI, refactoring, removed code): keep `## Unreleased` a short summary of what changed since the last release. A feature that is new since the last release is one Added line, which later fixes update instead of getting lines of their own.
 - Check whether `README.md` needs updates for user-visible behavior or workflow changes, and update it when needed.
 - Write documentation (this handbook, READMEs, `TODO.md`, `CHANGELOG.md`, code comments) as plain positive statements: say what is true and leave out the contrast ("X, not Y"). Keep a negative only when it is the point itself, such as a prohibition, a warning, or a known limitation.
 - If there are difficulties during fulfillment, document them in the most appropriate existing handbook location (create a new chapter only when truly necessary) so future requests start with better context.
@@ -82,3 +82,7 @@ src/test/resources/
 The Java test packages mirror this split: language-based tests live under `mappingweaver.rmlio.*` or `mappingweaver.rml_kgc.*`, while pure component tests live under `mappingweaver.components.*`. Shared test bases and extensions remain under `mappingweaver.cores` and `mappingweaver.utilities`; tests for package-private implementation classes remain beside those implementation packages.
 
 Everything under each language's `spec/` directory is an immutable copy of an upstream specification suite. Tests may read these files but must never create, modify, rename, or delete files there.
+
+## Continuous integration
+
+`.gitlab-ci.yml` runs each test class as its own parallel job, in two matrices: `Specification Tests` (the spec suites) and `Utility Tests` (CLI, sources, FnO, regressions and components). Both extend the hidden `.unittests` job. A matrix lists only classes that run at least one test, so that every job checks something. A class whose tests are all disabled is added back once it is enabled. None of the listed classes use Testcontainers, so the jobs run without a Docker service; a job for an RDB or Kafka test needs that service again.

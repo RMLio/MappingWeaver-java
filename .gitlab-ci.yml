@@ -19,9 +19,6 @@ include:
 
 
 variables:
-  POSTGRES_DB: postgres
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: "YourSTRONG!Passw0rd"
   # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
   # `showDateTime` will show the passed time in milliseconds.
   MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
@@ -43,52 +40,25 @@ default:
 #                             #
 ###############################
 
-Specification Tests:
+.unittests:
   stage: unittests
   image:
     name: maven:3-eclipse-temurin-21
     pull_policy: if-not-present
-  services:
-    - name: docker:23.0.1-dind
-      # explicitly disable tls to avoid docker startup interruption
-      command: [ "--tls=false" ]
-  variables:
-    # Instruct Testcontainers to use the daemon of DinD.
-    DOCKER_HOST: "tcp://docker:2375"
-    # Instruct Docker not to start over TLS.
-    DOCKER_TLS_CERTDIR: ""
-    # Improve performance with overlayfs.
-    DOCKER_DRIVER: overlay2
-
   script:
     - 'mvn -Dtest=$TEST test 2>&1 | tee $TEST.log'
   artifacts:
     when: always
     paths:
-      - ' $TEST.log'
-  parallel:
-    matrix:
-      - TEST: [
-        RMLCoreTest, RMLIOTest, RMLLVTest,
-        # implemented and passing (previously commented as "not implemented")
-        RMLFNMLTest, RMLSTARTest,
-        # logical-view + FNML: source field computed by a function (e.g. toUpperCase(name))
-        RMLLVFNMLTest,
-        # previously unreferenced (never ran in CI); 10 passing tests
-        RMLRegistryTest,
-        RMLIOCoreFileTest,
-        # RMLCCTest    — RML-CC not implemented: all 35 cases @Disabled/failing (runs 0 tests)
-        # RMLIOFNOTest — class @Disabled: "Old RML not supported in MappingLoom-rs" (runs 0 tests)
-      ]
+      - '$TEST.log'
   except:
     - main
     - development
 
-Utility Tests:
-  stage: unittests
-  image:
-    name: maven:3-eclipse-temurin-21
-    pull_policy: if-not-present
+# Docker-in-Docker for tests that use Testcontainers. No enabled test needs it
+# right now; add it to a job's `extends` (after .unittests) when re-enabling
+# RMLIOCorePostgreSQLTest or KafkaTest.
+.docker:
   services:
     - name: docker:23.0.1-dind
       # explicitly disable tls to avoid docker startup interruption
@@ -100,31 +70,44 @@ Utility Tests:
     DOCKER_TLS_CERTDIR: ""
     # Improve performance with overlayfs.
     DOCKER_DRIVER: overlay2
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: "YourSTRONG!Passw0rd"
 
-  script:
-    - 'mvn -Dtest=$TEST test 2>&1 | tee $TEST.log'
-  artifacts:
-    when: always
-    paths:
-      - ' $TEST.log'
+# Each job lists the test classes that run at least one test. A class whose
+# tests are all disabled is left out until it is enabled again:
+#   RMLCCTest               — RML-CC not implemented, all cases @Disabled
+#   RMLIOFNOTest            — class @Disabled: old RML not supported in MappingLoom-rs
+#   RMLIOFNOSpecAdaptationsTest — its only test @Disabled
+#   RMLIOCoreFileTest       — class @Disabled: old RML not supported in MappingLoom-rs
+#   RMLIOCoreMySQLTest      — class @Disabled: old RML not supported in MappingLoom-rs; needs .docker
+#   RMLIOCorePostgreSQLTest — class @Disabled; needs .docker
+#   KafkaTest               — class @Disabled; needs .docker
+#   MappingPlanTest         — class @Disabled
+Specification Tests:
+  extends: .unittests
+  parallel:
+    matrix:
+      - TEST: [
+        RMLCoreTest, RMLIOTest, RMLLVTest, RMLFNMLTest, RMLSTARTest,
+        # logical-view + FNML: source field computed by a function (e.g. toUpperCase(name))
+        RMLLVFNMLTest,
+        RMLRegistryTest,
+      ]
+
+Utility Tests:
+  extends: .unittests
   parallel:
     matrix:
       - TEST: [
                 # CLI tests
-                CliOutputTest, CliVerbosityTest,
+                CliVerbosityTest,
                 # file tests
                 WebSocketTest, CSVWSourceTest,
                 # FnO
-                FnOSplitTest, ExternalFunctionTests,
-                # Remote
-                RMLIOCorePostgreSQLTest,
+                FnOSplitTest, ExternalFunctionTests, ReferenceFunctionTest,
                 # Fixed bugs
                 FixedBugsTest, MultipleFunctionExecutionsTest, LogicalViewFieldsTest,
                 # Miscellaneous
-                ExtendParserTest, MappingPlanTest,
-                # omitted — class @Disabled and/or Docker-only, run no tests:
-                # CliOutputTest, WebSocketCliTest, KafkaTest, RDBSourceTest
+                ExtendParserTest,
       ]
-  except:
-    - main
-    - development

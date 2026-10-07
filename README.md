@@ -81,7 +81,7 @@ java -jar MappingWeaver-0.3.0.jar --help
 
 ```
 Usage: AlgeMapLoom [-hV] [--best-effort] [--custom-functions-only]
-                   [--disable-local-parallel] [--json-ld]
+                   [--disable-local-parallel]
                    [--auto-watermark-interval=<time (ms)>]
                    [--checkpoint-interval=<time (ms)>] [-i=<base IRI>] [-j=<job 
                    name>] [-p=<task slots>] [-f=<function descriptions>]...
@@ -121,9 +121,6 @@ Usage: AlgeMapLoom [-hV] [--best-effort] [--custom-functions-only]
   -j, --job-name=<job name>
                       The name to assign to the job on the Flink cluster. Put
                         some semantics in here ;)
-      --json-ld       Write the output as JSON-LD instead of N-Quads. An object
-                        contains all RDF generated from one input record. Note:
-                        this is slower than using the default N-Quads format.
   -l, --loom-file=<AlgeMapLoom mapping plan file>
                       The path to an AlgeMapLoom mapping plan file, in JSON
                         format. The path must be accessible on the Flink

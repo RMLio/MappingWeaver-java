@@ -1,6 +1,5 @@
 package be.ugent.idlab.knows.mappingweaver.cli;
 
-import be.ugent.idlab.knows.amo.functions.TargetSink;
 import be.ugent.idlab.knows.mappingLoom.ITranslator;
 import be.ugent.idlab.knows.mappingweaver.flink.sinks.WeaverSinkFactory;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
@@ -10,7 +9,6 @@ import be.ugent.idlab.knows.mappingweaver.values.MapTupValue;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.json.JSONObject;
-import org.jspecify.annotations.Nullable;
 import picocli.CommandLine;
 import picocli.CommandLine.MissingParameterException;
 import picocli.CommandLine.Model.CommandSpec;
@@ -31,7 +29,6 @@ public class Main {
     }
 
     private void parseAndRun(String[] args) {
-        CommonSink.output.clear();
         CommandSpec root = CliCommand.create();
 
         CommandLine commandLine = new CommandLine(root);
@@ -166,14 +163,5 @@ public class Main {
         else level = "ERROR";
         System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error");
         System.setProperty("org.slf4j.simpleLogger.log.be.ugent.idlab.knows.mappingweaver", level.toLowerCase());
-    }
-
-    public static class CommonSink implements TargetSink<String> {
-        public static final List<String> output = Collections.synchronizedList(new ArrayList<>());
-
-        @Override
-        public void sink(@Nullable String serializedOutput) {
-            output.add(serializedOutput);
-        }
     }
 }

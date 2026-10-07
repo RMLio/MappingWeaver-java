@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Declared `slf4j-simple` as a runtime dependency, so the CLI has a concrete logging backend on its runtime classpath
 - FnO descriptions are parsed into a single merged Jena `Model` once and reused across translators and the FnO agent (see HANDBOOK: FnO function descriptions)
 - Built-in FnO descriptions use a `classpath://` prefix; custom descriptions can override them by filename (see README: Custom FnO function descriptions)
+- GitLab CI: the test jobs extend a shared `.unittests` job, list only test classes that run at least one test (adding `ReferenceFunctionTest`), and run without a Docker service (see HANDBOOK: Continuous integration)
 
 ### Fixed
 - `lookupWithDelimiter` calls using different input files no longer reuse each other's results
@@ -30,6 +31,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove reference to non-existing branch in GitLab CI script
 - Updated dependency on Function Agent to 1.5.1, which fixes a bug in calculating parameter arity for functions.
 - Merged `--function-descriptions` and `-f` parameters.
+
+### Removed
+- The `--json-ld` option, which had no effect
+- Unused classes `CSVSourceOperator`, `FlinkDataIOReader` (deprecated) and `Main.CommonSink`
+- `CliOutputTest`, whose tests were all disabled
+- Leftover copies of the `moveup` and `multiple-function-executions` mappings from before the test resources were reorganized
 
 ### Added
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view
