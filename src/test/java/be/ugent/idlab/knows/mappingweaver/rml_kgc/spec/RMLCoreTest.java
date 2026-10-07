@@ -109,6 +109,8 @@ public class RMLCoreTest extends TestCore {
         return Stream.of(
                 "RMLTC0027b-JSON",  // awaiting outcome of https://github.com/kg-construct/rml-core/issues/72
                 "RMLTC0027c-JSON",  // Doesn't support difference between IRI- and URI encoding + java only supports URL encoding (standard, libs do support it). See https://gitlab.ilabt.imec.be/rml/proc/algemaploom-rs/-/issues/48
+                // The constant does not reach the mapping plan: the InnerJoin arrives with an
+                // empty condition, which is refused rather than joining every combination.
                 "RMLTC0030c-JSON",  // Join: constant-valued parentMap not supported
                 "RMLTC0030d-JSON",  // Join: constant-valued parentMap not supported
                 "RMLTC0030e-JSON",  // Join: constant-valued childMap not supported
