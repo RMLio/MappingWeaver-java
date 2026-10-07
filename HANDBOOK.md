@@ -12,21 +12,28 @@ This handbook is a tour of this MappingWeaver.
 
 ## Agent request contract (for AI agents/LLMs)
 
-Every implementation request handled by an AI agent/LLM should follow these constraints:
+<!-- software-handbook contract: 2026-10-07 -->
+
+Every implementation request handled by an AI agent/LLM follows these constraints:
 
 - If the request is a feature or bugfix:
-  - fix the specific failing conformance case named in the request;
+  - fix the specific failing case or issue named in the request;
   - preserve existing passing behavior unless explicitly asked not to;
   - add or update a regression test when needed.
 - Make the smallest coherent patch.
+- Leave the code leaner after every request: remove what the change makes redundant (duplicate tests, parameters and options that no longer do anything, helpers that duplicate each other, comments that only repeat the code), and reuse shared functionality instead of adding a local variant. Run SpotBugs (`mvn compile spotbugs:check`, managed in `pom.xml`) and check the compiler warnings to find unused code.
 - **Push back** when a request would violate an established principle (e.g. breaking test hermeticity). Explain the principle and suggest a documentation-only fix instead of silently implementing the harmful change.
-- Update this handbook when the change establishes durable behavior, a principle, or rationale that future work should know; document it in the relevant existing section, not only in the implementation.
-  - Keep documentation concise and durable: describe only final current state, stable rules, and necessary rationale; omit request history, implementation steps, and redundant detail.
-- Do not stop at making tests green; align implementation with the specification and document the semantic reason in this handbook.
-- Never remove or change existing tests (code nor files) without explicit permission.
-- Update `CHANGELOG.md` for implementation changes (update an existing unreleased entry or, if really relevant, add a new one); keep `## Unreleased` focused on the short diff from the previous version, not an accumulating list of every intermediate change.
+- Update this handbook so the change is documented as well as implemented.
+  - Document only the latest state, integrated in the surrounding narrative (principles, behavior, rationale), including the choices made and why.
+  - This contract holds only general rules for handling a request; project-specific guidance goes in the chapter on that topic.
+- Do not stop at making tests green; align the implementation with the specification or intended design, and document the semantic reason in this handbook.
+- Never remove or change existing tests (code or fixtures) without explicit permission. A change to an existing fixture (expected output, input, or data) is validated by the maintainer before it is kept, also when a tool writes it: propose the change with its reason, and keep it only after approval.
+- Update `CHANGELOG.md` for implementation changes: keep `## Unreleased` a short summary of what changed since the last release. A feature that is new since the last release is one Added line, which later fixes update instead of getting lines of their own; lines are for what a user of the last release notices.
 - Check whether `README.md` needs updates for user-visible behavior or workflow changes, and update it when needed.
-- If there are difficulties during fulfillment, document those difficulties in the most appropriate existing handbook location (create a new chapter only when truly necessary) so future requests start with better context.
+- Write documentation (this handbook, READMEs, `TODO.md`, `CHANGELOG.md`, code comments) as plain positive statements: say what is true and leave out the contrast ("X, not Y"). Keep a negative only when it is the point itself, such as a prohibition, a warning, or a known limitation.
+- If there are difficulties during fulfillment, document them in the most appropriate existing handbook location (create a new chapter only when truly necessary) so future requests start with better context.
+- A preference or principle that the maintainer states while handling a request is documented so that every later request follows it: a general one in this contract (and in the software-handbook skill it comes from), a project-specific one in the handbook chapter it belongs to. When it is unclear which, ask.
+- When a request is a list of feedback (such as a `TODO.md`), clean up after handling it: remove the items that are done, keep every open item as a clear task (an open question or an offered follow-up is an open item), and remove temporary files created along the way.
 
 ## Runtime logging
 
