@@ -91,7 +91,7 @@ public class MappingPlanTest {
 
         plan.execute();
 
-        assertTrue(GraphVisitorCustomTarget.ResultCollector.values.contains(new LiteralNode("Venus")));
+        assertTrue(GraphVisitorCustomTarget.ResultCollector.values.contains("Venus"));
     }
 
     /**
@@ -118,7 +118,7 @@ public class MappingPlanTest {
         ExtendOperator extend = new ExtendOperator("Extend",
                 Set.of("f_default"), Set.of("f_default"),
                 List.of(new Pair<>("fullname",
-                (ExtendFunction) solutionMapping -> "fullname:" + solutionMapping.get("name").getValue())));
+                (ExtendFunction) solutionMapping -> List.of(new LiteralNode("fullname:" + solutionMapping.get("name").getValue().toString())))));
 
         TargetOperator target2 = new TargetOperator("targetOp2", Set.of("f_default"), "fullname",
                 (TargetSink<String>) value -> assertEquals("fullname:Venus", value));

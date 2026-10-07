@@ -19,13 +19,13 @@
 <https://blue-bike.be/stations/1000> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.mobivoc.org/#BicycleParkingStation> <http://blue-bike.be/event/create> .
 <https://blue-bike.be/stations/1000> <http://www.w3.org/2003/01/geo/wgs84_pos#latitude> "50.844833000000"^^<http://www.w3.org/2001/XMLSchema#float> <http://blue-bike.be/event/create> .
 <https://blue-bike.be/stations/1000> <http://www.w3.org/2003/01/geo/wgs84_pos#longitude> "4.355861000000"^^<http://www.w3.org/2001/XMLSchema#float> <http://blue-bike.be/event/create> .
-<https://blue-bike.be/stations/1000> <https://w3id.org/gbfs#num_bikes_available> "100"^^<http://www.w3.org/2001/XMLSchema#integer> <http://blue-bike.be/event/create> .
+<https://blue-bike.be/stations/1000> <https://w3id.org/gbfs#num_bikes_available> "100"^^<http://www.w3.org/2001/XMLSchema#int> <http://blue-bike.be/event/create> .
 <https://blue-bike.be/stations/1000> <https://w3id.org/gbfs#station_id> "1000" <http://blue-bike.be/event/create> .
 <https://blue-bike.be/stations/48> <http://purl.org/dc/terms/created> "2023-07-07T20:58:50"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://blue-bike.be/event/update> .
 <https://blue-bike.be/stations/48> <http://schema.org/name> "Station Antwerpen-Centraal" <http://blue-bike.be/event/update> .
 <https://blue-bike.be/stations/48> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.mobivoc.org/#BicycleParkingStation> <http://blue-bike.be/event/update> .
 <https://blue-bike.be/stations/48> <http://www.w3.org/2003/01/geo/wgs84_pos#latitude> "51.217611000000"^^<http://www.w3.org/2001/XMLSchema#float> <http://blue-bike.be/event/update> .
 <https://blue-bike.be/stations/48> <http://www.w3.org/2003/01/geo/wgs84_pos#longitude> "4.421000000000"^^<http://www.w3.org/2001/XMLSchema#float> <http://blue-bike.be/event/update> .
-<https://blue-bike.be/stations/48> <https://w3id.org/gbfs#num_bikes_available> "20"^^<http://www.w3.org/2001/XMLSchema#integer> <http://blue-bike.be/event/update> .
+<https://blue-bike.be/stations/48> <https://w3id.org/gbfs#num_bikes_available> "20"^^<http://www.w3.org/2001/XMLSchema#int> <http://blue-bike.be/event/update> .
 <https://blue-bike.be/stations/48> <https://w3id.org/gbfs#station_id> "48" <http://blue-bike.be/event/update> .
 <https://blue-bike.be/stations/49> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.mobivoc.org/#BicycleParkingStation> <http://blue-bike.be/event/delete> .

@@ -1,6 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions;
 
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
+import be.ugent.idlab.knows.amo.blocks.nodes.CollectionNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
@@ -34,34 +35,10 @@ public class LiteralTypeFunction
         this.datatypeFunction = datatypeFunction;
     }
 
-    @Override
-    @Nullable
-    public RDFNode applyToNode(@Nullable SolutionMapping mapping) {
-        return asLiteral(this.innerFunction.applyToNode(mapping), mapping);
-    }
-
-    /**
-     * A literal per value the inner function produced, so that a function producing
-     * several of them (a split, for instance) keeps them all: the operator using this
-     * function then generates a term for every value.
-     */
-    @Override
-    public List<RDFNode> applyMultiToNode(@Nullable SolutionMapping mapping) {
-        List<RDFNode> literals = new ArrayList<>();
-
-        for (RDFNode innerNode : this.innerFunction.applyMultiToNode(mapping)) {
-            RDFNode literal = asLiteral(innerNode, mapping);
-            if (literal != null) {
-                literals.add(literal);
-            }
-        }
-
-        return literals;
-    }
-
     /**
      * Turns a value the inner function produced into a literal, with the language and
-     * datatype this function was given.
+     * datatype this function was given. A value standing for several terms gives a literal
+     * per term, held together as one value the way the inner function handed it over.
      */
     @Nullable
     private RDFNode asLiteral(@Nullable RDFNode innerNode, @Nullable SolutionMapping mapping) {
@@ -70,7 +47,19 @@ public class LiteralTypeFunction
             return null;
         }
 
-        String language = (this.languageFunction == null) ? "" : this.languageFunction.apply(mapping);
+        if (innerNode.isCollection()) {
+            List<RDFNode> literals = new ArrayList<>();
+            for (RDFNode member : ((CollectionNode) innerNode).members()) {
+                RDFNode literal = asLiteral(member, mapping);
+                if (literal != null) {
+                    literals.add(literal);
+                }
+            }
+
+            return literals.isEmpty() ? null : new CollectionNode(literals);
+        }
+
+        String language = (this.languageFunction == null) ? "" : this.languageFunction.apply(mapping).getFirst().getValue().toString();
         language = (language == null) ? "" : language;
 
         if (!language.isBlank() && !JSONPlanParser.allowedLanguagesPattern.matcher(language).find()) {
@@ -83,10 +72,11 @@ public class LiteralTypeFunction
             if (innerNode instanceof LiteralNode) {
                 datatype = ((LiteralNode) innerNode).getDatatype();
             }
-            return new LiteralNode(innerNode.getValue(), datatype, language);
+            return new LiteralNode(innerNode.getValue().toString(), datatype, language);
 
         } else {
-            String typeURL = this.datatypeFunction.apply(mapping);
+            List<RDFNode> typeURLResult = this.datatypeFunction.apply(mapping);
+            String typeURL = typeURLResult.getFirst().getValue().toString();
             return new LiteralNode(innerNode.getValue(), typeURL, language);
         }
     }
@@ -98,8 +88,19 @@ public class LiteralTypeFunction
 
     @Override
     @Nullable
-    public String apply(@Nullable SolutionMapping solutionMapping) {
-        return this.innerFunction.apply(solutionMapping);
+    public List<RDFNode> apply(@Nullable SolutionMapping solutionMapping) {
+        List<RDFNode> literals = new ArrayList<>();
+        List<RDFNode> innerResults = innerFunction.apply(solutionMapping);
+        if (innerResults == null) {
+            return null;
+        }
+        for (RDFNode innerNode : innerResults) {
+            RDFNode literal = asLiteral(innerNode, solutionMapping);
+            if (literal != null) {
+                literals.add(literal);
+            }
+        }
+        return literals;
     }
 
 }

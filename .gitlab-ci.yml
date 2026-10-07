@@ -2,6 +2,7 @@ stages:
   - lint
   - unittests
   - deploy
+  - publish
 
 include:
   # Make sure the CHANGELOG is always updated
@@ -88,26 +89,65 @@ Specification Tests:
   extends: .unittests
   parallel:
     matrix:
-      - TEST: [
-        RMLCoreTest, RMLIOTest, RMLLVTest, RMLFNMLTest, RMLSTARTest,
-        # logical-view + FNML: source field computed by a function (e.g. toUpperCase(name))
-        RMLLVFNMLTest,
-        RMLRegistryTest,
-      ]
+      - TEST:
+          - RMLCoreTest
+          - RMLIOTest
+          - RMLLVTest
+          - RMLFNMLTest
+          - RMLSTARTest
+          # logical-view + FNML: source field computed by a function (e.g. toUpperCase(name))
+          - RMLLVFNMLTest
+          - RMLRegistryTest
 
 Utility Tests:
   extends: .unittests
   parallel:
     matrix:
-      - TEST: [
-                # CLI tests
-                CliVerbosityTest,
-                # file tests
-                WebSocketTest, CSVWSourceTest,
-                # FnO
-                FnOSplitTest, ExternalFunctionTests, ReferenceFunctionTest,
-                # Fixed bugs
-                FixedBugsTest, MultipleFunctionExecutionsTest, LogicalViewFieldsTest,
-                # Miscellaneous
-                ExtendParserTest,
-      ]
+      - TEST:
+          # CLI tests
+          - CliVerbosityTest
+          # file tests
+          - WebSocketTest
+          - CSVWSourceTest
+          # FnO
+          - FnOSplitTest
+          - ExternalFunctionTests
+          - ReferenceFunctionTest
+          # Fixed bugs
+          - FixedBugsTest
+          - MultipleFunctionExecutionsTest
+          - LogicalViewFieldsTest
+          # Miscellaneous
+          - ExtendParserTest
+
+###############################
+#                             #
+#     Publish JAR artefact    #
+#                             #
+###############################
+
+Package:
+  stage: deploy
+  image:
+    name: maven:3-eclipse-temurin-21
+    pull_policy: if-not-present
+  script:
+    - 'mvn $MAVEN_CLI_OPTS -DskipTests package'
+  artifacts:
+    paths:
+      - target/MappingWeaver-*.jar
+
+###############################
+#                             #
+#     Add page with latest    #
+#     release                 #
+#                             #
+###############################
+
+create-pages:
+  stage: publish
+  image: alpine:latest
+  pages:  # specifies that this is a Pages job and publishes the default public directory
+    path_prefix: "$CI_COMMIT_BRANCH"
+  script:
+    - cp target/MappingWeaver-*.jar public/MappingWeaver.jar

@@ -1,6 +1,7 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
+import be.ugent.idlab.knows.amo.blocks.nodes.CollectionNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.LiteralNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
@@ -72,7 +73,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
     private final List<FnOParameter> parameters;
     private final String datatypeIRI;
     private final String returnType;
-    
+
     public FnOFunction(String identifier, List<FnOParameter> parameters, String returnType) throws FnOException {
         this.identifier = identifier;
         this.parameters = parameters;
@@ -134,7 +135,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
      * @param solutionMapping the solution mapping to read the arguments from
      * @return the values produced, empty if the function produced none
      */
-    private List<String> allValues(@Nullable SolutionMapping solutionMapping) {
+    private List<Object> allValues(@Nullable SolutionMapping solutionMapping) {
         List<String> predicates = new ArrayList<>(this.parameters.size());
         List<List<String>> valuesPerParameter = new ArrayList<>(this.parameters.size());
 
@@ -143,7 +144,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
             valuesPerParameter.add(parameter.getParameters(solutionMapping));
         }
 
-        List<String> produced = new ArrayList<>();
+        List<Object> produced = new ArrayList<>();
         // one run per combination: an Arguments is built from scratch each time, as it
         // collects the values added under a name rather than replacing them
         int[] chosen = new int[predicates.size()];
@@ -184,24 +185,6 @@ public class FnOFunction implements ExtendFunction, Serializable {
         }
     }
 
-    @Override
-    public @Nullable String apply(@Nullable SolutionMapping solutionMapping) {
-        List<String> values = allValues(solutionMapping);
-        if (values.isEmpty()) {
-            return null;
-        }
-
-        // Only one value fits where a single value is expected. A function producing
-        // several of them belongs in a place that can carry them all, which is what
-        // applyMulti() is for; taking the first is the best that can be done here.
-        return values.getFirst();
-    }
-
-    @Override
-    public List<String> applyMulti(@Nullable SolutionMapping solutionMapping) {
-        return allValues(solutionMapping);
-    }
-
     /**
      * The values a function's result stands for: a function may produce several (a split,
      * for instance), and it may hand them over as a collection or as an array. GREL's
@@ -211,52 +194,68 @@ public class FnOFunction implements ExtendFunction, Serializable {
      * @param result what the function returned, {@code null} if it produced nothing
      * @return the values it produced, empty if it produced none
      */
-    private static List<String> valuesOf(@Nullable Object result) {
+    private static List<Object> valuesOf(@Nullable Object result) {
         if (result == null) {
             return List.of();
         }
 
         if (result instanceof Collection<?> values) {
-            return values.stream()
+            return new ArrayList<>(values.stream()
                     .filter(Objects::nonNull)
-                    .map(Object::toString)
-                    .toList();
+                    //.map(Object::toString)
+                    .toList());
         }
 
         if (result.getClass().isArray()) {
             int length = Array.getLength(result);
-            List<String> values = new ArrayList<>(length);
+            List<Object> values = new ArrayList<>(length);
             for (int i = 0; i < length; i++) {
                 Object value = Array.get(result, i);
                 if (value != null) {
-                    values.add(value.toString());
+                    values.add(value);
                 }
             }
             return values;
         }
 
-        return List.of(result.toString());
+        return List.of(result);
     }
 
+    /**
+     * The function's result as a single node: several values are held together in a
+     * {@link CollectionNode} rather than handed over one by one.
+     * <p>
+     * Keeping them as one value is what lets the result be passed on: a function taking it
+     * as an argument sees every value, and a term is generated per member only where the
+     * collection is serialized.
+     */
     @Override
-    public @Nullable RDFNode applyToNode(@Nullable SolutionMapping solutionMapping) {
-        List<RDFNode> nodes = applyMultiToNode(solutionMapping);
-
-        return nodes.isEmpty() ? null : nodes.getFirst();
-    }
-
-    @Override
-    public List<RDFNode> applyMultiToNode(@Nullable SolutionMapping solutionMapping) {
+    public List<RDFNode> apply(@Nullable SolutionMapping solutionMapping) {
         // If return_type is unknownOut or doesn't match expected, return null (no output)
         if (returnType != null && returnType.contains("unknownOut")) {
             return List.of();
         }
 
-        List<String> values = allValues(solutionMapping);
-        String valueDatatype = RDF_LIST.equals(datatypeIRI) ? XSD_STRING : datatypeIRI;
-        return values.stream()
-            .map(value -> (RDFNode) new LiteralNode(value, valueDatatype, ""))
-                .toList();
+        List<Object> values = allValues(solutionMapping);
+
+        if (values.isEmpty()) {
+            // a function that produced nothing has no node, rather than an empty collection
+            return List.of();
+        }
+        if (values.size() == 1) {
+            if (datatypeIRI.equals(RDF_LIST)) {
+                return List.of(new LiteralNode(values.getFirst()));
+            } else {
+                return List.of(new LiteralNode(values.getFirst(), datatypeIRI, ""));
+            }
+        }
+
+        // The declared datatype describes what the function returns as a whole, which for
+        // a function producing several values is the collection (rdf:List) and not the
+        // values in it. Each of them is a string.
+        return List.of(new CollectionNode(values.stream()
+                .map(value -> (RDFNode) new LiteralNode(value/*, valueDatatype, ""*/))
+                .toList()));
     }
     
     @Override

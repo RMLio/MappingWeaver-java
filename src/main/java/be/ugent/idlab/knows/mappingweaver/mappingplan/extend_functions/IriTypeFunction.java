@@ -1,17 +1,19 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions;
 
-import java.util.Optional;
-
-import org.apache.commons.validator.routines.UrlValidator;
-import org.jspecify.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
 import be.ugent.idlab.knows.amo.blocks.nodes.IRINode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class IriTypeFunction implements ExtendFunction {
     private static final Logger log = LoggerFactory.getLogger(IriTypeFunction.class);
@@ -32,31 +34,36 @@ public class IriTypeFunction implements ExtendFunction {
 
     @Override
     @Nullable
-    public String apply(@Nullable SolutionMapping arg0) {
-        String result = this.innerFunction.apply(arg0);
-        if (result != null && this.useBaseIri) {
-            if (!this.validator.isValid(result)) {
-                String prepended = this.baseIri + result;
-                if (!this.validator.isValid(prepended)) {
-                    log.warn("System was unable to generate a valid URL with %s, bailing out.".formatted(result));
-                    return null;
-                }
-
-                return prepended;
-            }
-        }
-
-        return result;
+    public List<RDFNode> apply(@Nullable SolutionMapping arg0) {
+        return asIri(this.innerFunction.apply(arg0));
     }
 
-    @Override
+    /**
+     * Turns a value the inner function produced into an IRI, prepending the base IRI when
+     * the value is not one already.
+     */
     @Nullable
-    public RDFNode applyToNode(@Nullable SolutionMapping arg0) {
-        String iriValue = apply(arg0);
-        if (iriValue == null) {
+    private List<RDFNode> asIri(@Nullable List<RDFNode> result) {
+        if (result != null) {
+            List<IRINode> iris = result.stream()
+                    .map(node -> {
+                        String iriValue = node.getValue().toString();
+                        if (!this.validator.isValid(iriValue) && this.useBaseIri) {
+                            String prepended = this.baseIri + iriValue;
+                            if (!this.validator.isValid(prepended)) {
+                                log.warn("System was unable to generate a valid URL with %s, bailing out.".formatted(iriValue));
+                                return null;
+                            }
+                            return new IRINode(prepended);
+                        }
+                        return new IRINode(iriValue);
+                    })
+                    .filter(Objects::nonNull)
+                    .toList();
+            return new ArrayList<>(iris);
+        } else {
             return null;
         }
-        return new IRINode(iriValue);
     }
 
     @Override

@@ -19,17 +19,17 @@
     rml:subjectMap [ rml:template "http://example.com/{#}" ] ;
     rml:predicateObjectMap [
         rml:predicate :hasValue ;
-        rml:objectMap [ rml:functionExecution :Split ; rml:return exfn:integerArray ]
+        rml:objectMap [ rml:functionExecution :Split ; rml:return exfn:p-integerArray ]
     ] .
 
 :Split
     rml:function exfn:splitNumber ;
     rml:input
-        [ rml:parameter exfn:number ; rml:inputValueMap [ rml:reference "number" ] ] .
+        [ rml:parameter exfn:p-number ; rml:inputValueMap [ rml:reference "number" ] ] .
 
 exfn:customFunctions
     a fnoi:JavaClass ;
-    fnoi:class-name "be.ugent.idlab.knows.mappingweaver.fno.NumericArrayFunctions" .
+    fnoi:class-name "be.ugent.idlab.knows.mappingweaver.rmlio.fno.NumericArrayFunctions" .
 
 exfn:splitNumberMapping
     a fno:Mapping ;
@@ -39,14 +39,19 @@ exfn:splitNumberMapping
 
 exfn:splitNumber
     a fno:Function ;
-    fno:expects ( exfn:number ) ;
-    fno:returns ( exfn:integerArray ) .
+    fno:name "splitNumber" ;
+    fno:expects ( exfn:p-number ) ;
+    fno:returns ( exfn:p-integerArray ) .
 
-exfn:number
+exfn:p-number
+    fno:name "number" ;
     a fno:Parameter ;
+    fno:predicate exfn:number ;
     fno:type <http://www.w3.org/2001/XMLSchema#double> .
 
 # FnO can describe the array result, but not the integer subtype of its members.
-exfn:integerArray
+exfn:p-integerArray
+    fno:name "integerArray" ;
+    fno:predicate exfn:integerArray ;
     a fno:Output ;
     fno:type <http://www.w3.org/1999/02/22-rdf-syntax-ns#List> .

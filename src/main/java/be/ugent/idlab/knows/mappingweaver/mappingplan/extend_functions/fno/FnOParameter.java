@@ -1,11 +1,12 @@
 package be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno;
 
+import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
+import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
+import be.ugent.idlab.knows.amo.functions.ExtendFunction;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-
-import be.ugent.idlab.knows.amo.blocks.SolutionMapping;
-import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 
 
 public class FnOParameter implements Serializable {
@@ -15,10 +16,6 @@ public class FnOParameter implements Serializable {
     public FnOParameter(String identifier, ExtendFunction innerFunction) {
         this.identifier = identifier;
         this.innerFunction = innerFunction;
-    }
-
-    public String getParameter(SolutionMapping solutionMapping) {
-        return innerFunction.apply(solutionMapping);
     }
 
     /**
@@ -31,9 +28,9 @@ public class FnOParameter implements Serializable {
      *         the function is still run with the parameter unset, as it was before
      */
     public List<String> getParameters(SolutionMapping solutionMapping) {
-        List<String> values = innerFunction.applyMulti(solutionMapping);
+        List<RDFNode> values = innerFunction.apply(solutionMapping);
 
-        return values.isEmpty() ? Collections.singletonList(null) : values;
+        return values.isEmpty() ? Collections.singletonList(null) : values.stream().map(RDFNode::getValue).map(Object::toString).toList();
     }
 
     public String getIdentifier() {
