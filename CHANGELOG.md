@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Leftover copies of the `moveup` and `multiple-function-executions` mappings from before the test resources were reorganized
 
 ### Added
+- `RELEASE.md`: step-by-step instructions for publishing a release.
 - Test cases `RMLFNOTC1005-JSON` and `RMLFNOTC1006-JSON`, covering a multi-valued function in an IRI and in a blank node object map
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view
 - GitLab CI: added Javadoc check in linting phase

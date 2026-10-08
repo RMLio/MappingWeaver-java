@@ -94,4 +94,6 @@ The versions of the KNoWS libraries MappingWeaver builds on are Maven properties
 
 ## Release process
 
+Step-by-step instructions are in [RELEASE.md](RELEASE.md); this section explains the tooling.
+
 `./bump-version.sh <version>` sets the version in `pom.xml` (`mvn versions:set`) and in the jar name in `README.md`, optionally adds the version section to `CHANGELOG.md` with `changefrog`, and optionally commits, tags (`v<version>`, or the bare name for `testrelease-*`) and pushes; after a pushed release other than a `testrelease-*`, it moves the version to the next patch `-SNAPSHOT` (e.g. `0.4.1-SNAPSHOT` after `0.4.0`) and commits and pushes that as "Prepare for next development cycle".
