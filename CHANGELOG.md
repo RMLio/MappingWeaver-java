@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An equality join no longer logs both solution mappings and both attribute names at WARN level for every pair of records it compares.
 
 ### Changed
-- `bump-version.sh` moves the version to the next patch `-SNAPSHOT` after a pushed release, replacing the manual "Prepare for next development cycle" commit.
+- Release tooling: `RELEASE.md` documents the steps; `bump-version.sh` checks the version format and moves to the next patch `-SNAPSHOT` after a release.
 - Reorganized test resources and Java runners by RML language and provenance, using authoritative spec fixtures where applicable
 - Updated dependency on Algebraic Mapping Operators to 5.0.0
 - Updated dependency on MappingLoom to 0.8.0
@@ -48,7 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Leftover copies of the `moveup` and `multiple-function-executions` mappings from before the test resources were reorganized
 
 ### Added
-- `RELEASE.md`: step-by-step instructions for publishing a release.
 - Test cases `RMLFNOTC1005-JSON` and `RMLFNOTC1006-JSON`, covering a multi-valued function in an IRI and in a blank node object map
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view
 - GitLab CI: added Javadoc check in linting phase
