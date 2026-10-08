@@ -78,6 +78,11 @@ under the License.
         <source.java.version>21</source.java.version>
         <target.java.version>21</target.java.version>
         <kafka.version>2.4.1</kafka.version>
+        <amo.version>5.0.0</amo.version>
+        <mappingloom.version>0.8.0</mappingloom.version>
+        <function-agent.version>1.5.1</function-agent.version>
+        <idlab-functions.version>1.5.1</idlab-functions.version>
+        <grel-functions.version>v0.10.1</grel-functions.version>
         <maven.compiler.source>${target.java.version}</maven.compiler.source>
         <maven.compiler.target>${target.java.version}</maven.compiler.target>
     </properties>
@@ -170,14 +175,14 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>algebraic-mapping-operators</artifactId>
-            <version>5.0.0</version>
+            <version>${amo.version}</version>
         </dependency>
 
         <!-- AlgeMapLoom-rs -->
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>MappingLoom</artifactId>
-            <version>0.8.0</version>
+            <version>${mappingloom.version}</version>
         </dependency>
 
         <dependency>
@@ -211,7 +216,7 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>function-agent-java</artifactId>
-            <version>1.5.1</version>
+            <version>${function-agent.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.jena</groupId>
@@ -223,12 +228,12 @@ under the License.
         <dependency>
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>idlab-functions-java</artifactId>
-            <version>1.5.1</version>
+            <version>${idlab-functions.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.fnoio</groupId>
             <artifactId>grel-functions-java</artifactId>
-            <version>v0.10.1</version>
+            <version>${grel-functions.version}</version>
         </dependency>
 
 

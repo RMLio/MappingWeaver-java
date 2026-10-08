@@ -12,7 +12,7 @@ This handbook is a tour of this MappingWeaver.
 
 ## Agent request contract (for AI agents/LLMs)
 
-<!-- software-handbook contract: 2026-10-07 -->
+<!-- software-handbook contract: 2026-10-08 -->
 
 Every implementation request handled by an AI agent/LLM follows these constraints:
 
@@ -20,8 +20,9 @@ Every implementation request handled by an AI agent/LLM follows these constraint
   - fix the specific failing case or issue named in the request;
   - preserve existing passing behavior unless explicitly asked not to;
   - add or update a regression test when needed.
-- Make the smallest coherent patch.
+- Make the smallest coherent patch. A documentation error found along the way is fixed in the same patch.
 - Leave the code leaner after every request: remove what the change makes redundant (duplicate tests, parameters and options that no longer do anything, helpers that duplicate each other, comments that only repeat the code), and reuse shared functionality instead of adding a local variant. Run SpotBugs (`mvn compile spotbugs:check`, managed in `pom.xml`) and check the compiler warnings to find unused code.
+- Fix a transient environment problem (a stale PATH, a shell or editor that needs a restart) in the environment, by restarting or reconfiguring it; add no code that works around it.
 - **Push back** when a request would violate an established principle (e.g. breaking test hermeticity). Explain the principle and suggest a documentation-only fix instead of silently implementing the harmful change.
 - Update this handbook so the change is documented as well as implemented.
   - Document only the latest state, integrated in the surrounding narrative (principles, behavior, rationale), including the choices made and why.
@@ -86,3 +87,7 @@ Everything under each language's `spec/` directory is an immutable copy of an up
 ## Continuous integration
 
 `.gitlab-ci.yml` runs each test class as its own parallel job, in two matrices: `Specification Tests` (the spec suites) and `Utility Tests` (CLI, sources, FnO, regressions and components). Both extend the hidden `.unittests` job. A matrix lists only classes that run at least one test, so that every job checks something. A class whose tests are all disabled is added back once it is enabled. None of the listed classes use Testcontainers, so the jobs run without a Docker service; a job for an RDB or Kafka test needs that service again.
+
+## Dependency versions
+
+The versions of the KNoWS libraries MappingWeaver builds on are Maven properties in `pom.xml`: `amo.version` (algebraic-mapping-operators), `mappingloom.version` (the Java binding of algemaploom-rs), `function-agent.version`, `idlab-functions.version` and `grel-functions.version`. Each defaults to the latest release, so the committed build and CI resolve everything from Maven Central. A local build against development versions overrides them on the command line, e.g. `mvn test -Damo.version=5.0.1-SNAPSHOT`, after installing those versions locally. Upgrading a dependency means releasing it first and then setting its property to that release.
