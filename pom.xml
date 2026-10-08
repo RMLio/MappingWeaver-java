@@ -79,6 +79,7 @@ under the License.
         <target.java.version>21</target.java.version>
         <kafka.version>2.4.1</kafka.version>
         <amo.version>5.0.0</amo.version>
+        <dataio.version>2.4.0</dataio.version>
         <mappingloom.version>0.8.0</mappingloom.version>
         <function-agent.version>1.5.1</function-agent.version>
         <idlab-functions.version>1.5.1</idlab-functions.version>
@@ -176,6 +177,11 @@ under the License.
             <groupId>be.ugent.idlab.knows</groupId>
             <artifactId>algebraic-mapping-operators</artifactId>
             <version>${amo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>be.ugent.idlab.knows</groupId>
+            <artifactId>dataio</artifactId>
+            <version>${dataio.version}</version>
         </dependency>
 
         <!-- AlgeMapLoom-rs -->

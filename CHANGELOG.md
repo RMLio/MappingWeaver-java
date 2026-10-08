@@ -12,12 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An equality join no longer logs both solution mappings and both attribute names at WARN level for every pair of records it compares.
 
 ### Changed
+- `bump-version.sh` moves the version to the next patch `-SNAPSHOT` after a pushed release, replacing the manual "Prepare for next development cycle" commit.
 - Reorganized test resources and Java runners by RML language and provenance, using authoritative spec fixtures where applicable
 - Updated dependency on Algebraic Mapping Operators to 5.0.0
 - Updated dependency on MappingLoom to 0.8.0
 - Updated dependency on idlab-functions-java to 1.5.1
 - Updated dependencies on other libraries to latest stable release versions
-- The versions of algebraic-mapping-operators, MappingLoom, function-agent-java, idlab-functions-java and grel-functions-java are Maven properties, so a local build can use their development versions (see HANDBOOK: Dependency versions)
+- dataio is a direct dependency, since MappingWeaver uses its classes.
+- The versions of algebraic-mapping-operators, dataio, MappingLoom, function-agent-java, idlab-functions-java and grel-functions-java are Maven properties, so a local build can use their development versions (see HANDBOOK: Dependency versions)
 - Declared `slf4j-simple` as a runtime dependency, so the CLI has a concrete logging backend on its runtime classpath
 - Built-in FnO descriptions use a `classpath://` prefix; custom descriptions can override them by filename (see README: Custom FnO function descriptions)
 - GitLab CI: the test jobs extend a shared `.unittests` job, list only test classes that run at least one test (adding `ReferenceFunctionTest`), and run without a Docker service (see HANDBOOK: Continuous integration)
