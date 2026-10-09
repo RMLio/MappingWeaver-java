@@ -4,7 +4,7 @@ import be.ugent.idlab.knows.amo.blocks.Pair;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
 import be.ugent.idlab.knows.amo.operators.Operator;
 import be.ugent.idlab.knows.amo.operators.intermediate.unary.ExtendOperator;
-import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
+import be.ugent.idlab.knows.functions.agent.functionInstantiation.exception.FunctionNotFoundException;
 import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.*;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.extend_functions.fno.FnOFunction;
@@ -141,7 +141,7 @@ public class ExtendOperatorParser {
         
         try {
             return new FnOFunction(identifier, fnOParameters, returnType);
-        } catch (FnOException e) {
+        } catch (FunctionNotFoundException e) {
             throw new MappingException(e);
         }
     }

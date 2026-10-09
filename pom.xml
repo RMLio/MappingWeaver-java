@@ -78,12 +78,12 @@ under the License.
         <source.java.version>21</source.java.version>
         <target.java.version>21</target.java.version>
         <kafka.version>2.4.1</kafka.version>
-        <amo.version>5.0.0</amo.version>
-        <dataio.version>2.4.0</dataio.version>
+        <amo.version>5.0.1</amo.version>
+        <dataio.version>2.4.1</dataio.version>
         <mappingloom.version>0.8.0</mappingloom.version>
-        <function-agent.version>1.5.1</function-agent.version>
-        <idlab-functions.version>1.5.1</idlab-functions.version>
-        <grel-functions.version>v0.10.1</grel-functions.version>
+        <function-agent.version>2.0.0</function-agent.version>
+        <idlab-functions.version>1.5.2</idlab-functions.version>
+        <grel-functions.version>v0.10.2</grel-functions.version>
         <maven.compiler.source>${target.java.version}</maven.compiler.source>
         <maven.compiler.target>${target.java.version}</maven.compiler.target>
     </properties>

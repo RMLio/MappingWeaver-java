@@ -10,7 +10,7 @@ import be.ugent.idlab.knows.functions.agent.Agent;
 import be.ugent.idlab.knows.functions.agent.AgentFactory;
 import be.ugent.idlab.knows.functions.agent.Arguments;
 import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FnOException;
-import be.ugent.idlab.knows.functions.agent.functionModelProvider.fno.exception.FunctionNotFoundException;
+import be.ugent.idlab.knows.functions.agent.functionInstantiation.exception.FunctionNotFoundException;
 import be.ugent.idlab.knows.functions.agent.model.Function;
 import be.ugent.idlab.knows.mappingweaver.exceptions.MappingException;
 import org.jspecify.annotations.NonNull;
@@ -74,7 +74,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
     private final String datatypeIRI;
     private final String returnType;
 
-    public FnOFunction(String identifier, List<FnOParameter> parameters, String returnType) throws FnOException {
+    public FnOFunction(String identifier, List<FnOParameter> parameters, String returnType) throws FunctionNotFoundException {
         this.identifier = identifier;
         this.parameters = parameters;
         this.returnType = returnType;
@@ -172,7 +172,7 @@ public class FnOFunction implements ExtendFunction, Serializable {
         try {
             // extract the value from the Agent
             return getAgent().execute(this.identifier, arguments);
-        } catch (FnOException e) {
+        } catch (FnOException | FunctionNotFoundException e) {
             // Function could not be resolved (e.g. function not found): a real mapping error.
             throw new MappingException(e);
         } catch (Exception e) {

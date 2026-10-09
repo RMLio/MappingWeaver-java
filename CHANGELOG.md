@@ -14,9 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Release tooling: `RELEASE.md` documents the steps; `bump-version.sh` checks the version format and moves to the next patch `-SNAPSHOT` after a release.
 - Reorganized test resources and Java runners by RML language and provenance, using authoritative spec fixtures where applicable
-- Updated dependency on Algebraic Mapping Operators to 5.0.0
+- Updated dependency on Algebraic Mapping Operators to 5.0.1
+- Updated dependency on dataio to 2.4.1
 - Updated dependency on MappingLoom to 0.8.0
-- Updated dependency on idlab-functions-java to 1.5.1
+- Updated dependency on idlab-functions-java to 1.5.2
+- Updated dependency on grel-functions-java to v0.10.2
 - Updated dependencies on other libraries to latest stable release versions
 - dataio is a direct dependency, since MappingWeaver uses its classes.
 - The versions of algebraic-mapping-operators, dataio, MappingLoom, function-agent-java, idlab-functions-java and grel-functions-java are Maven properties, so a local build can use their development versions (see HANDBOOK: Dependency versions)
@@ -38,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An empty value is a value, and no longer reported as an absent attribute
 - Git ignore `pom.xml.versionsBackup`
 - Remove reference to non-existing branch in GitLab CI script
-- Updated dependency on Function Agent to 1.5.1, which fixes a bug in calculating parameter arity for functions.
+- Updated dependency on Function Agent to 2.0.0, which includes the fix for calculating the parameter arity of functions (1.5.1); an unknown function id still fails the mapping.
 - Merged `--function-descriptions` and `-f` parameters.
 
 ### Removed
@@ -58,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A source that is a CSV on the Web table is read in the dialect it says it is written in. The plan's source configuration carries what the table and its dialect said — the delimiter, the quote character, the encoding, whether the data has a header row, and the values standing for no value — and those become the `CSVWConfiguration` the CSV source operator reads through. A source saying none of it is a plain CSV and is read as before. Test case RMLIOREGTC0012b covers a semicolon-separated table naming "NULL" as its null value.
 - A file source may say where its data is with `url` instead of `path`, which is what a CSV on the Web table says.
 - GitLab CI: create JAR artifact for each build.
+
 ## [0.3.0] - 2026-07-30
 
 ### Added
