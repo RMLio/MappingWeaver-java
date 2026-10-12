@@ -5,7 +5,8 @@ import be.ugent.idlab.knows.amo.blocks.nodes.IRINode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFNode;
 import be.ugent.idlab.knows.amo.blocks.nodes.RDFType;
 import be.ugent.idlab.knows.amo.functions.ExtendFunction;
-import org.apache.commons.validator.routines.UrlValidator;
+import org.apache.jena.irix.IRIException;
+import org.apache.jena.irix.IRIx;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,16 +21,12 @@ public class IriTypeFunction implements ExtendFunction {
     private final ExtendFunction innerFunction;
     private final String baseIri;
     private final boolean useBaseIri;
-    private final UrlValidator validator;
 
     public IriTypeFunction(String baseIri, ExtendFunction innerFunction) {
 
         this.innerFunction = innerFunction;
         this.baseIri = baseIri;
         this.useBaseIri = !(innerFunction instanceof ConstantValueFunction);
-
-        this.validator = UrlValidator.getInstance();
-
     }
 
     @Override
@@ -39,8 +36,9 @@ public class IriTypeFunction implements ExtendFunction {
     }
 
     /**
-     * Turns a value the inner function produced into an IRI, prepending the base IRI when
-     * the value is not one already.
+     * Turns a value the inner function produced into an IRI. A value that is an absolute IRI
+     * (one with a scheme, any scheme, and optionally a fragment) is used as it is; otherwise the base IRI is prepended, and a
+     * result that is not a valid absolute IRI generates no term.
      */
     @Nullable
     private List<RDFNode> asIri(@Nullable List<RDFNode> result) {
@@ -48,10 +46,10 @@ public class IriTypeFunction implements ExtendFunction {
             List<IRINode> iris = result.stream()
                     .map(node -> {
                         String iriValue = node.getValue().toString();
-                        if (!this.validator.isValid(iriValue) && this.useBaseIri) {
+                        if (this.useBaseIri && !isAbsoluteIri(iriValue)) {
                             String prepended = this.baseIri + iriValue;
-                            if (!this.validator.isValid(prepended)) {
-                                log.warn("System was unable to generate a valid URL with %s, bailing out.".formatted(iriValue));
+                            if (!isAbsoluteIri(prepended)) {
+                                log.warn("System was unable to generate a valid IRI with %s, bailing out.".formatted(iriValue));
                                 return null;
                             }
                             return new IRINode(prepended);
@@ -63,6 +61,14 @@ public class IriTypeFunction implements ExtendFunction {
             return new ArrayList<>(iris);
         } else {
             return null;
+        }
+    }
+
+    private static boolean isAbsoluteIri(String value) {
+        try {
+            return IRIx.create(value).isReference();
+        } catch (IRIException e) {
+            return false;
         }
     }
 

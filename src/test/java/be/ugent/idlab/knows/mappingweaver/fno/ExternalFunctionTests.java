@@ -45,7 +45,7 @@ public class ExternalFunctionTests {
         mappingPlan.initializeFlinkTopology(true);
         mappingPlan.execute();
 
-        assertEquals(List.of("<http://example.com/urn:example:alice> <urn:example:shouted> \"ALICE!\" ."),
+        assertEquals(List.of("<urn:example:alice> <urn:example:shouted> \"ALICE!\" ."),
                 GraphVisitorCustomTarget.ResultCollector.values);
     }
 
