@@ -19,7 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated dependency on dataio to 2.4.2
 - Updated dependency on MappingLoom to 0.8.0
 - Updated dependency on idlab-functions-java to 1.5.2
-- Updated dependency on grel-functions-java to v0.10.2
+- Updated dependency on grel-functions-java to v0.11.0
+- The GREL function descriptions (`functions_grel.ttl`) come from the grel-functions-java jar, like the IDLab ones from idlab-functions-java, instead of a copy in MappingWeaver. Ten GREL functions (`math_ceil`, `floor`, `round`, `min`, `max`, `ln`, `log`, `exp`, `pow` and `string_toNumber`) now return `xsd:decimal` instead of `xsd:integer`.
 - Updated dependencies on other libraries to latest stable release versions
 - dataio is a direct dependency, since MappingWeaver uses its classes.
 - The versions of algebraic-mapping-operators, dataio, MappingLoom, function-agent-java, idlab-functions-java and grel-functions-java are Maven properties, so a local build can use their development versions (see HANDBOOK: Dependency versions)

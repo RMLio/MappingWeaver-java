@@ -44,7 +44,7 @@ MappingWeaver logs through SLF4J, with `slf4j-simple` as the single runtime back
 
 ## FnO function descriptions
 
-MappingWeaver bundles four built-in FnO description files (GREL and IDLab functions). They are referenced internally with a `classpath://` prefix so they are always loaded from the JAR's classpath and never accidentally shadowed by a same-named file in the working directory.
+MappingWeaver has four built-in FnO description files (GREL and IDLab functions). None is a copy in this repository: `functions_grel.ttl` and `grel_java_mapping.ttl` come from the grel-functions-java jar, `fno/functions_idlab.ttl` and `fno/functions_idlab_classes_java_mapping.ttl` from the idlab-functions-java jar, so a dependency upgrade brings its descriptions along. They are referenced internally with a `classpath://` prefix so they are always loaded from the JAR's classpath and never accidentally shadowed by a same-named file in the working directory.
 
 When `configure()` is called with custom descriptions, the effective set is built as follows:
 - Each built-in whose filename (stripped of `classpath://`) matches a custom entry is evicted; the custom entry takes its place at the end of the list, ensuring it wins.
