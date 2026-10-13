@@ -9,6 +9,12 @@ import java.util.List;
 
 public final class CliCommand {
 
+    /** Returns the version in the jar's manifest, or {@code unknown} when running from the class folder. */
+    static String version() {
+        String version = CliCommand.class.getPackage().getImplementationVersion();
+        return version == null ? "unknown" : version;
+    }
+
     public static CommandSpec create() {
         CommandSpec toFile = CommandSpec.create()
                 .name("toFile")
@@ -112,6 +118,7 @@ public final class CliCommand {
 
         return CommandSpec.create()
                 .mixinStandardHelpOptions(true)
+                .version("MappingWeaver " + version())
                 .exitCodeOnInvalidInput(1)
                 .name("AlgeMapLoom")
 //                .usageMessage(new UsageMessageSpec().description("Usage: RMLStreamer [toFile|toKafka|toTCPSocket|toMQTT|noOutput] [options]"))

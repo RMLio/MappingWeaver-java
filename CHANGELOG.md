@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - The CLI exits with 1 on invalid options and on every failure, also when Flink threads linger (see HANDBOOK: Command line).
+- `--version` prints `MappingWeaver <version>`, from the jar's manifest.
 - The CLI validates its options before running: exactly one of `-m` and `-l`, and `-o` for `toFile`; an invalid option prints the message and the usage.
 - An IRI term map uses a value as it is when it is an absolute IRI of any scheme, fragments included, and otherwise prepends the base IRI; a percent-encoded path such as `http://example.com/http%3A%2F%2Fexample.com` is kept (RMLTC0020a).
 - A join on equality whose condition holds no attributes is refused instead of joining every combination. A mapping plan that cannot express its condition, one joining on a constant for instance, arrives with an empty condition; the loop over the attributes then found nothing to reject on and answered that every record matched, so a cross join was silently produced where an equality was asked for (RML-Core test cases RMLTC0030c to RMLTC0030f).

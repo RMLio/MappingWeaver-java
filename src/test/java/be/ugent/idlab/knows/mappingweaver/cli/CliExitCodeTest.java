@@ -3,7 +3,10 @@ package be.ugent.idlab.knows.mappingweaver.cli;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -43,6 +46,19 @@ public class CliExitCodeTest {
     @Test
     void help_exits0() {
         assertEquals(0, Main.run("--help"));
+    }
+
+    @Test
+    void version_printsTheVersionAndExits0() {
+        PrintStream original = System.out;
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out, true, StandardCharsets.UTF_8));
+        try {
+            assertEquals(0, Main.run("--version"));
+        } finally {
+            System.setOut(original);
+        }
+        assertEquals("MappingWeaver " + CliCommand.version(), out.toString(StandardCharsets.UTF_8).strip());
     }
 
     @Test

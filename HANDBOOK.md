@@ -46,6 +46,8 @@ Every implementation request handled by an AI agent/LLM follows these constraint
 
 Options are validated by picocli: exactly one of `-m` and `-l`, and `-o` for `toFile`. An invalid option prints the message and the usage to standard error.
 
+`--version` prints `MappingWeaver <version>`, which the conformance runner records in its report. The version comes from the `Implementation-Version` that the shade plugin writes into the jar's manifest; run from the class folder (in tests) it is `unknown`.
+
 `toFile -o <path>` writes through Flink's `FileSink`, so `<path>` is a directory of part files in a date-bucket subdirectory (`<path>/<yyyy-MM-dd--HH>/part-…`). For a bounded job the sink commits every part file at the end of the input, so no `.inprogress` file remains once the process has exited.
 
 ## Runtime logging
