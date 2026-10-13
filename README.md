@@ -74,6 +74,8 @@ To simply execute mappings and write output to standard out, run
 java -jar MappingWeaver-0.3.0.jar -m <path-to-mapping-file>
 ```
 
+The process exits with 0 when the mapping ran, and with 1 on invalid options and on any failure.
+
 A full list of options is displayed when running
 ```bash
 java -jar MappingWeaver-0.3.0.jar --help
@@ -85,7 +87,7 @@ Usage: AlgeMapLoom [-hV] [--best-effort] [--custom-functions-only]
                    [--auto-watermark-interval=<time (ms)>]
                    [--checkpoint-interval=<time (ms)>] [-i=<base IRI>] [-j=<job 
                    name>] [-p=<task slots>] [-f=<function descriptions>]...
-                   [-m=<RML mapping file> | -l=<AlgeMapLoom mapping plan file>]
+                   (-m=<RML mapping file> | -l=<AlgeMapLoom mapping plan file>)
                    [-v | -vv | -vvv] [COMMAND]
       --auto-watermark-interval=<time (ms)>
                       If given, Flink's watermarking will be generated

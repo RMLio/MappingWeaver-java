@@ -8,9 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Fixed
+- The CLI exits with 1 on invalid options and on every failure, also when Flink threads linger (see HANDBOOK: Command line).
+- The CLI validates its options before running: exactly one of `-m` and `-l`, and `-o` for `toFile`; an invalid option prints the message and the usage.
 - An IRI term map uses a value as it is when it is an absolute IRI of any scheme, fragments included, and otherwise prepends the base IRI; a percent-encoded path such as `http://example.com/http%3A%2F%2Fexample.com` is kept (RMLTC0020a).
 - A join on equality whose condition holds no attributes is refused instead of joining every combination. A mapping plan that cannot express its condition, one joining on a constant for instance, arrives with an empty condition; the loop over the attributes then found nothing to reject on and answered that every record matched, so a cross join was silently produced where an equality was asked for (RML-Core test cases RMLTC0030c to RMLTC0030f).
 - An equality join no longer logs both solution mappings and both attribute names at WARN level for every pair of records it compares.
+- `lookupWithDelimiter` calls using different input files no longer reuse each other's results
+- Tests that change the FnO function descriptions restore the defaults afterwards, so the test classes that run after them in the same JVM find the built-in functions again
+- An IRI or blank node object map fed by a function producing several values yields a term per value, instead of keeping only the first
+- A function producing several values is applied to every one of them, wherever it is used
+- FnO return datatypes now follow the selected resource in the function's ordered `fno:returns` list, with warnings and first-return fallback for invalid `rml:return` values
+- A value from a multi-valued function no longer carries the datatype of the collection the function returns
+- A source field is read once per name, so a logical view read by several triples maps no longer exhausts the heap
+- A function returning its values as an array, as the GREL functions do, no longer ends up as the array itself
+- A reference to something the record does not have yields NULL instead of aborting the mapping, as the [RML-IO registry](https://kg-construct.github.io/rml-io-registry/json-path/index.html#generation-of-null-values) requires of JSONPath
+- An empty value is a value, and no longer reported as an absent attribute
+- Git ignore `pom.xml.versionsBackup`
+- Remove reference to non-existing branch in GitLab CI script
+- Updated dependency on Function Agent to 2.0.0, which includes the fix for calculating the parameter arity of functions (1.5.1); an unknown function id still fails the mapping.
+- Merged `--function-descriptions` and `-f` parameters.
 
 ### Changed
 - Release tooling: `RELEASE.md` documents the steps; `bump-version.sh` checks the version format and moves to the next patch `-SNAPSHOT` after a release.
@@ -27,29 +43,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Declared `slf4j-simple` as a runtime dependency, so the CLI has a concrete logging backend on its runtime classpath
 - Built-in FnO descriptions use a `classpath://` prefix; custom descriptions can override them by filename (see README: Custom FnO function descriptions)
 - HANDBOOK: a regression case's expected output is derived from the specification rule it names, and one that upstream lacks is proposed there (see HANDBOOK: Test resource organization)
-- GitLab CI: the test jobs extend a shared `.unittests` job, list only test classes that run at least one test (adding `ReferenceFunctionTest`), and run without a Docker service (see HANDBOOK: Continuous integration)
+- GitLab CI: the test jobs extend a shared `.unittests` job, list only test classes that run at least one test (adding `ReferenceFunctionTest` and `CliExitCodeTest`), and run without a Docker service (see HANDBOOK: Continuous integration)
+- HANDBOOK: the agent request contract follows the software-handbook contract of 2026-10-13
 - A function producing several values hands them over as one `CollectionNode` instead of one node per value. The values stay together while they are passed around, so a function taking the result as an argument sees all of them, and the terms are generated where the collection is serialized: a `TemplateSerializer` states the template once per member. A collection that a term map asks to be serialized as an `rdf:List` or `rdf:Seq` is RML-CC and not implemented, so every collection is serialized a term at a time for now.
-
-### Fixed
-- `lookupWithDelimiter` calls using different input files no longer reuse each other's results
-- Tests that change the FnO function descriptions restore the defaults afterwards, so the test classes that run after them in the same JVM find the built-in functions again
-- An IRI or blank node object map fed by a function producing several values yields a term per value, instead of keeping only the first
-- A function producing several values is applied to every one of them, wherever it is used
-- FnO return datatypes now follow the selected resource in the function's ordered `fno:returns` list, with warnings and first-return fallback for invalid `rml:return` values
-- A value from a multi-valued function no longer carries the datatype of the collection the function returns
-- A source field is read once per name, so a logical view read by several triples maps no longer exhausts the heap
-- A function returning its values as an array, as the GREL functions do, no longer ends up as the array itself
-- A reference to something the record does not have yields NULL instead of aborting the mapping, as the [RML-IO registry](https://kg-construct.github.io/rml-io-registry/json-path/index.html#generation-of-null-values) requires of JSONPath
-- An empty value is a value, and no longer reported as an absent attribute
-- Git ignore `pom.xml.versionsBackup`
-- Remove reference to non-existing branch in GitLab CI script
-- Updated dependency on Function Agent to 2.0.0, which includes the fix for calculating the parameter arity of functions (1.5.1); an unknown function id still fails the mapping.
-- Merged `--function-descriptions` and `-f` parameters.
 
 ### Removed
 - The `--json-ld` option, which had no effect
 - Unused classes `CSVSourceOperator`, `FlinkDataIOReader` (deprecated) and `Main.CommonSink`
-- `CliOutputTest`, whose tests were all disabled
+- `CliOutputTest`, whose tests were all disabled, and the dependencies only it used: the Eclipse Paho MQTT client (with its repository) and Testcontainers HiveMQ
 - Leftover copies of the `moveup` and `multiple-function-executions` mappings from before the test resources were reorganized
 
 ### Added

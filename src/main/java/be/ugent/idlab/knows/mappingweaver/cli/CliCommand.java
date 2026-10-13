@@ -12,14 +12,12 @@ public final class CliCommand {
     public static CommandSpec create() {
         CommandSpec toFile = CommandSpec.create()
                 .name("toFile")
-                .helpCommand(true)
                 .usageMessage(new UsageMessageSpec().description("Write output to file"))
                 .addOption(OptionSpec.builder("-o", "--output-path")
                         .description("The path to an output file. Note: when a StreamingFileSink is used (the mapping consists only of stream triple maps), this path specifies a directory and optionally an extension. Part files will be written to the given directory and the given extension will be used for each part file.")
                         .paramLabel("<output file>")
                         .type(String.class)
                         .required(true)
-                        .help(true)
                         .build());
 
         CommandSpec toKafka = CommandSpec.create()
@@ -27,7 +25,6 @@ public final class CliCommand {
                 .usageMessage(new UsageMessageSpec()
                         .description("Write output to a Kafka topic")
                 )
-                .helpCommand(true)
                 .addOption(OptionSpec.builder("-b", "--broker-list")
                         .type(String.class)
                         .required(true)
@@ -95,6 +92,7 @@ public final class CliCommand {
 
         CommandLine.Model.ArgGroupSpec mappingKind = CommandLine.Model.ArgGroupSpec.builder()
                 .exclusive(true)
+                .multiplicity("1")
                 .addArg(
                         OptionSpec.builder("-m", "--mapping-file")
                                 .paramLabel("<RML mapping file>")

@@ -106,6 +106,7 @@ Utility Tests:
       - TEST:
           # CLI tests
           - CliVerbosityTest
+          - CliExitCodeTest
           # file tests
           - WebSocketTest
           - CSVWSourceTest
