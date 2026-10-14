@@ -1,0 +1,158 @@
+PREFIX ex:   <http://example.com/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rml:  <http://w3id.org/rml/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+<http://example.com/rules/#TriplesMap2-RMLSTC0011a>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.companies[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0011a/companies.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "$.name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{$.name}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap2-RMLSTC0011b>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.companies[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0011a/companies.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "$.departments[*].name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  ex:department
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{$.name}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap2-RMLSTC0011c>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.companies[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0011a/companies.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "$.departments[*].employees[*].name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  ex:employee
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{$.name}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap2-RMLSTC0011d>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.companies[*].departments[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0011a/companies.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "$.manager.name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{$.name}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap2-RMLSTC0011e>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.companies[*].departments[*].employees[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0011a/companies.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "$.skills[*]"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  ex:skill
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{$.name}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap2-RMLSTC0012a>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "/companies/company";
+                                  rml:referenceFormulation  rml:XPath;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0012a/companies.xml";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{@id}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap2-RMLSTC0012e>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "/companies/company/departments/department/employees/employee";
+                                  rml:referenceFormulation  rml:XPath;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0012a/companies.xml";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "skills/skill"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  ex:skill
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{name}"
+                                ] .

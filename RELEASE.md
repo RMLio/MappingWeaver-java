@@ -9,6 +9,8 @@ Step-by-step instructions for publishing a release. [HANDBOOK.md](HANDBOOK.md) (
 - Push access to `origin` (https://gitlab.ilabt.imec.be/rml/proc/mappingweaver-java).
 - You are on `development`, up to date with `origin/development`, with a clean working tree.
 - The tests pass: `mvn verify`.
+- The conformance run meets `conformance/expected-results.csv`: start the manual `Conformance` job in the latest `development` pipeline, or run `conformance/run.sh` (HANDBOOK: Conformance). A case that passes now is removed from the file, with its line in the changelog.
+- `## Unreleased` states the conformance change since the previous release: `git diff v<previous> -- conformance/expected-results.csv` lists it, a removed line being a case that passes now and an added line one that no longer does.
 - `## Unreleased` in `CHANGELOG.md` lists everything since the last release.
 - Pick the version with [Semantic Versioning](https://semver.org/). `pom.xml` holds the next patch as `-SNAPSHOT` (`<version>-SNAPSHOT`): release that patch, or a higher minor or major version when the changelog has new features or breaking changes.
 

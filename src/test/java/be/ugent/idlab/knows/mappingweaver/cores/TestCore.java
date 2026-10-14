@@ -10,11 +10,14 @@ import be.ugent.idlab.knows.mappingweaver.utilities.GraphVisitorCustomTarget;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.SerializedThrowable;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFFormat;
 import org.apache.jena.riot.RDFParser;
 import org.apache.jena.riot.lang.LabelToNode;
 import org.apache.jena.riot.system.FactoryRDFStd;
 import org.apache.jena.sparql.core.DatasetGraph;
 import org.apache.jena.sparql.core.Quad;
+import org.apache.jena.sparql.util.IsoMatcher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -26,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -112,26 +116,62 @@ public abstract class TestCore {
     }
 
 
-    private void runTestWithMappingPlan(String basePath, String directory, String mappingPlan, boolean positive, boolean bestEffort) throws FileNotFoundException {
+    /**
+     * Runs the {@code mapping.ttl} of a case folder and compares its output with the folder's {@code output.nq} as RDF
+     * datasets, by isomorphism: graphs matched by name, one blank node mapping across all graphs, order and duplicates
+     * ignored. This is how the conformance runner judges a case (HANDBOOK: Conformance).
+     *
+     * @param caseDir the case folder, also the folder relative paths of the mapping start from
+     */
+    public void isomorphicTest(Path caseDir) throws Exception {
+        String plan = ITranslator.getInstance().translate_to_document(Files.readString(caseDir.resolve("mapping.ttl")));
+        String actual = String.join("\n", execute(plan, caseDir.toString(), false));
+        DatasetGraph expectedGraph = RDFParser.source(caseDir.resolve("output.nq")).lang(Lang.NQ).toDatasetGraph();
+        DatasetGraph actualGraph = RDFParser.fromString(actual, Lang.NQ).toDatasetGraph();
+        if (!IsoMatcher.isomorphic(expectedGraph, actualGraph)) {
+            fail(String.format("Output of %s differs from output.nq.%nExpected:%n%s%nActual:%n%s", caseDir,
+                    sortedNQuads(expectedGraph), sortedNQuads(actualGraph)));
+        }
+    }
+
+    private static String sortedNQuads(DatasetGraph graph) {
+        StringWriter writer = new StringWriter();
+        RDFDataMgr.write(writer, graph, RDFFormat.NQUADS);
+        return writer.toString().lines().sorted().collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Executes a mapping plan on the shared Flink mini-cluster.
+     *
+     * @return the generated quads, as N-Quads lines
+     */
+    private static List<String> execute(String mappingPlan, String directory, boolean bestEffort) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(2);
         String resultSetId = UUID.randomUUID().toString();
         GraphVisitorCustomTarget.ResultCollector.initialize(resultSetId);
-//        System.out.println(mappingPlan);
-
-        System.out.printf("Testing test case: %s%n", directory);
+        List<String> rdfStrings;
         try {
-            MappingPlan plan = MappingPlan.fromString(env, mappingPlan, Paths.get(basePath, directory).toString(), "http://example.com/", bestEffort);
-//            System.out.println(plan.getOperatorGraph().getOperators());
+            MappingPlan plan = MappingPlan.fromString(env, mappingPlan, directory, "http://example.com/", bestEffort);
             GraphOpVisitor visitor = new GraphVisitorCustomTarget(env, plan.getOperatorGraph(),
                     TargetOperator.TARGET_VARIABLE, resultSetId);
             plan.setVisitor(visitor);
 
             plan.initializeFlinkTopology(true);
             plan.execute();
+        } finally {
+            rdfStrings = GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
+        }
+        return rdfStrings;
+    }
+
+    private void runTestWithMappingPlan(String basePath, String directory, String mappingPlan, boolean positive, boolean bestEffort) throws FileNotFoundException {
+        System.out.printf("Testing test case: %s%n", directory);
+        List<String> rdfStrings;
+        try {
+            rdfStrings = execute(mappingPlan, Paths.get(basePath, directory).toString(), bestEffort);
         } catch (Throwable e) {
             if (positive) { // if positive, rethrow the exception to cause the test to fail
-                GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
                 throw new RuntimeException(e);
             } else {
                 Throwable current = e;
@@ -145,17 +185,15 @@ public abstract class TestCore {
                     }
                     System.out.println("className = " + className);
                     if (className.endsWith("MappingException")) {
-                        GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
                         return; // e was an instance of MappingException, so test passed
                     }
                     current = current.getCause();
                 } while (current != null);
-                GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
                 fail("Negative test should've failed with a MappingException!");
+                return;
             }
         }
 
-        List<String> rdfStrings = GraphVisitorCustomTarget.ResultCollector.remove(resultSetId);
 
         if(!positive) {
             if (rdfStrings.isEmpty()) {

@@ -14,17 +14,21 @@ to execute the plan on an embedded [Flink](https://flink.apache.org/) instance.
 ### Supported
 
 #### Specs
-This project aims to implement following specifications, but is work in progress:
+This project aims to implement following specifications, but is work in progress.
+The test cases passing are those of the kg-construct test suites, measured by the conformance run
+(`conformance/run.sh`, see [HANDBOOK.md](HANDBOOK.md#conformance));
+[conformance/expected-results.csv](conformance/expected-results.csv) lists every failing case with its cause.
 
-| Spec     | Test cases passing (%) |
-|----------|------------------------|
-| RML-Core | 92                     |
-| RML-IO   | 29                     |
-| RML-CC   | 0                      |
-| RML-FNML | 85                     |
-| RML-STAR | 11                     |
-| RML-LV   | 63                     |
-| ShExML   | /                      |
+| Spec            | Test cases passing |
+|-----------------|--------------------|
+| RML-Core        | 54 of 76           |
+| RML-IO          | 14 of 73           |
+| RML-IO registry | 36 of 102          |
+| RML-CC          | 0 of 35            |
+| RML-FNML        | 17 of 20           |
+| RML-STAR        | 2 of 18            |
+| RML-LV          | 22 of 41           |
+| ShExML          | /                  |
 
 #### Data formats
 - CSV

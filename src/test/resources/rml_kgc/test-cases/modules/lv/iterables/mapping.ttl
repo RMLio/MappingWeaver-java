@@ -1,0 +1,209 @@
+PREFIX rml: <http://w3id.org/rml/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+<http://example.org/triplesMapPerson-RMLLVTC0002a>
+        a                       rml:TriplesMap;
+        rml:logicalSource       <http://example.org/jsonView-RMLLVTC0002a>;
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:template  "http://example.org/person/{name}/item/{item.type}" ];
+                                  rml:predicate  <http://example.org/hasItem>
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.org/person/{name}" ] .
+
+<http://example.org/jsonSource-RMLLVTC0002a>
+        a                         rml:LogicalSource;
+        rml:iterator              "$.people[*]";
+        rml:referenceFormulation  rml:JSONPath;
+        rml:source                [ a         rml:Source , rml:RelativePathSource;
+                                    rml:path  "RMLLVTC0002a/people.json";
+                                    rml:root  rml:MappingDirectory
+                                  ] .
+
+<http://example.org/jsonView-RMLLVTC0002a>
+        a           rml:LogicalView;
+        rml:field   [ a              rml:IterableField;
+                      rml:field      [ a              rml:ExpressionField;
+                                       rml:fieldName  "type";
+                                       rml:reference  "$.type"
+                                     ];
+                      rml:fieldName  "item";
+                      rml:iterator   "$.items[*]"
+                    ];
+        rml:field   [ a              rml:ExpressionField;
+                      rml:fieldName  "name";
+                      rml:reference  "$.name"
+                    ];
+        rml:viewOn  <http://example.org/jsonSource-RMLLVTC0002a> .
+
+<http://example.org/triplesMapItem-RMLLVTC0002b>
+        a                       rml:TriplesMap;
+        rml:logicalSource       <http://example.org/jsonView-RMLLVTC0002b>;
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatype   xsd:integer;
+                                                   rml:reference  "item.weight"
+                                                 ];
+                                  rml:predicate  <http://example.org/hasWeight>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "item.type" ];
+                                  rml:predicate  <http://example.org/hasName>
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.org/person/{name}/item/{item.type}" ] .
+
+<http://example.org/jsonSource-RMLLVTC0002b>
+        a                         rml:LogicalSource;
+        rml:iterator              "$.people[*]";
+        rml:referenceFormulation  rml:JSONPath;
+        rml:source                [ a         rml:Source , rml:RelativePathSource;
+                                    rml:path  "RMLLVTC0002b/people.json";
+                                    rml:root  rml:MappingDirectory
+                                  ] .
+
+<http://example.org/jsonView-RMLLVTC0002b>
+        a           rml:LogicalView;
+        rml:field   [ a              rml:IterableField;
+                      rml:field      [ a              rml:ExpressionField;
+                                       rml:fieldName  "weight";
+                                       rml:reference  "$.weight"
+                                     ];
+                      rml:field      [ a              rml:ExpressionField;
+                                       rml:fieldName  "type";
+                                       rml:reference  "$.type"
+                                     ];
+                      rml:fieldName  "item";
+                      rml:iterator   "$.items[*]"
+                    ];
+        rml:field   [ a              rml:ExpressionField;
+                      rml:fieldName  "name";
+                      rml:reference  "$.name"
+                    ];
+        rml:viewOn  <http://example.org/jsonSource-RMLLVTC0002b> .
+
+<http://example.org/triplesMapItem-RMLLVTC0002c>
+        a                       rml:TriplesMap;
+        rml:logicalSource       <http://example.org/jsonView-RMLLVTC0002c>;
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatype   xsd:integer;
+                                                   rml:reference  "item.measures.weight"
+                                                 ];
+                                  rml:predicate  <http://example.org/hasWeight>
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.org/person/{name}/item/{item.type}" ] .
+
+<http://example.org/jsonSource-RMLLVTC0002c>
+        a                         rml:LogicalSource;
+        rml:iterator              "$.people[*]";
+        rml:referenceFormulation  rml:JSONPath;
+        rml:source                [ a         rml:Source , rml:RelativePathSource;
+                                    rml:path  "RMLLVTC0002c/people.json";
+                                    rml:root  rml:MappingDirectory
+                                  ] .
+
+<http://example.org/jsonView-RMLLVTC0002c>
+        a           rml:LogicalView;
+        rml:field   [ a              rml:IterableField;
+                      rml:field      [ a              rml:IterableField;
+                                       rml:field      [ a              rml:ExpressionField;
+                                                        rml:fieldName  "weight";
+                                                        rml:reference  "$.weight"
+                                                      ];
+                                       rml:fieldName  "measures";
+                                       rml:iterator   "$.measures"
+                                     ];
+                      rml:field      [ a              rml:ExpressionField;
+                                       rml:fieldName  "type";
+                                       rml:reference  "$.type"
+                                     ];
+                      rml:fieldName  "item";
+                      rml:iterator   "$.items[*]"
+                    ];
+        rml:field   [ a              rml:ExpressionField;
+                      rml:fieldName  "name";
+                      rml:reference  "$.name"
+                    ];
+        rml:viewOn  <http://example.org/jsonSource-RMLLVTC0002c> .
+
+<http://example.org/triplesMapPerson-RMLLVTC0003a>
+        a                       rml:TriplesMap;
+        rml:logicalSource       <http://example.org/jsonView-RMLLVTC0003a>;
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatype   xsd:integer;
+                                                   rml:reference  "#"
+                                                 ];
+                                  rml:predicate  <http://example.org/hasSequenceNumber>
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.org/person/{name}" ] .
+
+<http://example.org/jsonSource-RMLLVTC0003a>
+        a                         rml:LogicalSource;
+        rml:iterator              "$.people[*]";
+        rml:referenceFormulation  rml:JSONPath;
+        rml:source                [ a         rml:Source , rml:RelativePathSource;
+                                    rml:path  "RMLLVTC0003a/people.json";
+                                    rml:root  rml:MappingDirectory
+                                  ] .
+
+<http://example.org/jsonView-RMLLVTC0003a>
+        a           rml:LogicalView;
+        rml:field   [ a              rml:ExpressionField;
+                      rml:fieldName  "name";
+                      rml:reference  "$.name"
+                    ];
+        rml:viewOn  <http://example.org/jsonSource-RMLLVTC0003a> .
+
+<http://example.org/triplesMapPerson-RMLLVTC0003b>
+        a                       rml:TriplesMap;
+        rml:logicalSource       <http://example.org/jsonView-RMLLVTC0003b>;
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "item.type" ];
+                                  rml:predicate  <http://example.org/hasType>
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.org/person/{name}/item/{item.#}" ] .
+
+<http://example.org/jsonSource-RMLLVTC0003b>
+        a                         rml:LogicalSource;
+        rml:iterator              "$.people[*]";
+        rml:referenceFormulation  rml:JSONPath;
+        rml:source                [ a         rml:Source , rml:RelativePathSource;
+                                    rml:path  "RMLLVTC0003b/people.json";
+                                    rml:root  rml:MappingDirectory
+                                  ] .
+
+<http://example.org/jsonView-RMLLVTC0003b>
+        a           rml:LogicalView;
+        rml:field   [ a              rml:IterableField;
+                      rml:field      [ a              rml:ExpressionField;
+                                       rml:fieldName  "type";
+                                       rml:reference  "$.type"
+                                     ];
+                      rml:fieldName  "item";
+                      rml:iterator   "$.items[*]"
+                    ];
+        rml:field   [ a              rml:ExpressionField;
+                      rml:fieldName  "name";
+                      rml:reference  "$.name"
+                    ];
+        rml:viewOn  <http://example.org/jsonSource-RMLLVTC0003b> .
+
+<http://example.org/triplesMapItem-RMLLVTC0003c>
+        a                       rml:TriplesMap;
+        rml:logicalSource       <http://example.org/jsonView-RMLLVTC0003c>;
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "item" ];
+                                  rml:predicate  <http://example.org/hasType>
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.org/person/{name}/item/{item.#}" ] .
+
+<http://example.org/jsonSource-RMLLVTC0003c>
+        a                         rml:LogicalSource;
+        rml:iterator              "$.people[*]";
+        rml:referenceFormulation  rml:JSONPath;
+        rml:source                [ a         rml:Source , rml:RelativePathSource;
+                                    rml:path  "RMLLVTC0003c/people.json";
+                                    rml:root  rml:MappingDirectory
+                                  ] .
+
+<http://example.org/jsonView-RMLLVTC0003c>
+        a           rml:LogicalView;
+        rml:field   [ a              rml:ExpressionField;
+                      rml:fieldName  "item";
+                      rml:reference  "$.items[*]"
+                    ];
+        rml:field   [ a              rml:ExpressionField;
+                      rml:fieldName  "name";
+                      rml:reference  "$.name"
+                    ];
+        rml:viewOn  <http://example.org/jsonSource-RMLLVTC0003c> .

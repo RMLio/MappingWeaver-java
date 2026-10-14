@@ -1,0 +1,37 @@
+<http://example.com/1/Bolivia%2C%20Plurinational%20State%20of> <http://example.com/code> "{{{ BO }}}" .
+<http://example.com/1/Bolivia%2C%20Plurinational%20State%20of> <http://example.com/name> "Bolivia, Plurinational State of" .
+<http://example.com/1> <http://example.com/name> "Bolivia, Plurinational State of" .
+<http://example.com/2/Ireland> <http://example.com/code> "{{{ IE }}}" .
+<http://example.com/2/Ireland> <http://example.com/name> "Ireland" .
+<http://example.com/2> <http://example.com/name> "Ireland" .
+<http://example.com/3/Saint%20Martin%20%28French%20part%29> <http://example.com/code> "{{{ MF }}}" .
+<http://example.com/3/Saint%20Martin%20%28French%20part%29> <http://example.com/name> "Saint Martin (French part)" .
+<http://example.com/3> <http://example.com/name> "Saint Martin (French part)" .
+<http://example.com/Bob%2FCharles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Bob;Smith> <http://example.com/owes> "30.0E0" .
+<http://example.com/Bob;Smith> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Bob> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Carlos> <http://xmlns.com/foaf/0.1/name> "Carlos" .
+<http://example.com/Emily%20Smith> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Person/2/Bob/September%2C%202010> <http://example.com/BirthDay> "September, 2010" .
+<http://example.com/Person/Alice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Person/Bob%2FCharles> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Person/Bob> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Person/Emily%20Smith> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Person/Zo%C3%AB%20Kr%C3%BCger> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Student/10/Venus%20Williams> <http://example.com/name> "Venus Williams" .
+<http://example.com/Student/10/Venus%20Williams> <http://xmlns.com/foaf/0.1/name> "Venus Williams" .
+<http://example.com/Student/10/Venus> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Student10> <http://xmlns.com/foaf/0.1/name> "Venus Williams" .
+<http://example.com/Sue;Jones> <http://example.com/owes> "20.0E0" .
+<http://example.com/Sue;Jones> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Tennis> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/Sport> .
+<http://example.com/Tennis> <http://xmlns.com/foaf/0.1/name> "Tennis" .
+<http://example.com/Venus> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.com/Student> .
+<http://example.com/Venus> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "Venus" .
+<http://example.com/example> <http://example.com/x> "one" .
+<http://example.com/example> <http://example.com/x> "two" .
+<http://example.com/http%3A%2F%2Fexample.com%2Fcompany%2FAlice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/ns#Jhon> <http://xmlns.com/foaf/0.1/name> "http://example.com/ns#Jhon" .
+<http://example.com/path%2F..%2FDanny> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .

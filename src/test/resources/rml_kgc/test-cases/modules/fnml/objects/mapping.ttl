@@ -1,0 +1,238 @@
+PREFIX ex:       <http://example.com/>
+PREFIX fno:      <https://w3id.org/function/ontology#>
+PREFIX foaf:     <http://xmlns.com/foaf/0.1/>
+PREFIX grel:     <http://users.ugent.be/~bjdmeest/function/grel.ttl#>
+PREFIX idlab-fn: <https://w3id.org/imec/idlab/function#>
+PREFIX rml:      <http://w3id.org/rml/>
+PREFIX xsd:      <http://www.w3.org/2001/XMLSchema#>
+
+<http://example.com/base/#Execution-RMLFNMLTC0001-CSV>
+        rml:function  idlab-fn:alwaysReturnsABC .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0001-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0001-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0001-CSV>;
+                                                   rml:return             idlab-fn:_stringOut
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0002-CSV>
+        rml:function  grel:toUpperCase;
+        rml:input     [ rml:inputValueMap  [ rml:reference  "Name" ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0002-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0001-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0002-CSV>;
+                                                   rml:return             grel:stringOut
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0003-CSV>
+        rml:function  idlab-fn:toUpperCaseURL;
+        rml:input     [ rml:inputValueMap  [ rml:reference  "url" ];
+                        rml:parameter      idlab-fn:str
+                      ] .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0003-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0003-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0003-CSV>;
+                                                   rml:return             idlab-fn:_stringOut;
+                                                   rml:termType           rml:IRI
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0004-CSV>
+        rml:function  grel:string_length;
+        rml:input     [ rml:inputValueMap  [ rml:reference  "Name" ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0004-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0003-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0004-CSV>;
+                                                   rml:return             grel:output_number
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0005-CSV>
+        rml:function  grel:toUpperCase;
+        rml:input     [ rml:inputValueMap  [ rml:template  "Name: {Name}" ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0005-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0001-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0005-CSV>;
+                                                   rml:return             grel:stringOut
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0007-CSV>
+        rml:function  grel:string_substring;
+        rml:input     [ a               rml:Input;
+                        rml:inputValue  "5";
+                        rml:parameter   grel:p_int_i_from
+                      ];
+        rml:input     [ rml:inputValueMap  [ rml:reference  "Name" ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0007-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0001-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0007-CSV>;
+                                                   rml:return             grel:stringOut
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0008-CSV>
+        rml:function  grel:string_substring;
+        rml:input     [ a               rml:Input;
+                        rml:inputValue  "1000";
+                        rml:parameter   grel:p_int_i_from
+                      ];
+        rml:input     [ rml:inputValueMap  [ rml:reference  "Name" ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0008-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0001-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0008-CSV>;
+                                                   rml:return             grel:stringOut
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0021-CSV>
+        rml:function  grel:escape;
+        rml:input     [ rml:inputValue  "html";
+                        rml:parameter   grel:modeParam
+                      ];
+        rml:input     [ rml:inputValueMap  [ rml:reference  "Comment" ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0021-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0001-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0021-CSV>;
+                                                   rml:return             grel:stringOut
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0041-CSV>
+        rml:function  grel:toUpperCase;
+        rml:input     [ rml:inputValueMap  [ rml:reference  "Name" ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/TriplesMap1-RMLFNMLTC0041-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0003-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0041-CSV>;
+                                                   rml:returnMap          [ rml:constant  grel:stringOut ]
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/#Execution-RMLFNMLTC0051-CSV>
+        a             rml:FunctionExecution;
+        rml:function  grel:toUpperCase;
+        rml:input     [ a                  rml:Input;
+                        rml:inputValueMap  [ rml:functionExecution  <http://example.com/base/#Execution2-RMLFNMLTC0051-CSV>;
+                                             rml:return             grel:stringOut
+                                           ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/#Execution2-RMLFNMLTC0051-CSV>
+        a             rml:Execution;
+        rml:function  grel:string_replace;
+        rml:input     [ a               rml:Input;
+                        rml:inputValue  "-";
+                        rml:parameter   grel:param_replace
+                      ];
+        rml:input     [ a               rml:Input;
+                        rml:inputValue  " ";
+                        rml:parameter   grel:param_find
+                      ];
+        rml:input     [ a                  rml:Input;
+                        rml:inputValueMap  [ rml:reference  "Name" ];
+                        rml:parameter      grel:valueParam
+                      ] .
+
+<http://example.com/base/#NameMapping-RMLFNMLTC0051-CSV>
+        rml:objectMap  [ rml:functionExecution  <http://example.com/base/#Execution-RMLFNMLTC0051-CSV>;
+                         rml:return             grel:stringOut
+                       ];
+        rml:predicate  foaf:name .
+
+<http://example.com/base/#Person_Mapping-RMLFNMLTC0051-CSV>
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLFNMLTC0051-CSV/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  <http://example.com/base/#NameMapping-RMLFNMLTC0051-CSV>;
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .

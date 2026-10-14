@@ -1,0 +1,84 @@
+PREFIX ex:   <http://example.com/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rml:  <http://w3id.org/rml/>
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0001a>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLIOREGTC0001a/student.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0002a>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.students[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLIOREGTC0002a/student.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "$.Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          <http://example.com/base/#NameSubjectMap-RMLIOREGTC0002a> .
+
+<http://example.com/base/#NameSubjectMap-RMLIOREGTC0002a>
+        rml:template  "http://example.com/{$.Name}" .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0002d>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.students[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLIOREGTC0002d/student.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "$.Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          <http://example.com/base/#NameSubjectMap-RMLIOREGTC0002d> .
+
+<http://example.com/base/#NameSubjectMap-RMLIOREGTC0002d>
+        rml:template  "http://example.com/{$.Name}" .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0003a>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "/students/student";
+                                  rml:referenceFormulation  rml:XPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLIOREGTC0003a/student.xml";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{Name}" ] .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0003e>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "/persons/person";
+                                  rml:referenceFormulation  rml:XPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLIOREGTC0003e/student.xml"
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "@amount" ];
+                                  rml:predicate  ex:owes
+                                ];
+        rml:subjectMap          [ rml:class     foaf:Person;
+                                  rml:template  "http://example.com/{@fname};{@lname}"
+                                ] .

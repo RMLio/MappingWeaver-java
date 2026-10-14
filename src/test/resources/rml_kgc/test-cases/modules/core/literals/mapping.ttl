@@ -1,0 +1,211 @@
+PREFIX ex:   <http://example.com/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rml:  <http://w3id.org/rml/>
+PREFIX s:    <http://schema.org/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+<http://example.com/base/TriplesMap1-RMLTC0015a-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.countries[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0015a-JSON/country_en.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:language   "en";
+                                                   rml:reference  "$.Name"
+                                                 ];
+                                  rml:predicate  rdfs:label
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.Code}" ] .
+
+<http://example.com/base/TriplesMap2-RMLTC0015a-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.countries[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0015a-JSON/country_es.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:language   "es";
+                                                   rml:reference  "$.Name"
+                                                 ];
+                                  rml:predicate  rdfs:label
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.Code}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0022a-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$.students[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0022a-JSON/student.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatype   xsd:int;
+                                                   rml:reference  "$.Age"
+                                                 ];
+                                  rml:predicate  ex:age
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatype   xsd:string;
+                                                   rml:reference  "$.Name"
+                                                 ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.Name}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0022b-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0022b-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatypeMap  [ rml:template  "http://www.w3.org/2001/XMLSchema#{$.BAR}" ];
+                                                   rml:reference    "$.FOO"
+                                                 ];
+                                  rml:predicate  ex:x
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.FOO}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0022c-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0022b-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatypeMap  [ rml:template  "datatype#{$.BAR}" ];
+                                                   rml:reference    "$.FOO"
+                                                 ];
+                                  rml:predicate  ex:x
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.FOO}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0022d-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0022b-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatypeMap  [ rml:constant  xsd:integer ];
+                                                   rml:reference    "$.FOO"
+                                                 ];
+                                  rml:predicate  ex:x
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.FOO}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0022e-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0022e-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:datatypeMap  [ rml:reference  "$.BAR";
+                                                                      rml:termType   rml:IRI
+                                                                    ];
+                                                   rml:reference    "$.FOO"
+                                                 ];
+                                  rml:predicate  ex:x
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.FOO}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0028a-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0028a-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:object     true;
+                                  rml:predicate  <http://example.org/ns/p>
+                                ];
+        rml:subjectMap          [ rml:template  "https://example.org/instances/{$.id}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0028c-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0028a-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:object     "train"@en;
+                                  rml:predicate  <http://example.org/ns/p>
+                                ];
+        rml:subjectMap          [ rml:template  "https://example.org/instances/{$.id}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0031a-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0031a-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:languageMap  [ rml:constant  "en" ];
+                                                   rml:reference    "$.label"
+                                                 ];
+                                  rml:predicate  rdfs:label
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.ID}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0031b-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0031b-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:languageMap  [ rml:reference  "$.language" ];
+                                                   rml:reference    "$.label"
+                                                 ];
+                                  rml:predicate  rdfs:label
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.ID}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0031c-JSON>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "$[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ a         rml:RelativePathSource;
+                                                              rml:path  "RMLTC0031c-JSON/data.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:languageMap  [ rml:template  "{$.language}-{$.region}" ];
+                                                   rml:reference    "$.label"
+                                                 ];
+                                  rml:predicate  rdfs:label
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/{$.ID}" ] .

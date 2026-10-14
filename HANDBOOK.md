@@ -85,7 +85,8 @@ src/test/resources/
 │       └── integrations/
 ├── rml_kgc/
 │   ├── spec/                           # Immutable upstream RML-KGC suites, including the RML registry suite
-│   └── test-cases/                     # RML-KGC adaptations and regressions
+│   └── test-cases/                     # RML-KGC module tests, adaptations and regressions
+│       ├── modules/
 │       ├── spec-adaptations/
 │       ├── engines/
 │       ├── integrations/
@@ -98,9 +99,23 @@ The Java test packages mirror this split: language-based tests live under `mappi
 
 Everything under each language's `spec/` directory is an immutable copy of an upstream specification suite. Tests may read these files but must never create, modify, rename, or delete files there.
 
+`rml_kgc/test-cases/modules/<module>/<group>/` holds the everyday tests of the RML-KGC modules, run by `ModuleTest`. Each group merges the kg-construct test cases of one feature that MappingWeaver passes in the conformance run into one mapping, so one Flink job checks many specification rules: each case's input files sit in a folder named after the case, an input file identical, apart from line endings, to one of an earlier case in the group is read from that case's folder, its triples maps and other named RML resources get the suffix `-<case id>`, and the expected `output.nq` is the union of the cases' expected outputs. The expected output then comes from upstream and needs no new approval. The union is right only when the merged cases cannot affect each other's output, so cases that generate blank nodes share a group only when they generate them from different values: blank nodes generated from equal values in one mapping are one node. `modules/README.md` lists the cases of each group and the suite commit they come from. `ModuleTest` compares the output as the conformance runner does, by dataset isomorphism (`TestCore.isomorphicTest`). It covers the cases with an expected output; the error cases are checked by the conformance run.
+
 A case under `test-cases/regressions/` guards a fixed bug and always runs. Its expected output follows from the specification: the case names the rule it checks (in a README next to the fixtures, or in the test's comment), and its expected output is derived from that rule, never copied from what the engine produces, since a copied output locks the bug in. A new or changed expected output is approved by the maintainer, like any fixture change.
 
 A regression that checks specification behaviour the upstream suite does not cover is also proposed upstream (to the kg-construct test cases). It stays in `regressions/` until upstream accepts it; then the copy under `spec/` takes over and the local case is removed.
+
+## Conformance
+
+MappingWeaver's conformance to RML-KGC is measured on the seven kg-construct test suites (rml-core, rml-io, rml-io-registry, rml-fnml, rml-cc, rml-lv and rml-star) with [mapping-test-runner](https://gitlab.ilabt.imec.be/rml/util/mapping-test-runner). The runner calls the jar's command line once per case (the engine file `conformance/mappingweaver.yaml`) and compares the output with the expected output as RDF datasets: graphs matched by name, one blank node mapping across all graphs, literals compared as terms. It compares every logical target, and an error case passes when the process exits non-zero, whatever it wrote. A runner release pins each suite at a commit, so the runner version is the version of the suites.
+
+`conformance/run.sh` builds the jar, downloads the runner release it names (`MTR_VERSION`), runs the suites with `--jobs 4` and writes `target/conformance/report.json`, `report.md` (the format of the plan's coverage document) and `junit.xml`. Its arguments go to the Maven build, e.g. `-Dmappingloom.version=0.8.1-SNAPSHOT` for a locally installed translator; `MTR_JAR` uses a local runner jar instead of the download. The database cases run in Docker, and are skipped without it.
+
+`conformance/expected-results.csv` lists every case that MappingWeaver does not pass, with a note on the cause that names the step, issue or spec adaptation that addresses it; an unlisted case is expected to pass. A run fails on any difference from the file: a case that does worse is a regression, and a case that does better is an unexpected pass. A change that makes a case pass therefore removes its line, and the file's history is the history of MappingWeaver's coverage.
+
+The manual `Conformance` CI job runs the script on Docker-in-Docker and keeps the reports and each case's engine logs. It runs before every release ([RELEASE.md](RELEASE.md)) and for a change that targets conformance; everyday work relies on `ModuleTest` (Test resource organization). algemaploom-rs runs the same script with its local translator, in its own manual job, with unexpected passes as warnings, since it cannot edit this file.
+
+The runner judges as the specification does, which the spec test classes under `rml_kgc/spec` did not: it reads the upstream cases at the pinned commits (the copies under `spec/` predate upstream changes, such as JSON integers typed `xsd:integer`), compares by isomorphism, compares the logical targets, and counts an empty output as an output.
 
 ## Generating IRIs
 
@@ -108,7 +123,9 @@ A regression that checks specification behaviour the upstream suite does not cov
 
 ## Continuous integration
 
-`.gitlab-ci.yml` runs each test class as its own parallel job, in two matrices: `Specification Tests` (the spec suites) and `Utility Tests` (CLI, sources, FnO, regressions and components). Both extend the hidden `.unittests` job. A matrix lists only classes that run at least one test, so that every job checks something. A class whose tests are all disabled is added back once it is enabled. None of the listed classes use Testcontainers, so the jobs run without a Docker service; a job for an RDB or Kafka test needs that service again.
+`.gitlab-ci.yml` runs each test class as its own parallel job, in two matrices: `Module Tests` (`ModuleTest` and `RMLLVFNMLTest`) and `Utility Tests` (CLI, sources, FnO, regressions and components). Both extend the hidden `.unittests` job. A matrix lists only classes that run at least one test, so that every job checks something. A class whose tests are all disabled is added back once it is enabled. The spec test classes that read the copies under `rml_kgc/spec/` are left out: `ModuleTest` and the conformance run check what they checked. None of the listed classes use Testcontainers, so these jobs run without a Docker service; a job for an RDB or Kafka test extends the hidden `.docker` job (Docker-in-Docker), as the `Conformance` job does.
+
+A known limitation: in one JVM (`mvn test`), the jobs that `CliExitCodeTest` runs in-process through `Main.run` start a Flink cluster of their own next to the shared mini-cluster, and while a concurrent class (`ModuleTest`, or a spec test class) runs its jobs, a TaskManager heartbeat can time out and fail either class. Each class passes in a JVM of its own, which is how CI runs them; locally, run `CliExitCodeTest` apart (`mvn test -Dtest=CliExitCodeTest`).
 
 ## Dependency versions
 

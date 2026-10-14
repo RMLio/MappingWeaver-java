@@ -1,0 +1,167 @@
+PREFIX carml:     <http://carml.taxonic.com/carml/>
+PREFIX csvw:      <http://www.w3.org/ns/csvw#>
+PREFIX ex:        <http://example.com/>
+PREFIX fnml:      <http://semweb.mmlab.be/ns/fnml#>
+PREFIX fno:       <https://w3id.org/function/ontology#>
+PREFIX foaf:      <http://xmlns.com/foaf/0.1/>
+PREFIX gn:        <http://www.geonames.org/ontology#>
+PREFIX grel:      <http://users.ugent.be/~bjdmeest/function/grel.ttl#>
+PREFIX rml:       <http://w3id.org/rml/>
+PREFIX schema:    <http://schema.org/>
+PREFIX wgs84_pos: <http://www.w3.org/2003/01/geo/wgs84_pos#lat>
+PREFIX xsd:       <http://www.w3.org/2001/XMLSchema#>
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0012b>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                <http://example.com/base/#CSVW_source-RMLIOREGTC0012b>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "ID" ];
+                                  rml:predicate  ex:id
+                                ];
+        rml:subjectMap          [ rml:class     foaf:Person;
+                                  rml:template  "http://example.com/{ID}/{Name}"
+                                ] .
+
+<http://example.com/base/#CSVW_source-RMLIOREGTC0012b>
+        a             csvw:Table;
+        csvw:dialect  [ a               csvw:Dialect;
+                        csvw:delimiter  ";"
+                      ];
+        csvw:null     "NULL";
+        csvw:url      "RMLIOREGTC0012b/student.csv" .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0012c>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                <http://example.com/base/#CSVW_source-RMLIOREGTC0012c>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "ID" ];
+                                  rml:predicate  ex:id
+                                ];
+        rml:subjectMap          [ rml:class     foaf:Person;
+                                  rml:template  "http://example.com/{ID}/{Name}"
+                                ] .
+
+<http://example.com/base/#CSVW_source-RMLIOREGTC0012c>
+        a             csvw:Table;
+        csvw:dialect  [ a               csvw:Dialect;
+                        csvw:delimiter  ";"
+                      ];
+        csvw:url      "RMLIOREGTC0012c/student.csv" .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0012d>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                <http://example.com/base/#CSVW_source-RMLIOREGTC0012d>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "ID" ];
+                                  rml:predicate  ex:id
+                                ];
+        rml:subjectMap          [ rml:class     foaf:Person;
+                                  rml:template  "http://example.com/{ID}/{Name}"
+                                ] .
+
+<http://example.com/base/#CSVW_source-RMLIOREGTC0012d>
+        a             csvw:Table;
+        csvw:dialect  [ a          csvw:Dialect;
+                        csvw:trim  true
+                      ];
+        csvw:url      "RMLIOREGTC0012d/student.csv" .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0012e>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                <http://example.com/base/#CSVW_source-RMLIOREGTC0012e>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "ID" ];
+                                  rml:predicate  ex:id
+                                ];
+        rml:subjectMap          [ rml:class     foaf:Person;
+                                  rml:template  "http://example.com/{ID}/{Name}"
+                                ] .
+
+<http://example.com/base/#CSVW_source-RMLIOREGTC0012e>
+        a             csvw:Table;
+        csvw:dialect  [ a                   csvw:Dialect;
+                        csvw:commentPrefix  "#"
+                      ];
+        csvw:url      "RMLIOREGTC0012e/student.csv" .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0012f>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                <http://example.com/base/#CSVW_source-RMLIOREGTC0012f>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "ID" ];
+                                  rml:predicate  ex:id
+                                ];
+        rml:subjectMap          [ rml:class     foaf:Person;
+                                  rml:template  "http://example.com/{ID}/{Name}"
+                                ] .
+
+<http://example.com/base/#CSVW_source-RMLIOREGTC0012f>
+        a             csvw:Table;
+        csvw:dialect  [ a              csvw:Dialect;
+                        csvw:encoding  "UTF-16"
+                      ];
+        csvw:url      "RMLIOREGTC0012f/student.csv" .
+
+<http://example.com/base/TriplesMap1-RMLIOREGTC0012g>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ rml:referenceFormulation  rml:CSV;
+                                  rml:source                <http://example.com/base/#CSVW_source-RMLIOREGTC0012g>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "ID" ];
+                                  rml:predicate  ex:id
+                                ];
+        rml:subjectMap          [ rml:class     foaf:Person;
+                                  rml:template  "http://example.com/{ID}/{Name}"
+                                ] .
+
+<http://example.com/base/#CSVW_source-RMLIOREGTC0012g>
+        a             csvw:Table;
+        csvw:dialect  [ a               csvw:Dialect;
+                        csvw:delimiter  "\t"
+                      ];
+        csvw:url      "RMLIOREGTC0012g/student.tsv" .
+
+<http://example.com/ns#ProjectMapping-RMLIOREGTC0012h>
+        a                       rml:TriplesMap;
+        rml:logicalSource       <http://example.com/ns#LogicalSourceGrant-RMLIOREGTC0012h>;
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "Abstract" ];
+                                  rml:predicate  schema:description
+                                ];
+        rml:subjectMap          [ rml:class     schema:ResearchProject;
+                                  rml:template  "http://snf.ch/project/{GrantNumber}"
+                                ] .
+
+<http://example.com/ns#CSVW_sourceGrant-RMLIOREGTC0012h>
+        a             csvw:Table;
+        csvw:dialect  [ a               csvw:Dialect;
+                        csvw:delimiter  ";"
+                      ];
+        csvw:url      "RMLIOREGTC0012h/data.csv" .
+
+<http://example.com/ns#LogicalSourceGrant-RMLIOREGTC0012h>
+        a                         rml:BaseSource;
+        rml:referenceFormulation  rml:CSV;
+        rml:source                <http://example.com/ns#CSVW_sourceGrant-RMLIOREGTC0012h> .

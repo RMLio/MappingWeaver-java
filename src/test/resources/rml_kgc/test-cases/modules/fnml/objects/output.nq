@@ -1,0 +1,8 @@
+<http://example.com/M%20Venus> <http://xmlns.com/foaf/0.1/name> "M-VENUS" .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "" .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "5"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "A&amp;B" .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "ABC" .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "NAME: VENUS" .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "VENUS" .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> <HTTP://EXAMPLE.COM/VENUS> .

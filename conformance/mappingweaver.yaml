@@ -1,0 +1,7 @@
+# MappingWeaver as a mapping-test-runner engine (HANDBOOK: Conformance); run.sh sets the jar.
+# toFile -o writes a folder of part files, which the runner joins. The output is N-Quads, also for N-Triples cases.
+name: mappingweaver
+version: {command: [java, -jar, "{jar}", --version]}
+vars:
+  jar: null
+command: [java, -jar, "{jar}", -m, "{mapping_file}", -i, "{base_iri}", toFile, -o, "{output_file}", "{variant}"]

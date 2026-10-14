@@ -1,0 +1,213 @@
+testcase_id,status,notes
+RMLTC0002a-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0007c-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0007d-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0007e-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0007f-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0008a-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0008b-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0011b-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0012a-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0019b-JSON,failed,an invalid IRI generated from the data raises no error (4.3a)
+RMLTC0025a-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0025c-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0026a-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0026b-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0026c-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0026d-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0027c-JSON,failed,templates percent-encode characters that IRIs allow (URI instead of IRI encoding) (4.3a)
+RMLTC0030c-JSON,failed,join conditions with constant values reach the plan without attributes (4.3a)
+RMLTC0030d-JSON,failed,join conditions with constant values reach the plan without attributes (4.3a)
+RMLTC0030e-JSON,failed,join conditions with constant values reach the plan without attributes (4.3a)
+RMLTC0030f-JSON,failed,join conditions with constant values reach the plan without attributes (4.3a)
+RMLSTC0001a,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLSTC0001b,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLSTC0002a,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLSTC0002b,failed,compressed sources are parsed without decompression (4.3b)
+RMLSTC0002c,failed,compressed sources are parsed without decompression (4.3b)
+RMLSTC0002d,failed,compressed sources are parsed without decompression (4.3b)
+RMLSTC0002e,failed,compressed sources are parsed without decompression (4.3b)
+RMLSTC0003,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTC0004a,failed,"empty CSV cells give no triples, where rml-io expects empty literals (rml-io#160)"
+RMLSTC0006a,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3b); adapted
+RMLSTC0007a,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLSTC0008a,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLSTC0008b,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLSTC0010a,failed,a CSV row with too few fields raises no error (4.3b)
+RMLSTC0010b,failed,a CSV row with too few fields raises no error (4.3b)
+RMLSTC0012b,failed,complex XPath expressions generate no triples (4.3b)
+RMLSTC0012c,failed,complex XPath expressions generate no triples (4.3b)
+RMLSTC0012d,failed,complex XPath expressions generate no triples (4.3b)
+RMLTTC0000,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0001a,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0001b,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0001c,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0001d,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0001e,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0001f,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002a,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002b,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002c,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002d,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0002e,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0002f,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002g,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002h,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002i,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002j,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0002k,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002l,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002m,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0002n,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0002o,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0002p,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0002q,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0002r,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0003a,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0004a,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; adapted"
+RMLTTC0004b,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; adapted"
+RMLTTC0004c,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0004d,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0004e,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); adapted"
+RMLTTC0004f,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; adapted"
+RMLTTC0004g,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; adapted"
+RMLTTC0005a,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0005b,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; target encoding never reaches the plan (3.3d)"
+RMLTTC0006a,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLTTC0006b,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; target compression never reaches the plan (3.3d)"
+RMLTTC0006c,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; target compression never reaches the plan (3.3d)"
+RMLTTC0006d,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; target compression never reaches the plan (3.3d)"
+RMLTTC0006e,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; target compression never reaches the plan (3.3d)"
+RMLTTC0007a,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
+RMLIOREGTC0001b,failed,"a missing column or value, or an invalid JSONPath, raises no error (4.3c)"
+RMLIOREGTC0002b,failed,"a missing column or value, or an invalid JSONPath, raises no error (4.3c)"
+RMLIOREGTC0002c,failed,"a missing column or value, or an invalid JSONPath, raises no error (4.3c)"
+RMLIOREGTC0003b,failed,"a missing column or value, or an invalid JSONPath, raises no error (4.3c)"
+RMLIOREGTC0003d,failed,XML namespaces (rml:namespace) are not passed to the XPath engine (4.3c)
+RMLIOREGTC0004a,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004c,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004f,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004k,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004n,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004o,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004p,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004q,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004r,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004s,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004t,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004u,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004v,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004w,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004x,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004y,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004z,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005a,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005d,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c); adapted
+RMLIOREGTC0005f,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005k,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005n,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005o,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005p,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005q,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005r,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005s,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005t,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005u,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005v,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005w,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005x,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005y,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005z,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006a,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006d,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c); adapted
+RMLIOREGTC0006f,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006k,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006n,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006p,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006q,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006r,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006s,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006t,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006u,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006v,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006w,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006x,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006y,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006z,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0007a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLIOREGTC0008a,failed,the HTTP request source rejects an http:// URL (4.3c)
+RMLIOREGTC0012a,failed,a csvw:url that is a URL is read as a file path relative to the mapping (4.3c)
+RMLIOREGTC0012i,failed,the CSVW quote character (csvw:quoteChar) is not applied (4.3c)
+RMLFNMLTC0032-CSV,failed,rml:condition is ignored (4.3d)
+RMLFNMLTC0103-CSV,failed,a wrong function parameter or return raises no error (4.3d)
+RMLFNMLTC0104-CSV,failed,a wrong function parameter or return raises no error (4.3d)
+RMLLVTC0004a,failed,"the index of a view is typed xsd:nonNegativeInteger, where RML-LV gives xsd:integer (4.3e)"
+RMLLVTC0004b,failed,"the index of a view is typed xsd:nonNegativeInteger, where RML-LV gives xsd:integer (4.3e)"
+RMLLVTC0004c,failed,"the index of a view is typed xsd:nonNegativeInteger, where RML-LV gives xsd:integer (4.3e)"
+RMLLVTC0004d,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLLVTC0006a,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0006b,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0006c,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0006d,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0006e,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0006f,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0007a,failed,a field that changes the reference formulation generates no triples (4.3e)
+RMLLVTC0007b,failed,a field that changes the reference formulation generates no triples (4.3e)
+RMLLVTC0007c,failed,a field that changes the reference formulation generates no triples (4.3e)
+RMLLVTC0009b,failed,a name collision caused by a join field raises no error (4.3e)
+RMLLVTC0010a,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0010b,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0010c,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0010d,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0010e,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLTC-CC-0001-Alt,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0001-Bag,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0001-List,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0001-Seq,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0002-Bag,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0002-List,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0003-EB,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0003-EL,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0003-EL-BN,failed,blank node labels with a slash (_:c/a) make the output invalid N-Quads (4.3f)
+RMLTC-CC-0003-EL-Named,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0003-NEB,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0003-NEL,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0003-NELb,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0004-SM1,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0004-SM2,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0004-SM3,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0004-SM4,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0004-SM5,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0005-App1,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0005-App2,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0005-Car1,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0005-Car2,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0006-IT0,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0006-IT1,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0006-IT2,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0006-IT3,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0006-IT4,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0006-IT5,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0007-NES,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0008-ROMa,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0008-ROMb,failed,gather maps generate no collections or containers (4.3f)
+RMLTC-CC-0009-DUP-Bag,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0009-DUP-List,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0010-Lista,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC-CC-0010-Listb,failed,blank node labels with a slash (_:c/a) make the output invalid N-Quads (4.3f)
+RMLSTARTC001a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC001b,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC002a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC002b,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC003a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC003b,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC004a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC004b,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC005a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC005b,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC006a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC006b,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC007a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC007b,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC008a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTARTC008b,failed,translation fails; the translator returns its error text as the plan (3.2c)

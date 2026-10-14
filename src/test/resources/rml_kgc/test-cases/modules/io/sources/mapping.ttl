@@ -1,0 +1,186 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rml:  <http://w3id.org/rml/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+<http://example.com/rules/#TriplesMap-RMLSTC0004b>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:null  "";
+                                                              rml:path  "RMLSTC0004b/Friends-NULL.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "age"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:age
+                                                    ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{id}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap-RMLSTC0004c>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:null  "NULL" , "";
+                                                              rml:path  "RMLSTC0004c/Friends-NULL.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "age"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:age
+                                                    ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{id}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap-RMLSTC0006b>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:Source , rml:FilePath;
+                                                              rml:path  "RMLSTC0006b/./Friends.csv";
+                                                              rml:root  rml:CurrentWorkingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "age"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:age
+                                                    ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{id}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap-RMLSTC0007b>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:referenceFormulation  rml:CSV;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0006b/Friends.csv";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "age"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:age
+                                                    ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "name"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{id}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap-RMLSTC0007c>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "//Friends/Character";
+                                  rml:referenceFormulation  rml:XPath;
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0007c/Friends.xml";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "age/text()"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:age
+                                                    ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "name/text()"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{@id}"
+                                ] .
+
+<http://example.com/rules/#TriplesMap-RMLSTC0007d>
+        a                       rml:TriplesMap;
+        rml:logicalSource       [ a                         rml:LogicalSource;
+                                  rml:iterator              "//Friends/ex:Character";
+                                  rml:referenceFormulation  [ a              rml:XPathReferenceFormulation;
+                                                              rml:namespace  [ a                    rml:Namespace;
+                                                                               rml:namespacePrefix  "ex";
+                                                                               rml:namespaceURL     "http://example.org"
+                                                                             ]
+                                                            ];
+                                  rml:source                [ a         rml:FilePath;
+                                                              rml:path  "RMLSTC0007d/Friends.xml";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "ex:age/text()"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:age
+                                                    ]
+                                ];
+        rml:predicateObjectMap  [ a                 rml:PredicateObjectMap;
+                                  rml:objectMap     [ a              rml:ObjectMap;
+                                                      rml:reference  "ex:name/text()"
+                                                    ];
+                                  rml:predicateMap  [ a             rml:PredicateMap;
+                                                      rml:constant  foaf:name
+                                                    ]
+                                ];
+        rml:subjectMap          [ a             rml:SubjectMap;
+                                  rml:template  "http://example.org/{@id}"
+                                ] .

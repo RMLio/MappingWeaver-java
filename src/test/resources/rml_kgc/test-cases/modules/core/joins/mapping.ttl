@@ -1,0 +1,150 @@
+PREFIX ex:   <http://example.com/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rml:  <http://w3id.org/rml/>
+PREFIX s:    <http://schema.org/>
+
+<http://example.com/base/TriplesMap1-RMLTC0009a-JSON>
+        rdf:type                rml:TriplesMap;
+        rml:logicalSource       [ rdf:type                  rml:LogicalSource;
+                                  rml:iterator              "$.students[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ rdf:type  rml:RelativePathSource;
+                                                              rml:path  "RMLTC0009a-JSON/student.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rdf:type              rml:RefObjectMap;
+                                                   rml:joinCondition     [ rml:child   "$.Sport";
+                                                                           rml:parent  "$.ID"
+                                                                         ];
+                                                   rml:parentTriplesMap  <http://example.com/base/TriplesMap2-RMLTC0009a-JSON>
+                                                 ];
+                                  rml:predicate  <http://example.com/ontology/practises>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "$.Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/resource/student_{$.ID}" ] .
+
+<http://example.com/base/TriplesMap2-RMLTC0009a-JSON>
+        rdf:type                rml:TriplesMap;
+        rml:logicalSource       [ rdf:type                  rml:LogicalSource;
+                                  rml:iterator              "$.sports[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ rdf:type  rml:RelativePathSource;
+                                                              rml:path  "RMLTC0009a-JSON/sport.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "$.Name" ];
+                                  rml:predicate  rdfs:label
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/resource/sport_{$.ID}" ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0021a-JSON>
+        rdf:type                rml:TriplesMap;
+        rml:logicalSource       [ rdf:type                  rml:LogicalSource;
+                                  rml:iterator              "$.students[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ rdf:type  rml:RelativePathSource;
+                                                              rml:path  "RMLTC0021a-JSON/student.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  <http://example.com/base/RefObjectMap1-RMLTC0021a-JSON>;
+                                  rml:predicate  ex:sameSportAs
+                                ];
+        rml:subjectMap          [ rml:template  "http://example.com/Student/{$.ID}/{$.Name}" ] .
+
+<http://example.com/base/RefObjectMap1-RMLTC0021a-JSON>
+        rdf:type              rml:RefObjectMap;
+        rml:joinCondition     [ rml:child   "$.Sport";
+                                rml:parent  "$.Sport"
+                              ];
+        rml:parentTriplesMap  <http://example.com/base/TriplesMap1-RMLTC0021a-JSON> .
+
+<http://example.com/base/TriplesMap1-RMLTC0030a-JSON>
+        rdf:type                rml:TriplesMap;
+        rml:logicalSource       [ rdf:type                  rml:LogicalSource;
+                                  rml:iterator              "$.students[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ rdf:type  rml:RelativePathSource;
+                                                              rml:path  "RMLTC0030a-JSON/student.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rdf:type              rml:RefObjectMap;
+                                                   rml:joinCondition     [ rml:childMap   [ rml:reference  "$.Sport" ];
+                                                                           rml:parentMap  [ rml:reference  "$.ID" ]
+                                                                         ];
+                                                   rml:parentTriplesMap  <http://example.com/base/TriplesMap2-RMLTC0030a-JSON>
+                                                 ];
+                                  rml:predicate  <http://example.com/ontology/practises>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "$.Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:class     <http://example.com/ontology/Student>;
+                                  rml:template  "http://example.com/resource/student_{$.ID}"
+                                ] .
+
+<http://example.com/base/TriplesMap2-RMLTC0030a-JSON>
+        rdf:type                rml:TriplesMap;
+        rml:logicalSource       [ rdf:type                  rml:LogicalSource;
+                                  rml:iterator              "$.sports[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ rdf:type  rml:RelativePathSource;
+                                                              rml:path  "RMLTC0030a-JSON/sport.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "$.Name" ];
+                                  rml:predicate  rdfs:label
+                                ];
+        rml:subjectMap          [ rml:class     <http://example.com/ontology/Sport>;
+                                  rml:template  "http://example.com/resource/sport_{$.ID}"
+                                ] .
+
+<http://example.com/base/TriplesMap1-RMLTC0030b-JSON>
+        rdf:type                rml:TriplesMap;
+        rml:logicalSource       [ rdf:type                  rml:LogicalSource;
+                                  rml:iterator              "$.students[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ rdf:type  rml:RelativePathSource;
+                                                              rml:path  "RMLTC0030b-JSON/student.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rdf:type              rml:RefObjectMap;
+                                                   rml:joinCondition     [ rml:childMap   [ rml:template  "http://example.com/{$.Sport}" ];
+                                                                           rml:parentMap  [ rml:template  "http://example.com/{$.ID}" ]
+                                                                         ];
+                                                   rml:parentTriplesMap  <http://example.com/base/TriplesMap2-RMLTC0030b-JSON>
+                                                 ];
+                                  rml:predicate  <http://example.com/ontology/practises>
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "$.Name" ];
+                                  rml:predicate  foaf:name
+                                ];
+        rml:subjectMap          [ rml:class     <http://example.com/ontology/Student>;
+                                  rml:template  "http://example.com/resource/student_{$.ID}"
+                                ] .
+
+<http://example.com/base/TriplesMap2-RMLTC0030b-JSON>
+        rdf:type                rml:TriplesMap;
+        rml:logicalSource       [ rdf:type                  rml:LogicalSource;
+                                  rml:iterator              "$.sports[*]";
+                                  rml:referenceFormulation  rml:JSONPath;
+                                  rml:source                [ rdf:type  rml:RelativePathSource;
+                                                              rml:path  "RMLTC0030a-JSON/sport.json";
+                                                              rml:root  rml:MappingDirectory
+                                                            ]
+                                ];
+        rml:predicateObjectMap  [ rml:objectMap  [ rml:reference  "$.Name" ];
+                                  rml:predicate  rdfs:label
+                                ];
+        rml:subjectMap          [ rml:class     <http://example.com/ontology/Sport>;
+                                  rml:template  "http://example.com/resource/sport_{$.ID}"
+                                ] .

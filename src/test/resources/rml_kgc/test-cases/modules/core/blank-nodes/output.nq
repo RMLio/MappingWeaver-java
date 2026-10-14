@@ -1,0 +1,10 @@
+_:Blank1_RMLTC0012eJSON <http://example.org/firstName> "Alice" .
+_:Blank1_RMLTC0012eJSON <http://example.org/lastName> "Smith" .
+_:Blank2_RMLTC0012eJSON <http://example.org/firstName> "Bob" .
+_:Blank2_RMLTC0012eJSON <http://example.org/lastName> "Jones" .
+_:BobSmith_RMLTC0012bJSON <http://example.com/city> "London" .
+_:BobSmith_RMLTC0012bJSON <http://xmlns.com/foaf/0.1/name> "Bob Smith" .
+_:SueJones_RMLTC0012bJSON <http://example.com/city> "Madrid" .
+_:SueJones_RMLTC0012bJSON <http://xmlns.com/foaf/0.1/name> "Sue Jones" .
+_:Venus_RMLTC0001bJSON <http://xmlns.com/foaf/0.1/name> "Venus" .
+_:students10_RMLTC0002bJSON <http://xmlns.com/foaf/0.1/name> "Venus" .

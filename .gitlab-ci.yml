@@ -56,12 +56,12 @@ default:
     - main
     - development
 
-# Docker-in-Docker for tests that use Testcontainers. No enabled test needs it
-# right now; add it to a job's `extends` (after .unittests) when re-enabling
-# RMLIOCorePostgreSQLTest or KafkaTest.
+# Docker-in-Docker for jobs that use Testcontainers: the Conformance job (its
+# database cases), and RMLIOCorePostgreSQLTest or KafkaTest once re-enabled
+# (add it to a job's `extends`, after .unittests).
 .docker:
   services:
-    - name: docker:23.0.1-dind
+    - name: docker:29-dind
       # explicitly disable tls to avoid docker startup interruption
       command: [ "--tls=false" ]
   variables:
@@ -85,19 +85,18 @@ default:
 #   RMLIOCorePostgreSQLTest — class @Disabled; needs .docker
 #   KafkaTest               — class @Disabled; needs .docker
 #   MappingPlanTest         — class @Disabled
-Specification Tests:
+# The spec test classes that read the copies under rml_kgc/spec/ (RMLCoreTest,
+# RMLIOTest, RMLLVTest, RMLFNMLTest, RMLSTARTest, RMLRegistryTest) are left out: ModuleTest and the
+# Conformance job check what they checked.
+Module Tests:
   extends: .unittests
   parallel:
     matrix:
       - TEST:
-          - RMLCoreTest
-          - RMLIOTest
-          - RMLLVTest
-          - RMLFNMLTest
-          - RMLSTARTest
+          # the RML-KGC modules, from merged kg-construct test cases
+          - ModuleTest
           # logical-view + FNML: source field computed by a function (e.g. toUpperCase(name))
           - RMLLVFNMLTest
-          - RMLRegistryTest
 
 Utility Tests:
   extends: .unittests
@@ -121,6 +120,40 @@ Utility Tests:
           - LogicalViewFieldsTest
           # Miscellaneous
           - ExtendParserTest
+
+###############################
+#                             #
+#     Conformance             #
+#                             #
+###############################
+
+# The kg-construct conformance suites, run on the jar by mapping-test-runner
+# against conformance/expected-results.csv (HANDBOOK: Conformance). Started by
+# hand: before each release (RELEASE.md), and for an MR that targets conformance.
+Conformance:
+  stage: unittests
+  extends: .docker
+  image:
+    name: maven:3-eclipse-temurin-21
+    pull_policy: if-not-present
+  variables:
+    MTR_CACHE: "$CI_PROJECT_DIR/.mtr-cache"
+  cache:
+    key: conformance
+    paths:
+      - .m2/repository
+      - .mtr-cache
+  script:
+    - bash conformance/run.sh
+  when: manual
+  artifacts:
+    when: always
+    paths:
+      - target/conformance/report.json
+      - target/conformance/report.md
+      - target/conformance/mtr-run/*/*.log
+    reports:
+      junit: target/conformance/junit.xml
 
 ###############################
 #                             #

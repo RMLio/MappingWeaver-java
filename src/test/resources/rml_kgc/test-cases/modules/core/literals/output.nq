@@ -1,0 +1,19 @@
+<http://example.com/10> <http://www.w3.org/2000/01/rdf-schema#label> "apple"@en .
+<http://example.com/10> <http://www.w3.org/2000/01/rdf-schema#label> "aubergine"@en-GB .
+<http://example.com/10> <http://www.w3.org/2000/01/rdf-schema#label> "eggplant"@en-US .
+<http://example.com/10> <http://www.w3.org/2000/01/rdf-schema#label> "pomme"@fr .
+<http://example.com/1> <http://example.com/x> "1" .
+<http://example.com/1> <http://example.com/x> "1"^^<http://example.com/datatype#string> .
+<http://example.com/1> <http://example.com/x> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.com/20> <http://www.w3.org/2000/01/rdf-schema#label> "pear"@en .
+<http://example.com/2> <http://example.com/x> "2"^^<http://example.com/datatype#int> .
+<http://example.com/2> <http://example.com/x> "2"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://example.com/2> <http://example.com/x> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<http://example.com/BO> <http://www.w3.org/2000/01/rdf-schema#label> "Bolivia, Plurinational State of"@en .
+<http://example.com/BO> <http://www.w3.org/2000/01/rdf-schema#label> "Estado Plurinacional de Bolivia"@es .
+<http://example.com/IE> <http://www.w3.org/2000/01/rdf-schema#label> "Ireland"@en .
+<http://example.com/IE> <http://www.w3.org/2000/01/rdf-schema#label> "Irlanda"@es .
+<http://example.com/Venus> <http://example.com/age> "21"^^<http://www.w3.org/2001/XMLSchema#int> .
+<http://example.com/Venus> <http://xmlns.com/foaf/0.1/name> "Venus" .
+<https://example.org/instances/0> <http://example.org/ns/p> "train"@en .
+<https://example.org/instances/0> <http://example.org/ns/p> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> .

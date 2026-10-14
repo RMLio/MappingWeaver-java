@@ -1,0 +1,36 @@
+<http://example.org/25> <http://xmlns.com/foaf/0.1/name> "TechCorp" .
+<http://example.org/35> <http://xmlns.com/foaf/0.1/name> "InnovateX" .
+<http://example.org/Bob%20Smith> <http://example.com/skill> "AWS" .
+<http://example.org/Bob%20Smith> <http://example.com/skill> "JavaScript" .
+<http://example.org/Bob%20Smith> <http://example.com/skill> "Python" .
+<http://example.org/Engineering> <http://xmlns.com/foaf/0.1/name> "Alice Johnson" .
+<http://example.org/Eve%20Davis> <http://example.com/skill> "Docker" .
+<http://example.org/Eve%20Davis> <http://example.com/skill> "Kubernetes" .
+<http://example.org/Eve%20Davis> <http://example.com/skill> "Terraform" .
+<http://example.org/InnovateX> <http://example.com/department> "Research & Development" .
+<http://example.org/InnovateX> <http://example.com/department> "Sales" .
+<http://example.org/InnovateX> <http://example.com/employee> "Liam Brown" .
+<http://example.org/InnovateX> <http://example.com/employee> "Olivia Martinez" .
+<http://example.org/InnovateX> <http://example.com/employee> "Sophia White" .
+<http://example.org/InnovateX> <http://xmlns.com/foaf/0.1/name> "InnovateX" .
+<http://example.org/Liam%20Brown> <http://example.com/skill> "Deep Learning" .
+<http://example.org/Liam%20Brown> <http://example.com/skill> "Machine Learning" .
+<http://example.org/Liam%20Brown> <http://example.com/skill> "Python" .
+<http://example.org/Marketing> <http://xmlns.com/foaf/0.1/name> "John Doe" .
+<http://example.org/Olivia%20Martinez> <http://example.com/skill> "CRM" .
+<http://example.org/Olivia%20Martinez> <http://example.com/skill> "Lead Generation" .
+<http://example.org/Olivia%20Martinez> <http://example.com/skill> "Negotiation" .
+<http://example.org/Research%20%26%20Development> <http://xmlns.com/foaf/0.1/name> "Emma Wilson" .
+<http://example.org/Sales> <http://xmlns.com/foaf/0.1/name> "Michael Green" .
+<http://example.org/Sarah%20Lee> <http://example.com/skill> "Copywriting" .
+<http://example.org/Sarah%20Lee> <http://example.com/skill> "Google Ads" .
+<http://example.org/Sarah%20Lee> <http://example.com/skill> "SEO" .
+<http://example.org/Sophia%20White> <http://example.com/skill> "Data Analysis" .
+<http://example.org/Sophia%20White> <http://example.com/skill> "R" .
+<http://example.org/Sophia%20White> <http://example.com/skill> "SQL" .
+<http://example.org/TechCorp> <http://example.com/department> "Engineering" .
+<http://example.org/TechCorp> <http://example.com/department> "Marketing" .
+<http://example.org/TechCorp> <http://example.com/employee> "Bob Smith" .
+<http://example.org/TechCorp> <http://example.com/employee> "Eve Davis" .
+<http://example.org/TechCorp> <http://example.com/employee> "Sarah Lee" .
+<http://example.org/TechCorp> <http://xmlns.com/foaf/0.1/name> "TechCorp" .
