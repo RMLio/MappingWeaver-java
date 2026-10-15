@@ -45,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Built-in FnO descriptions use a `classpath://` prefix; custom descriptions can override them by filename (see README: Custom FnO function descriptions)
 - HANDBOOK: a regression case's expected output is derived from the specification rule it names, and one that upstream lacks is proposed there (see HANDBOOK: Test resource organization)
 - GitLab CI: the test jobs extend a shared `.unittests` job, list only test classes that run at least one test (adding `ReferenceFunctionTest` and `CliExitCodeTest`), and run without a Docker service (see HANDBOOK: Continuous integration)
-- HANDBOOK: the agent request contract follows the software-handbook contract of 2026-10-13
+- HANDBOOK: the agent request contract follows the software-handbook contract of 2026-10-14
 - A function producing several values hands them over as one `CollectionNode` instead of one node per value. The values stay together while they are passed around, so a function taking the result as an argument sees all of them, and the terms are generated where the collection is serialized: a `TemplateSerializer` states the template once per member. A collection that a term map asks to be serialized as an `rdf:List` or `rdf:Seq` is RML-CC and not implemented, so every collection is serialized a term at a time for now.
 
 ### Removed
@@ -53,10 +53,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unused classes `CSVSourceOperator`, `FlinkDataIOReader` (deprecated) and `Main.CommonSink`
 - `CliOutputTest`, whose tests were all disabled, and the dependencies only it used: the Eclipse Paho MQTT client (with its repository) and Testcontainers HiveMQ
 - Leftover copies of the `moveup` and `multiple-function-executions` mappings from before the test resources were reorganized
+- The copies of the RML-KGC test suites and the test classes that ran them (`RMLCoreTest`, `RMLIOTest`, `RMLRegistryTest`, `RMLFNMLTest`, `RMLLVTest`, `RMLCCTest`, `RMLSTARTest`, `TestRunner`, with the unused `junit-platform-launcher`), and the RML-KGC part of `scripts/update_spec_tests.sh` and `scripts/tests_compare.sh`: the conformance run reads the suites at pinned commits, and `ModuleTest` does the everyday checks. Also the local cases no test ran: the variants `RMLTC0008b-multidata*` and an old copy of `RMLFNMLTC0001-CSV`. `CliExitCodeTest` reads its two cases from `test-cases/engines/cli`, and `RMLLVFNMLTest` is in the `rml_kgc.fno` package.
+- `CSVWSourceTest`, which ran `RMLIOREGTC0012b` on a stored plan; `ModuleTest`'s `io/csvw` group translates that case.
+- `TestCore` compares the output's graphs as MappingWeaver writes them.
 
 ### Added
-- Conformance run: `conformance/run.sh` runs the seven kg-construct test suites on the jar with mapping-test-runner, and fails on any difference from `conformance/expected-results.csv`, which lists the 212 cases MappingWeaver fails, each with its cause (145 of the 365 cases pass, and 8 are skipped). The manual `Conformance` CI job runs it on Docker-in-Docker (`docker:29-dind`), and a release runs it first (see HANDBOOK: Conformance).
-- `ModuleTest`: the everyday tests of RML-Core, RML-IO, RML-FNML and RML-LV, thirteen mappings that each merge the kg-construct test cases of one feature that MappingWeaver passes, compared by dataset isomorphism; CI runs them instead of the spec test classes.
+- Conformance run: `conformance/run.sh` runs the seven kg-construct test suites on the jar with mapping-test-runner 0.1.2, and fails on any difference from `conformance/expected-results.csv`, which lists the 212 cases MappingWeaver fails, each with its cause (145 of the 365 cases pass, and 8 are skipped). The manual `Conformance` CI job runs it on Docker-in-Docker (`docker:29-dind`), and a release runs it first (see HANDBOOK: Conformance).
+- `ModuleTest`: the everyday tests of RML-Core, RML-IO, RML-FNML and RML-LV, thirteen mappings that each merge the kg-construct test cases of one feature that MappingWeaver passes, compared by dataset isomorphism.
 - Shell scripts keep LF line endings (`.gitattributes`).
 - Test cases `RMLFNOTC1005-JSON` and `RMLFNOTC1006-JSON`, covering a multi-valued function in an IRI and in a blank node object map
 - Test cases `RMLFNOTC1001-JSON` to `RMLFNOTC1004-JSON`, covering a multi-valued function in a logical view: a split in an object map, with nulls turned into empty strings, with empty strings filtered out afterwards by `idlab-fn:trueCondition`, and the same split as a field of the view

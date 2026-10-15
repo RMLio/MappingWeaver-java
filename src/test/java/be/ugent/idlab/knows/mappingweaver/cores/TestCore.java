@@ -1,7 +1,6 @@
 package be.ugent.idlab.knows.mappingweaver.cores;
 
 import be.ugent.idlab.knows.amo.operators.target.TargetOperator;
-import be.ugent.idlab.knows.dataio.utils.NAMESPACES;
 import be.ugent.idlab.knows.mappingLoom.ITranslator;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.GraphOpVisitor;
 import be.ugent.idlab.knows.mappingweaver.mappingplan.MappingPlan;
@@ -216,13 +215,10 @@ public abstract class TestCore {
         Path expectedOutputPath;
         Path pathNQ = Paths.get(basePath, directory, "output.nq");
         Path pathTTL = Paths.get(basePath, directory, "output.ttl");
-        Path defaultNQ = Paths.get(basePath, directory, "default.nq");
         if (Files.exists(pathNQ)) {
             expectedOutputPath = pathNQ;
         } else if (Files.exists(pathTTL)) {
             expectedOutputPath = pathTTL;
-        } else if (Files.exists(defaultNQ)) {
-            expectedOutputPath = defaultNQ;
         } else {
             throw new IllegalArgumentException("Expected output path does not exist!");
         }
@@ -231,14 +227,6 @@ public abstract class TestCore {
         TestCore.getDatasetGraph(new File(expectedOutputPath.toString())).find().forEachRemaining(expected::add);
         List<Quad> actual = new ArrayList<>();
         TestCore.getDatasetGraph(actualQuads).find().forEachRemaining(actual::add);
-
-        // move any quads that are on the RR:defaultGraph into Jena's default graph
-        actual = actual.stream().map(q -> {
-            if (q.getGraph().getURI().equals(NAMESPACES.RR + "defaultGraph")) {
-                return new Quad(Quad.defaultGraphIRI, q.getSubject(), q.getPredicate(), q.getObject());
-            }
-            return q;
-        }).toList();
 
         Assertions.assertEquals(expected, actual, String.format("Failed test case: %s \n", directory));
     }

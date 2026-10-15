@@ -10,7 +10,7 @@
 # Writes target/conformance/report.{json,md} and junit.xml; exits with the status of `mtr run`.
 set -euo pipefail
 
-MTR_VERSION="${MTR_VERSION:-0.1.1}"
+MTR_VERSION="${MTR_VERSION:-0.1.2}"
 cd "$(dirname "$0")/.."
 out=target/conformance
 mkdir -p "$out"

@@ -27,7 +27,7 @@ log_file="src/test/resources/scripts/diff_log.md"
 # Compare only files that are not ignored by this repository.
 exclude_file=$(mktemp)
 git ls-files --others --ignored --exclude-standard -- \
-  src/test/resources/rmlio/spec src/test/resources/rml_kgc/spec |
+  src/test/resources/rmlio/spec |
   while IFS= read -r path; do basename "$path"; done |
   sort -u > "$exclude_file"
 
@@ -64,106 +64,15 @@ report_high_level_differences() {
   fi
 }
 
-# rml_kgc
-
-#Create temporary directory structure
-mkdir -p remote_tests/resources/rml_kgc/spec/
-cd remote_tests
 declare -A repositories
 declare -A commits
 
-modules=(rml-core rml-io rml-cc rml-fnml rml-star rml-lv rml-io-registry)
-
-for name in "${modules[@]}"; do
-
-  #Cloning test-cases folders from different repositories.
-  mkdir -p resources/rml_kgc/spec/$name
-  repo="https://github.com/kg-construct/$name"
-
-  if [[ -d $name ]]; then #Should not happen...
-    cd $name
-    git pull
-    cd -
-  else
-    git clone --filter=blob:none --sparse $repo $name
-    cd $name
-    git sparse-checkout set test-cases
-    commit=$(git rev-parse HEAD)
-    repositories["$name"]="${repo}"
-    commits["$name"]="$(date +%F\ %T): ${repo}/commit/${commit}"
-    cd -
-  fi
-
-  #Moving all test cases according given directory structure.
-  find $name -type d | grep "RML" | xargs -I '{}' cp -r {} resources/rml_kgc/spec/$name/
-done
-
-# Step out of remote_tests.
-cd ..
-
 # Add title.
-echo -e "# Compared rml_kgc tests - LOG\n\n" >> "./$log_file"
-
-# Compare high-level.
-echo -e "## Differences (high-level) between current tests and remote tests: \n\n" >> "./$log_file"
-
-base1="src/test/resources/rml_kgc/spec"
-base2="remote_tests/resources/rml_kgc/spec"
-diff_output=$(diff <(file_list "$base1") <(file_list "$base2"))
-if [ -n "$diff_output" ]; then
-  {
-    echo "**Differences Detected!**"
-    echo '```diff'
-    echo -e "$diff_output"
-    echo -e '```\n'
-  } >> "./$log_file"
-fi
-report_high_level_differences "$base1" "$base2" \
-  "src/test/resources/rml_kgc/test-cases/spec-adaptations"
-
-# Compare low-level.
-echo -e "## Differences (low-level) between current tests and remote tests: \n" >> "./$log_file"
-
-for name in "${modules[@]}"; do
-  base1="src/test/resources/rml_kgc/spec/$name"
-  base2="remote_tests/resources/rml_kgc/spec/$name"
-  for subdir in "$base1"/*; do
-    subdirname=$(basename "$subdir")
-    if [ -d "$base2/$subdirname" ]; then
-      diff_output=$(diff -rwB -X "$exclude_file" "$base1/$subdirname" "$base2/$subdirname")
-      if [ -n "$diff_output" ]; then
-        {
-          echo -e "**Differences Detected: $name - $subdirname**\n"
-          echo '```diff'
-          echo "$diff_output"
-          echo -e '```\n'
-        } >> "./$log_file"
-      fi
-    fi
-  done
-done
-
-# Clean up.
-echo -e "_Removing remote rml_kgc tests..._\n\n" >> "./$log_file"
-rm -rf remote_tests/
-
-# Print info
-echo -e "## Consulted rml_kgc repositories and commits: \n" >> "./$log_file"
-for key in "${!repositories[@]}"; do
-  {
-    echo "**Repository/commit of module $key:**"
-    echo "${repositories[$key]}"
-    echo " & "
-    echo "${commits[$key]}"
-    echo ""
-  } >> "./$log_file"
-done
+echo -e "# Compared rmlio tests - LOG\n\n" >> "./$log_file"
 
 # rmlio
 
 modules=(core fno)
-repositories=()
-commit=()
 
 # Create temporary directory structure
 mkdir -p remote_tests/resources/rmlio/spec/

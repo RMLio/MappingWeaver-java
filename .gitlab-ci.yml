@@ -77,7 +77,6 @@ default:
 
 # Each job lists the test classes that run at least one test. A class whose
 # tests are all disabled is left out until it is enabled again:
-#   RMLCCTest               — RML-CC not implemented, all cases @Disabled
 #   RMLIOFNOTest            — class @Disabled: old RML not supported in MappingLoom-rs
 #   RMLIOFNOSpecAdaptationsTest — its only test @Disabled
 #   RMLIOCoreFileTest       — class @Disabled: old RML not supported in MappingLoom-rs
@@ -85,9 +84,6 @@ default:
 #   RMLIOCorePostgreSQLTest — class @Disabled; needs .docker
 #   KafkaTest               — class @Disabled; needs .docker
 #   MappingPlanTest         — class @Disabled
-# The spec test classes that read the copies under rml_kgc/spec/ (RMLCoreTest,
-# RMLIOTest, RMLLVTest, RMLFNMLTest, RMLSTARTest, RMLRegistryTest) are left out: ModuleTest and the
-# Conformance job check what they checked.
 Module Tests:
   extends: .unittests
   parallel:
@@ -108,7 +104,6 @@ Utility Tests:
           - CliExitCodeTest
           # file tests
           - WebSocketTest
-          - CSVWSourceTest
           # FnO
           - FnOSplitTest
           - ExternalFunctionTests

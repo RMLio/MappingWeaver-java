@@ -2,7 +2,7 @@
 
 ## Scripts
 **Script tests_compare.sh:**   
-- Downloads the remote tests of rml_kgc/rmlio from the different folders of https://github.com/kg-construct/.
+- Downloads the remote RML.io tests (rmlio) from https://github.com/kg-construct/. The RML-KGC suites are run by mapping-test-runner at pinned commits (HANDBOOK: Conformance).
 - Compares the remote tests to the local tests.
 - Writes to diff_log.md. This file shows all differences between the two test-folders (high-level + low-level).
   This file is also stored in the scripts-folder.

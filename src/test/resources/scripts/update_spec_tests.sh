@@ -39,22 +39,6 @@ pull_cases() {
   copy_cases "$checkout_dir" "$destination"
 }
 
-# RML-KGC specification modules.
-declare -a kgc_modules=(
-  "rml-core|https://github.com/kg-construct/rml-core|src/test/resources/rml_kgc/spec/rml-core"
-  "rml-io|https://github.com/kg-construct/rml-io|src/test/resources/rml_kgc/spec/rml-io"
-  "rml-cc|https://github.com/kg-construct/rml-cc|src/test/resources/rml_kgc/spec/rml-cc"
-  "rml-fnml|https://github.com/kg-construct/rml-fnml|src/test/resources/rml_kgc/spec/rml-fnml"
-  "rml-star|https://github.com/kg-construct/rml-star|src/test/resources/rml_kgc/spec/rml-star"
-  "rml-lv|https://github.com/kg-construct/rml-lv|src/test/resources/rml_kgc/spec/rml-lv"
-  "rml-io-registry|https://github.com/kg-construct/rml-io-registry|src/test/resources/rml_kgc/spec/rml-io-registry"
-)
-
-for module in "${kgc_modules[@]}"; do
-  IFS='|' read -r name repository destination <<< "$module"
-  pull_cases "$name" "$repository" "$destination"
-done
-
 # RML-IO specification modules.
 pull_cases "rmlio-core" "https://github.com/kg-construct/rml-test-cases" "src/test/resources/rmlio/spec/core"
 pull_cases "rmlio-fno" "https://github.com/RMLio/rml-fno-test-cases" "src/test/resources/rmlio/spec/fno" "."

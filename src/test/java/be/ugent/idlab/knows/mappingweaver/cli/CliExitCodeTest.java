@@ -23,7 +23,7 @@ import org.junit.jupiter.api.io.TempDir;
  */
 public class CliExitCodeTest {
 
-    private static final Path CORE = Path.of("src/test/resources/rml_kgc/spec/rml-core");
+    private static final Path CASES = Path.of("src/test/resources/rml_kgc/test-cases/engines/cli");
 
     @TempDir
     Path tmp;
@@ -40,7 +40,7 @@ public class CliExitCodeTest {
 
     @Test
     void toFileWithoutOutputPath_exits1() {
-        assertEquals(1, Main.run("-m", CORE.resolve("RMLTC0001a-JSON/mapping.ttl").toString(), "toFile"));
+        assertEquals(1, Main.run("-m", CASES.resolve("RMLTC0001a-JSON/mapping.ttl").toString(), "toFile"));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class CliExitCodeTest {
 
     private Path copyCase(String id) throws IOException {
         Path dir = Files.createDirectory(tmp.resolve(id));
-        try (Stream<Path> files = Files.list(CORE.resolve(id))) {
+        try (Stream<Path> files = Files.list(CASES.resolve(id))) {
             for (Path f : files.toList()) {
                 Files.copy(f, dir.resolve(f.getFileName()));
             }
