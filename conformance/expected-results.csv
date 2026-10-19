@@ -15,6 +15,7 @@ RMLTC0026a-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xs
 RMLTC0026b-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
 RMLTC0026c-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
 RMLTC0026d-JSON,failed,"JSON integers are typed xsd:int, where RML-Core gives xsd:integer (4.1p)"
+RMLTC0027b-JSON,failed,an rml:UnsafeIRI template that gives an invalid IRI raises no error (4.3a)
 RMLTC0027c-JSON,failed,templates percent-encode characters that IRIs allow (URI instead of IRI encoding) (4.3a)
 RMLTC0030c-JSON,failed,join conditions with constant values reach the plan without attributes (4.3a)
 RMLTC0030d-JSON,failed,join conditions with constant values reach the plan without attributes (4.3a)
@@ -135,6 +136,7 @@ RMLIOREGTC0006x,failed,SQL sources are not supported (unexpected reference formu
 RMLIOREGTC0006y,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0006z,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0007a,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLIOREGTC0009a,failed,"translation fails on the relative <#KafkaStream>, as the mapping has no @base; the translator returns its error text as the plan (3.2c)"
 RMLIOREGTC0008a,failed,the HTTP request source rejects an http:// URL (4.3c)
 RMLIOREGTC0012a,failed,a csvw:url that is a URL is read as a file path relative to the mapping (4.3c)
 RMLIOREGTC0012i,failed,the CSVW quote character (csvw:quoteChar) is not applied (4.3c)

@@ -58,7 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `TestCore` compares the output's graphs as MappingWeaver writes them.
 
 ### Added
-- Conformance run: `conformance/run.sh` runs the seven kg-construct test suites on the jar with mapping-test-runner 0.1.2, and fails on any difference from `conformance/expected-results.csv`, which lists the 212 cases MappingWeaver fails, each with its cause (145 of the 365 cases pass, and 8 are skipped). The manual `Conformance` CI job runs it on Docker-in-Docker (`docker:29-dind`), and a release runs it first (see HANDBOOK: Conformance).
+- Conformance run: `conformance/run.sh` runs the seven kg-construct test suites and the runner's `proposed` corpus on the jar with mapping-test-runner 0.1.3, and fails on any difference from `conformance/expected-results.csv`, which lists the 214 cases MappingWeaver fails, each with its cause (146 of the 366 cases pass, and 6 are skipped). The manual `Conformance` CI job runs it on Docker-in-Docker (`docker:29-dind`), and a release runs it first (see HANDBOOK: Conformance).
 - `ModuleTest`: the everyday tests of RML-Core, RML-IO, RML-FNML and RML-LV, thirteen mappings that each merge the kg-construct test cases of one feature that MappingWeaver passes, compared by dataset isomorphism.
 - Shell scripts keep LF line endings (`.gitattributes`).
 - Test cases `RMLFNOTC1005-JSON` and `RMLFNOTC1006-JSON`, covering a multi-valued function in an IRI and in a blank node object map

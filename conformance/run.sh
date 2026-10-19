@@ -10,7 +10,7 @@
 # Writes target/conformance/report.{json,md} and junit.xml; exits with the status of `mtr run`.
 set -euo pipefail
 
-MTR_VERSION="${MTR_VERSION:-0.1.2}"
+MTR_VERSION="${MTR_VERSION:-0.1.3}"
 cd "$(dirname "$0")/.."
 out=target/conformance
 mkdir -p "$out"
@@ -30,7 +30,7 @@ fi
 
 status=0
 java -jar "$MTR_JAR" run --engine conformance/mappingweaver.yaml --set "jar=$jar" \
-    --corpus rml-core,rml-io,rml-io-registry,rml-fnml,rml-cc,rml-lv,rml-star \
+    --corpus rml-core,rml-io,rml-io-registry,rml-fnml,rml-cc,rml-lv,rml-star,proposed \
     --expectations conformance/expected-results.csv --unexpected-pass "${MTR_UNEXPECTED_PASS:-fail}" \
     --jobs "${MTR_JOBS:-4}" --out "$out/report.json" --run-dir "$out/mtr-run" || status=$?
 if [ -f "$out/report.json" ]; then
