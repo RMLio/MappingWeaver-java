@@ -1,7 +1,9 @@
 # MappingWeaver as a mapping-test-runner engine (HANDBOOK: Conformance); run.sh sets the jar.
 # toFile -o writes a folder of part files, which the runner joins. The output is N-Quads, also for N-Triples cases.
+# Flink runs at parallelism 1 (--set parallelism=<n> for another): the inputs are a few rows.
 name: mappingweaver
 version: {command: [java, -jar, "{jar}", --version]}
 vars:
   jar: null
-command: [java, -jar, "{jar}", -m, "{mapping_file}", -i, "{base_iri}", toFile, -o, "{output_file}", "{variant}"]
+  parallelism: "1"
+command: [java, -jar, "{jar}", -p, "{parallelism}", -m, "{mapping_file}", -i, "{base_iri}", toFile, -o, "{output_file}", "{variant}"]
