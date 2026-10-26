@@ -80,15 +80,13 @@ RMLTTC0006c,failed,"logical targets are ignored, so every triple goes to the def
 RMLTTC0006d,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; target compression never reaches the plan (3.3d)"
 RMLTTC0006e,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int; target compression never reaches the plan (3.3d)"
 RMLTTC0007a,failed,"logical targets are ignored, so every triple goes to the default output (4.1l); JSON integers are xsd:int"
-RMLIOREGTC0001b,failed,"a missing column or value, or an invalid JSONPath, raises no error (4.3c)"
-RMLIOREGTC0002b,failed,"a missing column or value, or an invalid JSONPath, raises no error (4.3c)"
 RMLIOREGTC0002c,failed,"a missing column or value, or an invalid JSONPath, raises no error (4.3c)"
-RMLIOREGTC0003b,failed,"a missing column or value, or an invalid JSONPath, raises no error (4.3c)"
 RMLIOREGTC0003d,failed,XML namespaces (rml:namespace) are not passed to the XPath engine (4.3c)
 RMLIOREGTC0004a,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0004c,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0004f,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0004k,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0004l,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0004n,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0004o,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0004p,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
@@ -106,6 +104,7 @@ RMLIOREGTC0005a,failed,SQL sources are not supported (unexpected reference formu
 RMLIOREGTC0005d,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c); adapted
 RMLIOREGTC0005f,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0005k,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0005l,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0005n,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0005o,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0005p,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
@@ -123,6 +122,7 @@ RMLIOREGTC0006a,failed,SQL sources are not supported (unexpected reference formu
 RMLIOREGTC0006d,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c); adapted
 RMLIOREGTC0006f,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0006k,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
+RMLIOREGTC0006l,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0006n,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0006p,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
 RMLIOREGTC0006q,failed,SQL sources are not supported (unexpected reference formulation SQLQuery) (4.3c)
@@ -143,6 +143,7 @@ RMLIOREGTC0012i,failed,the CSVW quote character (csvw:quoteChar) is not applied 
 RMLFNMLTC0032-CSV,failed,rml:condition is ignored (4.3d)
 RMLFNMLTC0103-CSV,failed,a wrong function parameter or return raises no error (4.3d)
 RMLFNMLTC0104-CSV,failed,a wrong function parameter or return raises no error (4.3d)
+RMLFNMLTC0200,failed,translation fails; the translator returns its error text as the plan (3.2c)
 RMLLVTC0004a,failed,"the index of a view is typed xsd:nonNegativeInteger, where RML-LV gives xsd:integer (4.3e)"
 RMLLVTC0004b,failed,"the index of a view is typed xsd:nonNegativeInteger, where RML-LV gives xsd:integer (4.3e)"
 RMLLVTC0004c,failed,"the index of a view is typed xsd:nonNegativeInteger, where RML-LV gives xsd:integer (4.3e)"
@@ -213,3 +214,20 @@ RMLSTARTC007a,failed,translation fails; the translator returns its error text as
 RMLSTARTC007b,failed,translation fails; the translator returns its error text as the plan (3.2c)
 RMLSTARTC008a,failed,translation fails; the translator returns its error text as the plan (3.2c)
 RMLSTARTC008b,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC0008d-JSON,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLTC0012f-JSON,failed,"a blank node label used in two graphs gives one blank node, where RML-Core gives one per graph (4.3a)"
+RMLTC0025d-JSON,failed,"multi-valued references are paired value by value, where RML-Core takes every combination (4.3a)"
+RMLTC0025e-JSON,failed,"multi-valued references are paired value by value, where RML-Core takes every combination (4.3a)"
+RMLTC0025f-JSON,failed,"multi-valued references are paired value by value, where RML-Core takes every combination (4.3a)"
+RMLTC0032c-JSON,failed,"multi-valued references are paired value by value, where RML-Core takes every combination (4.3a)"
+RMLTC0032e-JSON,failed,"a self-join is eliminated although the parent subject reads only one of its two join keys (4.3a)"
+RMLTC0032f-JSON,failed,a join to a parent whose subject is a fresh blank node gives no triple (4.3a)
+RMLTC0034a-JSON,failed,translation fails; the translator returns its error text as the plan (3.2c)
+RMLSTC0004d,failed,"empty CSV cells give no terms, where rml-io takes them as values (rml-io#160)"
+RMLTTC0003b,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLTTC0004h,failed,"logical targets are ignored, so every triple goes to the default output (4.1l)"
+RMLFNMLTC0010-JSON,failed,"multi-valued references are paired value by value, where RML-Core takes every combination (4.3a)"
+RMLLVTC0000d,failed,a logical view on a logical view generates no triples (4.3e)
+RMLLVTC0003d,failed,a multi-valued template field keeps only its first value (4.3e)
+RMLLVTC0006g,failed,the fields of a logical view join are absent from the joined record (4.3e)
+RMLLVTC0006h,failed,the fields of a logical view join are absent from the joined record (4.3e)
